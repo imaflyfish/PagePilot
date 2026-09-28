@@ -1,0 +1,304 @@
+{
+  "baseline": "133797d29cedf19b40f5cdcdcf4aac80a9b4941d",
+  "vectors": [
+    {
+      "arguments": {
+        "selector": "#third"
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "owned",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "index": 0
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "owned",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "index": 1
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "",
+        "middle": "owned",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "index": 2
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "owned",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "index": 3
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": "owned"
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "label": "Shared label",
+        "index": 1
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "owned",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "placeholder": "Shared placeholder",
+        "index": 1
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "owned",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "label": "Shared label",
+        "placeholder": "Third placeholder",
+        "index": 99
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "owned",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "label": ""
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "owned",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "placeholder": ""
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "owned",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "label": "",
+        "placeholder": "Shared placeholder",
+        "index": 99
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "owned",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "label": "",
+        "placeholder": "",
+        "index": 1
+      },
+      "result": {
+        "typed": true,
+        "length": 5,
+        "mode": "fast",
+        "inFrame": false,
+        "currentValue": "owned"
+      },
+      "values": {
+        "first": "",
+        "middle": "owned",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "label": "Missing label",
+        "if_exists": true
+      },
+      "result": {
+        "typed": false,
+        "reason": "Element does not exist"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "placeholder": "Missing placeholder",
+        "if_exists": true
+      },
+      "result": {
+        "typed": false,
+        "reason": "Element does not exist"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "index": 99,
+        "if_exists": true
+      },
+      "result": {
+        "typed": false,
+        "reason": "Element does not exist"
+      },
+      "values": {
+        "first": "",
+        "middle": "",
+        "third": "",
+        "hidden": "",
+        "last": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+#pragma once
+namespace pagepilot::resources {
+inline constexpr const char *catalog=R"relay_catalog(@PILOT_CATALOG@)relay_catalog";
+inline constexpr const char *dom=R"relay_dom(@PILOT_DOM@)relay_dom";
+inline constexpr const char *legacy_value=R"relay_legacy(@PILOT_LEGACY_VALUE@)relay_legacy";
+inline constexpr const char *keys=R"relay_keys(@PILOT_KEYS@)relay_keys";
+inline constexpr const char *editing=R"relay_editing(@PILOT_EDITING@)relay_editing";
+}

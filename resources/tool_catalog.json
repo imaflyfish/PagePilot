@@ -1,0 +1,1943 @@
+[
+  {
+    "name": "browser_status",
+    "legacy": "status",
+    "operation": "status",
+    "description": "Report Chrome connectivity and the active page.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_settings",
+    "legacy": "get_config",
+    "operation": "get_config",
+    "description": "Read browser connection and action timeouts.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_configure",
+    "legacy": "set_config",
+    "operation": "set_config",
+    "description": "Update bounded action timeouts.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "fast_timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "default_timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "long_timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_reconnect",
+    "legacy": "reconnect",
+    "operation": "reconnect",
+    "description": "Replace the connection and refresh available pages.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_cleanup",
+    "legacy": "cleanup",
+    "operation": "cleanup",
+    "description": "Clear captured messages and action metrics.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_health",
+    "legacy": "health_check",
+    "operation": "health_check",
+    "description": "Check the connection and active target.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_debug",
+    "legacy": "set_debug",
+    "operation": "set_debug",
+    "description": "Enable or disable diagnostic output on stderr.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_metrics",
+    "legacy": "request_stats",
+    "operation": "request_stats",
+    "description": "Read action counts, failures and elapsed durations.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_navigate",
+    "legacy": "navigate",
+    "operation": "navigate",
+    "description": "Navigate the active page and wait for the requested readiness.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "wait_until": {
+          "type": "string",
+          "enum": [
+            "load",
+            "domcontentloaded",
+            "networkidle"
+          ]
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_reload",
+    "legacy": "reload",
+    "operation": "reload",
+    "description": "Reload the active page.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_back",
+    "legacy": "go_back",
+    "operation": "go_back",
+    "description": "Move to the previous history entry.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_forward",
+    "legacy": "go_forward",
+    "operation": "go_forward",
+    "description": "Move to the next history entry.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_stop",
+    "legacy": "stop_loading",
+    "operation": "stop_loading",
+    "description": "Stop loading the active page.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_click",
+    "legacy": "click",
+    "operation": "click",
+    "description": "Click a matched element or page coordinates.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string",
+          "description": "CSS selector"
+        },
+        "text": {
+          "type": "string",
+          "description": "Find the click target by text"
+        },
+        "x": {
+          "type": "number",
+          "description": "coordinate X"
+        },
+        "y": {
+          "type": "number",
+          "description": "coordinate Y"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "fast",
+            "human",
+            "smart"
+          ],
+          "description": "Click mode"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "single",
+            "double",
+            "triple",
+            "right",
+            "long"
+          ],
+          "description": "Click type"
+        },
+        "index": {
+          "type": "integer",
+          "description": "Nth element",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "if_exists": {
+          "type": "boolean",
+          "description": "Click only when present"
+        },
+        "wait_after": {
+          "type": "string",
+          "enum": [
+            "load",
+            "networkidle"
+          ],
+          "description": "Wait after clicking"
+        },
+        "scroll_first": {
+          "type": "boolean",
+          "description": "Scroll to the element first"
+        },
+        "hover_first": {
+          "type": "string",
+          "description": "Hover this selector first"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "duration": {
+          "type": "number",
+          "description": "Long press duration (ms)",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_type",
+    "legacy": "type",
+    "operation": "type",
+    "description": "Enter text using fast or paced keyboard input.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string",
+          "description": "Find by label"
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "Search by placeholder"
+        },
+        "index": {
+          "type": "integer",
+          "description": "by index",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "text": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "fast",
+            "human",
+            "slow"
+          ]
+        },
+        "clear": {
+          "type": "boolean"
+        },
+        "press_enter": {
+          "type": "boolean"
+        },
+        "if_exists": {
+          "type": "boolean"
+        },
+        "delay": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "text"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_fill",
+    "legacy": "fill",
+    "operation": "fill",
+    "description": "Replace the value of a matched editable element.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "selector",
+        "text"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "form_fill",
+    "legacy": "fill_form",
+    "operation": "fill_form",
+    "description": "Fill named form controls and optionally submit.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "type": "object"
+        },
+        "submit": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "fields"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_wait",
+    "legacy": "wait",
+    "operation": "wait",
+    "description": "Wait for a bounded page, element or script condition.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "ms": {
+          "type": "number",
+          "description": "wait milliseconds"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "element",
+            "gone",
+            "hidden",
+            "text",
+            "url",
+            "load",
+            "networkidle",
+            "network_idle",
+            "domcontentloaded",
+            "function",
+            "time"
+          ]
+        },
+        "selector": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string",
+          "description": "URL match"
+        },
+        "expression": {
+          "type": "string",
+          "description": "JS expression"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "visible",
+            "hidden",
+            "attached",
+            "detached"
+          ]
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_scroll",
+    "legacy": "scroll",
+    "operation": "scroll",
+    "description": "Scroll the viewport or a matched element.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "to": {
+          "type": "string",
+          "description": "top/bottom/center or selector"
+        },
+        "text": {
+          "type": "string",
+          "description": "Scroll to text"
+        },
+        "position": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          }
+        },
+        "by": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          }
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "up",
+            "down",
+            "left",
+            "right"
+          ]
+        },
+        "amount": {
+          "type": "number"
+        },
+        "within": {
+          "type": "string",
+          "description": "Scroll within the element"
+        },
+        "load_more": {
+          "type": "boolean"
+        },
+        "max_scrolls": {
+          "type": "number"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_check",
+    "legacy": "check",
+    "operation": "check",
+    "description": "Read an element state.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "exists",
+            "visible",
+            "hidden",
+            "enabled",
+            "disabled",
+            "checked",
+            "focused",
+            "editable",
+            "in_viewport"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "description": "Check text exists"
+        },
+        "class_name": {
+          "type": "string",
+          "description": "Check class name"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_assert",
+    "legacy": "assert",
+    "operation": "assert",
+    "description": "Compare page or element facts against an expectation.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "visible",
+            "hidden",
+            "url",
+            "count",
+            "element"
+          ]
+        },
+        "selector": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "number"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "==",
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "!="
+          ]
+        },
+        "state": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_read",
+    "legacy": "get",
+    "operation": "get",
+    "description": "Read matched element properties.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "html",
+            "attribute",
+            "value",
+            "position",
+            "dimensions",
+            "bounding_box",
+            "styles",
+            "count",
+            "classes",
+            "tag",
+            "dataset"
+          ]
+        },
+        "selector": {
+          "type": "string"
+        },
+        "attribute": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outer": {
+          "type": "boolean"
+        },
+        "fallback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_read",
+    "legacy": "get_page",
+    "operation": "get_page",
+    "description": "Read page location, content or viewport facts.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "url",
+            "title",
+            "source",
+            "text",
+            "viewport"
+          ]
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "tab_create",
+    "legacy": "new_tab",
+    "operation": "new_tab",
+    "description": "Tab create.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "tab_activate",
+    "legacy": "switch_tab",
+    "operation": "switch_tab",
+    "description": "Tab activate.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "index"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "tab_close",
+    "legacy": "close_tab",
+    "operation": "close_tab",
+    "description": "Tab close.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "tab_list",
+    "legacy": "list_tabs",
+    "operation": "list_tabs",
+    "description": "Tab list.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "frame_enter",
+    "legacy": "enter_frame",
+    "operation": "enter_frame",
+    "description": "Frame enter.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "frame_leave",
+    "legacy": "exit_frame",
+    "operation": "exit_frame",
+    "description": "Frame leave.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "frame_reset",
+    "legacy": "exit_all_frames",
+    "operation": "exit_all_frames",
+    "description": "Frame reset.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "frame_list",
+    "legacy": "list_frames",
+    "operation": "list_frames",
+    "description": "Frame list.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "keyboard_press",
+    "legacy": "press_key",
+    "operation": "press_key",
+    "description": "Keyboard press.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "modifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "key"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "keyboard_chord",
+    "legacy": "hotkey",
+    "operation": "hotkey",
+    "description": "Keyboard chord.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "keys"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "pointer_action",
+    "legacy": "mouse",
+    "operation": "mouse",
+    "description": "Pointer action.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "move",
+            "down",
+            "up",
+            "click"
+          ]
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "button": {
+          "type": "string",
+          "enum": [
+            "left",
+            "right",
+            "middle"
+          ]
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "action"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_hover",
+    "legacy": "hover",
+    "operation": "hover",
+    "description": "Element hover.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "pointer_drag",
+    "legacy": "drag",
+    "operation": "drag",
+    "description": "Pointer drag.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "from_selector": {
+          "type": "string"
+        },
+        "to_selector": {
+          "type": "string"
+        },
+        "from_x": {
+          "type": "number"
+        },
+        "from_y": {
+          "type": "number"
+        },
+        "to_x": {
+          "type": "number"
+        },
+        "to_y": {
+          "type": "number"
+        },
+        "offset_x": {
+          "type": "number"
+        },
+        "offset_y": {
+          "type": "number"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "form_select",
+    "legacy": "select",
+    "operation": "select",
+    "description": "Form select.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "form_check",
+    "legacy": "checkbox",
+    "operation": "checkbox",
+    "description": "Form check.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "checked": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "form_upload",
+    "legacy": "upload_file",
+    "operation": "upload_file",
+    "description": "Form upload.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "files": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "selector",
+        "files"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_dialog",
+    "legacy": "dialog",
+    "operation": "dialog",
+    "description": "Page dialog.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "accept",
+            "dismiss"
+          ]
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "browser_cookies",
+    "legacy": "cookies",
+    "operation": "cookies",
+    "description": "Browser cookies.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "get",
+            "set",
+            "delete",
+            "clear"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "expires": {
+          "type": "number"
+        },
+        "httpOnly": {
+          "type": "boolean"
+        },
+        "secure": {
+          "type": "boolean"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_storage",
+    "legacy": "storage",
+    "operation": "storage",
+    "description": "Page storage.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "get",
+            "set",
+            "remove",
+            "clear"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "local",
+            "session"
+          ]
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_find",
+    "legacy": "find",
+    "operation": "find",
+    "description": "Element find.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "attribute": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_capture",
+    "legacy": "screenshot",
+    "operation": "screenshot",
+    "description": "Page capture.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "fullPage": {
+          "type": "boolean"
+        },
+        "selector": {
+          "type": "string"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_evaluate",
+    "legacy": "eval",
+    "operation": "eval",
+    "description": "Page evaluate.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "script": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "script"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_highlight",
+    "legacy": "highlight",
+    "operation": "highlight",
+    "description": "Element highlight.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "color": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "workflow_batch",
+    "legacy": "batch",
+    "operation": "batch",
+    "description": "Execute validated actions in order.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tool": {
+                "type": "string"
+              },
+              "args": {
+                "type": "object"
+              },
+              "stopOnError": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "tool"
+            ]
+          },
+          "maxItems": 1000
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 600000,
+          "description": "Total workflow deadline in milliseconds (default 60000); children cannot extend it."
+        }
+      },
+      "required": [
+        "actions"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "workflow_retry",
+    "legacy": "retry",
+    "operation": "retry",
+    "description": "Retry a validated action within explicit bounds.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "tool": {
+          "type": "string"
+        },
+        "args": {
+          "type": "object"
+        },
+        "max_retries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Total attempts, including the first; 0 performs no attempt (default 3)."
+        },
+        "delay_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "success_check": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 600000,
+          "description": "Total workflow deadline in milliseconds (default 60000); children cannot extend it."
+        }
+      },
+      "required": [
+        "tool"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "workflow_steps",
+    "legacy": "run_steps",
+    "operation": "run_steps",
+    "description": "Execute bounded steps with waits, retries and optional failures.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "description": "Array of operation steps, executed in order",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tool": {
+                "type": "string",
+                "description": "Tool name (click/type/fill/navigate/scroll/wait/eval/screenshot, etc.)"
+              },
+              "args": {
+                "type": "object",
+                "description": "Tool parameters"
+              },
+              "wait_before": {
+                "type": "number",
+                "description": "wait ms before step",
+                "minimum": 0,
+                "maximum": 60000
+              },
+              "wait_after": {
+                "type": "number",
+                "description": "wait ms after step",
+                "minimum": 0,
+                "maximum": 60000
+              },
+              "optional": {
+                "type": "boolean",
+                "description": "Whether to continue on failure (default false)"
+              },
+              "timeout": {
+                "type": "number",
+                "description": "This step times out in ms",
+                "minimum": 0,
+                "maximum": 60000
+              }
+            },
+            "required": [
+              "tool"
+            ]
+          },
+          "maxItems": 50
+        },
+        "auto_wait": {
+          "type": "boolean",
+          "description": "Automatically wait for the element to be ready (default true)"
+        },
+        "retry_on_fail": {
+          "type": "boolean",
+          "description": "Automatically retry on failure (default true)"
+        },
+        "max_step_retries": {
+          "type": "integer",
+          "description": "Retries after the first attempt, 0 to 10 (default 2)",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "step_timeout": {
+          "type": "number",
+          "description": "Default timeout ms for each step (default 10000)",
+          "minimum": 0,
+          "maximum": 60000
+        },
+        "stop_on_error": {
+          "type": "boolean",
+          "description": "Stop on error (default true)"
+        },
+        "return_intermediate": {
+          "type": "boolean",
+          "description": "Returns the intermediate step results (default false)"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 600000,
+          "description": "Total workflow deadline in milliseconds (default 60000); children cannot extend it."
+        }
+      },
+      "required": [
+        "steps"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_console",
+    "legacy": "console_logs",
+    "operation": "console_logs",
+    "description": "Page console.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "clear": {
+          "type": "boolean"
+        }
+      }
+    },
+    "presets": {}
+  },
+  {
+    "name": "page_snapshot",
+    "legacy": "snapshot",
+    "operation": "snapshot",
+    "description": "Read a structured accessibility snapshot.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_focus",
+    "legacy": "focus",
+    "operation": "focus",
+    "description": "Element focus.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_blur",
+    "legacy": "blur",
+    "operation": "blur",
+    "description": "Element blur.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "element_count",
+    "legacy": "count",
+    "operation": "count",
+    "description": "Element count.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "",
+    "legacy": "get_text",
+    "operation": "get",
+    "description": "Compatibility alias for element_read.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "fallback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {
+      "type": "text"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "get_html",
+    "operation": "get",
+    "description": "Compatibility alias for element_read.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "outer": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {
+      "type": "html"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "get_attribute",
+    "operation": "get",
+    "description": "Compatibility alias for element_read.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "attribute": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector",
+        "attribute"
+      ]
+    },
+    "presets": {
+      "type": "attribute"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "get_url",
+    "operation": "get_page",
+    "description": "Compatibility alias for page_read.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {
+      "type": "url"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "get_title",
+    "operation": "get_page",
+    "description": "Compatibility alias for page_read.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {
+      "type": "title"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "exists",
+    "operation": "check",
+    "description": "Compatibility alias for element_check.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {
+      "state": "exists"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "is_visible",
+    "operation": "check",
+    "description": "Compatibility alias for element_check.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {
+      "state": "visible"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "wait_for",
+    "operation": "wait",
+    "description": "Compatibility alias for page_wait.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {
+      "type": "element"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "wait_for_text",
+    "operation": "wait",
+    "description": "Compatibility alias for page_wait.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60000
+        }
+      },
+      "required": [
+        "text"
+      ]
+    },
+    "presets": {
+      "type": "text"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "get_cookies",
+    "operation": "cookies",
+    "description": "Compatibility alias for browser_cookies.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {
+      "action": "get"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "set_cookie",
+    "operation": "cookies",
+    "description": "Compatibility alias for browser_cookies.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "domain"
+      ]
+    },
+    "presets": {
+      "action": "set"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "clear_cookies",
+    "operation": "cookies",
+    "description": "Compatibility alias for browser_cookies.",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "presets": {
+      "action": "clear"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "get_storage",
+    "operation": "storage",
+    "description": "Compatibility alias for page_storage.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "local",
+            "session"
+          ]
+        }
+      }
+    },
+    "presets": {
+      "action": "get"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "set_storage",
+    "operation": "storage",
+    "description": "Compatibility alias for page_storage.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "local",
+            "session"
+          ]
+        }
+      },
+      "required": [
+        "key"
+      ]
+    },
+    "presets": {
+      "action": "set"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "clear_storage",
+    "operation": "storage",
+    "description": "Compatibility alias for page_storage.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "local",
+            "session"
+          ]
+        }
+      }
+    },
+    "presets": {
+      "action": "clear"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "move_mouse",
+    "operation": "mouse",
+    "description": "Compatibility alias for pointer_action.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "presets": {
+      "action": "move"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "mouse_down",
+    "operation": "mouse",
+    "description": "Compatibility alias for pointer_action.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "button": {
+          "type": "string",
+          "enum": [
+            "left",
+            "right",
+            "middle"
+          ]
+        }
+      }
+    },
+    "presets": {
+      "action": "down"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "mouse_up",
+    "operation": "mouse",
+    "description": "Compatibility alias for pointer_action.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "button": {
+          "type": "string",
+          "enum": [
+            "left",
+            "right",
+            "middle"
+          ]
+        }
+      }
+    },
+    "presets": {
+      "action": "up"
+    }
+  },
+  {
+    "name": "",
+    "legacy": "select_option",
+    "operation": "select",
+    "description": "Compatibility alias for form_select.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector",
+        "value"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "",
+    "legacy": "set_checked",
+    "operation": "checkbox",
+    "description": "Compatibility alias for form_check.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        },
+        "checked": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {}
+  },
+  {
+    "name": "",
+    "legacy": "toggle_checkbox",
+    "operation": "checkbox",
+    "description": "Compatibility alias for form_check.",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "selector"
+      ]
+    },
+    "presets": {
+      "toggle": true
+    }
+  }
+]

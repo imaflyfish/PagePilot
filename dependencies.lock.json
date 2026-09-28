@@ -1,0 +1,30 @@
+{
+  "note": "Exact local validation versions; not a package-manager lock",
+  "dependencies": [
+    {
+      "name": "Boost",
+      "version": "1.92.0",
+      "license": "BSL-1.0",
+      "source": "https://www.boost.org/"
+    },
+    {
+      "name": "nlohmann/json",
+      "version": "3.12.0",
+      "license": "MIT",
+      "source": "https://github.com/nlohmann/json"
+    }
+  ],
+  "embedded_data": [
+    {
+      "name": "Playwright US keyboard layout and macOS editing bindings",
+      "version": "1.50.0",
+      "license": "Apache-2.0",
+      "source": "https://github.com/microsoft/playwright/tree/v1.50.0/packages/playwright-core/src/server",
+      "files": [
+        "resources/key_layout.json",
+        "resources/editing_commands.json"
+      ],
+      "runtime_dependency": false
+    }
+  ]
+}

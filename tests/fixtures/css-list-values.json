@@ -1,0 +1,465 @@
+{
+  "baseline": "133797d29cedf19b40f5cdcdcf4aac80a9b4941d",
+  "setup": "document.querySelector('#first').dataset.token='a,b)';document.querySelector('#second').id='escaped,button';document.querySelector('#third').id='literal:visible';const t=document.createElement('textarea');t.id='middle';document.querySelector('#first').after(t);const h=document.createElement('div');h.id='shadow-list';h.attachShadow({mode:'open'}).innerHTML='<button id=shadow-visible>Shadow visible</button><input id=shadow-input>';t.after(h);const u=document.createElement('input');u.id='tail-input';document.getElementById('literal:visible').after(u);true",
+  "vectors": [
+    {
+      "selector": "#literal\\:visible",
+      "result": {
+        "found": 1,
+        "total": 1,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "#escaped\\,button:visible",
+      "result": {
+        "found": 1,
+        "total": 1,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "escaped,button",
+            "class": "pick"
+          }
+        ]
+      }
+    },
+    {
+      "selector": "#literal\\:visible, #first:visible",
+      "result": {
+        "found": 2,
+        "total": 2,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": ":is(#first,#literal\\:visible):visible",
+      "result": {
+        "found": 2,
+        "total": 2,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": ":not(#first,#opener):visible",
+      "result": {
+        "found": 10,
+        "total": 10,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "html",
+            "text": "Owned click targets\nbody{margin:0;height:2400px}button{position:absolute;width:160px;height:64px}#fi",
+            "id": "",
+            "class": ""
+          },
+          {
+            "index": 1,
+            "tag": "body",
+            "text": "Pick itemPick itemOther item\nOpen menuMenu itemBelow item\n\nwindow.events=[];window.hovered=0;\nfor(co",
+            "id": "",
+            "class": ""
+          },
+          {
+            "index": 2,
+            "tag": "textarea",
+            "text": "",
+            "id": "middle",
+            "class": ""
+          },
+          {
+            "index": 3,
+            "tag": "div",
+            "text": "",
+            "id": "shadow-list",
+            "class": ""
+          },
+          {
+            "index": 4,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "escaped,button",
+            "class": "pick"
+          },
+          {
+            "index": 5,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          },
+          {
+            "index": 6,
+            "tag": "input",
+            "text": "",
+            "id": "tail-input",
+            "class": ""
+          },
+          {
+            "index": 7,
+            "tag": "button",
+            "text": "Below item",
+            "id": "below",
+            "class": ""
+          },
+          {
+            "index": 8,
+            "tag": "button",
+            "text": "Shadow visible",
+            "id": "shadow-visible",
+            "class": ""
+          },
+          {
+            "index": 9,
+            "tag": "input",
+            "text": "",
+            "id": "shadow-input",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "[data-token=\"a,b)\"]:visible, #literal\\:visible",
+      "result": {
+        "found": 2,
+        "total": 2,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "#literal\\:visible:visible, #first",
+      "result": {
+        "found": 2,
+        "total": 2,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": ":is(#first, #escaped\\,button):visible, #opener:visible",
+      "result": {
+        "found": 3,
+        "total": 3,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "escaped,button",
+            "class": "pick"
+          },
+          {
+            "index": 2,
+            "tag": "button",
+            "text": "Open menu",
+            "id": "opener",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "#literal\\:visible:visible, #shadow-visible:visible, #first:visible",
+      "result": {
+        "found": 3,
+        "total": 3,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Shadow visible",
+            "id": "shadow-visible",
+            "class": ""
+          },
+          {
+            "index": 2,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "#literal\\:visible, #shadow-visible, #first",
+      "result": {
+        "found": 3,
+        "total": 3,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Shadow visible",
+            "id": "shadow-visible",
+            "class": ""
+          },
+          {
+            "index": 2,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "input:visible, textarea:visible",
+      "result": {
+        "found": 3,
+        "total": 3,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "textarea",
+            "text": "",
+            "id": "middle",
+            "class": ""
+          },
+          {
+            "index": 1,
+            "tag": "input",
+            "text": "",
+            "id": "shadow-input",
+            "class": ""
+          },
+          {
+            "index": 2,
+            "tag": "input",
+            "text": "",
+            "id": "tail-input",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "#menu, #first:visible",
+      "result": {
+        "found": 2,
+        "total": 2,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Menu item",
+            "id": "menu",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "#first /* , ignored */, #literal\\:visible:visible",
+      "result": {
+        "found": 2,
+        "total": 2,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": ":is([data-token=\"a,b)\"],#literal\\:visible):visible",
+      "result": {
+        "found": 2,
+        "total": 2,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "button:not(#menu):visible",
+      "result": {
+        "found": 6,
+        "total": 6,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          },
+          {
+            "index": 1,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "escaped,button",
+            "class": "pick"
+          },
+          {
+            "index": 2,
+            "tag": "button",
+            "text": "Other item",
+            "id": "literal:visible",
+            "class": ""
+          },
+          {
+            "index": 3,
+            "tag": "button",
+            "text": "Open menu",
+            "id": "opener",
+            "class": ""
+          },
+          {
+            "index": 4,
+            "tag": "button",
+            "text": "Below item",
+            "id": "below",
+            "class": ""
+          },
+          {
+            "index": 5,
+            "tag": "button",
+            "text": "Shadow visible",
+            "id": "shadow-visible",
+            "class": ""
+          }
+        ]
+      }
+    },
+    {
+      "selector": "[data-token=\"a,b)\"]:visible",
+      "result": {
+        "found": 1,
+        "total": 1,
+        "elements": [
+          {
+            "index": 0,
+            "tag": "button",
+            "text": "Pick item",
+            "id": "first",
+            "class": "pick"
+          }
+        ]
+      }
+    }
+  ]
+}

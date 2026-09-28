@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Frame branch</title>
+<style>body{font:14px sans-serif;margin:23px}button,input{padding:9px;margin:4px}iframe{display:block;width:450px;height:280px;margin:30px 17px;border:7px solid #975}</style>
+<h1>Frame branch</h1><label for="frame-input">Frame field</label><input id="frame-input" value="FRAME"><button id="frame-button" aria-label="Frame action">Frame button</button><output id="frame-clicks">0</output>
+<script>
+const options=new URLSearchParams(location.search);
+window.frameMarker=location.hostname+'|'+options.get('level');window.frameProof=[];
+document.addEventListener('input',event=>frameProof.push({type:'input',trusted:event.isTrusted,id:event.target.id}));
+document.addEventListener('click',event=>frameProof.push({type:'click',trusted:event.isTrusted,id:event.target.id}));
+document.addEventListener('mousemove',event=>window.lastPointer={x:event.clientX,y:event.clientY,id:event.target.id});
+document.querySelector('#frame-button').onclick=()=>document.querySelector('#frame-clicks').textContent=String(Number(document.querySelector('#frame-clicks').textContent)+1);
+const remaining=Number(options.get('remaining'));
+if(remaining>0){const nested=new URL(location.href);nested.searchParams.set('remaining',String(remaining-1));nested.searchParams.set('level',String(Number(options.get('level'))+1));if(options.get('mode')==='cross')nested.hostname=location.hostname==='localhost'?'127.0.0.1':'localhost';const frame=document.createElement('iframe');frame.id='child-frame';frame.name='level-'+nested.searchParams.get('level');frame.src=nested;document.body.append(frame)}
+top.postMessage({relayReady:location.href},'*');
+</script></html>

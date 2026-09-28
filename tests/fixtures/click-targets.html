@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Owned click targets</title>
+<style>body{margin:0;height:2400px}button{position:absolute;width:160px;height:64px}#first{left:40px;top:40px}#second{left:240px;top:40px}#third{left:440px;top:40px}#opener{left:40px;top:160px}#menu{left:240px;top:160px}#below{left:40px;top:2000px}</style>
+<button id="first" class="pick">Pick item</button><button id="second" class="pick">Pick item</button><button id="third">Other item</button>
+<button id="opener">Open menu</button><button id="menu" hidden>Menu item</button><button id="below">Below item</button>
+<script>
+window.events=[];window.hovered=0;
+for(const kind of ['mousedown','mouseup','click','dblclick','contextmenu'])document.addEventListener(kind,e=>{
+  events.push({kind,id:e.target.id,detail:e.detail,button:e.button,trusted:e.isTrusted});
+  if(kind==='contextmenu')e.preventDefault();
+},true);
+document.querySelector('#opener').addEventListener('mouseenter',()=>{hovered++;setTimeout(()=>document.querySelector('#menu').hidden=false,40)});
+window.resetOwned=()=>{events=[];hovered=0;document.querySelector('#menu').hidden=true;scrollTo(0,0);return true};
+</script></html>

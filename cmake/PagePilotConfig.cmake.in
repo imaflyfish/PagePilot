@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+find_dependency(nlohmann_json 3.12)
+find_dependency(Boost 1.85 CONFIG)
+find_dependency(Threads)
+include("${CMAKE_CURRENT_LIST_DIR}/PagePilotTargets.cmake")
+check_required_components(PagePilot)

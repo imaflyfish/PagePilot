@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>PagePilot fixture</title>
+<style>body{font:16px system-ui;margin:32px}input,button,select{margin:8px;padding:8px}#drag{width:80px;height:50px;background:#cde}#drop{width:160px;height:100px;background:#eee}#below{margin-top:1800px}.hidden{display:none}</style>
+<h1>PagePilot local fixture</h1>
+<label for="person">Display name</label><input id="person" placeholder="Your name" data-testid="person" value="initial">
+<textarea id="notes" aria-label="Notes"></textarea>
+<button id="count-button" aria-label="Count clicks">Count clicks</button><output id="clicks">0</output>
+<button id="dialog-button">Open prompt</button><output id="dialog-result"></output>
+<input id="check" type="checkbox"><label for="check">Subscribe</label>
+<select id="color"><option value="r">Red</option><option value="g">Green</option><option value="b">Blue</option></select>
+<input type="file" id="files" multiple><output id="file-names"></output>
+<div id="drag" draggable="true">Drag item</div><div id="drop">Drop here</div>
+<p class="hidden" id="hidden">Hidden text</p><p id="delayed"></p><p id="below">Bottom marker</p>
+<script>
+let count=0;document.querySelector('#count-button').onclick=()=>{document.querySelector('#clicks').textContent=String(++count);console.log('fixture click',count)};
+document.querySelector('#dialog-button').onclick=()=>{document.querySelector('#dialog-result').textContent=prompt('Fixture prompt','default')??'dismissed'};
+document.querySelector('#files').onchange=e=>{document.querySelector('#file-names').textContent=[...e.target.files].map(f=>f.name).join(',')};
+document.querySelector('#drag').ondragstart=e=>e.dataTransfer.setData('text/plain','owned-item');
+document.querySelector('#drop').ondragover=e=>e.preventDefault();document.querySelector('#drop').ondrop=e=>{e.preventDefault();e.target.textContent=e.dataTransfer.getData('text/plain')};
+setTimeout(()=>document.querySelector('#delayed').textContent='Loaded later',150);
+</script></html>

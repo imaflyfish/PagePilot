@@ -1,0 +1,70 @@
+name: macOS verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: macos-26
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install build dependencies
+        run: brew install cmake ninja boost nlohmann-json
+      - name: Record toolchain
+        run: |
+          mkdir -p build/ci-evidence
+          { sw_vers; uname -m; clang++ --version; cmake --version; brew list --versions; } > build/ci-evidence/toolchain.txt
+      - name: Configure and build Release
+        run: |
+          set -o pipefail
+          cmake --preset release 2>&1 | tee build/ci-evidence/configure.txt
+          cmake --build --preset release --parallel 2 2>&1 | tee build/ci-evidence/build.txt
+      - name: Run native checks
+        run: |
+          set -o pipefail
+          ctest --preset release --verbose 2>&1 | tee build/ci-evidence/ctest.txt
+      - name: Verify installed package and independent consumer
+        run: |
+          set -o pipefail
+          cmake --install build/release --prefix "$PWD/build/installed" 2>&1 | tee build/ci-evidence/install.txt
+          cmake -S examples/consumer -B build/consumer -G Ninja -DCMAKE_PREFIX_PATH="$PWD/build/installed"
+          cmake --build build/consumer --parallel 2
+          build/consumer/pilot-consumer | tee build/ci-evidence/consumer.txt
+          python3 tests/integration/verify_cli.py --binary build/installed/bin/page-pilot --evidence build/ci-evidence/installed-cli.json
+      - name: Prepare owned browser fixtures
+        run: |
+          if [ ! -x "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" ]; then
+            brew install --cask google-chrome
+          fi
+          python3 -m venv build/browser-python
+          build/browser-python/bin/pip install Pillow
+          echo "$PWD/build/browser-python/bin" >> "$GITHUB_PATH"
+          "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --version > build/ci-evidence/chrome-version.txt
+      - name: Run owned Chrome and socket fault tests
+        run: python3 tests/integration/run_suite.py --build build/release --binary build/installed/bin/page-pilot --evidence build/ci-evidence/release
+      - name: Save verification logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: PagePilot-macos-verification-${{ github.sha }}
+          path: build/ci-evidence/
+          if-no-files-found: error
+          retention-days: 14

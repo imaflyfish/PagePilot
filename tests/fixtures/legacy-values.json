@@ -1,0 +1,122 @@
+{
+  "baseline": "133797d29cedf19b40f5cdcdcf4aac80a9b4941d",
+  "runtime": "Playwright 1.50.0 / Chrome 153.0.8010.53",
+  "vectors": [
+    {
+      "script": "42",
+      "serialized": "42"
+    },
+    {
+      "script": "'中文😀'",
+      "serialized": "\"中文😀\""
+    },
+    {
+      "script": "undefined",
+      "serialized": "\"__undefined__\""
+    },
+    {
+      "script": "NaN",
+      "serialized": "null"
+    },
+    {
+      "script": "Infinity",
+      "serialized": "null"
+    },
+    {
+      "script": "-0",
+      "serialized": "0"
+    },
+    {
+      "script": "123n",
+      "serialized": "\"123n\""
+    },
+    {
+      "script": "({a:undefined,b:1})",
+      "serialized": "{\"a\":\"__undefined__\",\"b\":1}"
+    },
+    {
+      "script": "(()=>{const a={x:1};return {first:a,second:a}})()",
+      "serialized": "{\"first\":{\"x\":1},\"second\":\"__circular__\"}"
+    },
+    {
+      "script": "(()=>{const a={};a.self=a;return a})()",
+      "serialized": "{\"self\":\"__circular__\"}"
+    },
+    {
+      "script": "Symbol(\"owned\")",
+      "serialized": "\"__undefined__\""
+    },
+    {
+      "script": "()=>42",
+      "serialized": "\"__undefined__\""
+    },
+    {
+      "script": "function(){return 43}",
+      "serialized": "\"__undefined__\""
+    },
+    {
+      "script": "async ()=>44",
+      "serialized": "\"__undefined__\""
+    },
+    {
+      "script": "(()=>()=>3)()",
+      "serialized": "\"__undefined__\""
+    },
+    {
+      "script": "(()=>{window.once=(window.once||0)+1;throw Error(\"owned once\")})()",
+      "error_contains": "owned once"
+    },
+    {
+      "script": "window.once",
+      "serialized": "1"
+    },
+    {
+      "script": "new Date('2024-01-02T03:04:05.000Z')",
+      "serialized": "\"2024-01-02T03:04:05.000Z\""
+    },
+    {
+      "script": "new Date('bad')",
+      "serialized": "\"1970-01-01T00:00:00.000Z\""
+    },
+    {
+      "script": "/owned/gi",
+      "serialized": "{}"
+    },
+    {
+      "script": "new Error('owned')",
+      "serialized": "{\"name\":\"Error\"}"
+    },
+    {
+      "script": "document",
+      "serialized": "\"ref: <Document>\""
+    },
+    {
+      "script": "window",
+      "serialized": "\"ref: <Window>\""
+    },
+    {
+      "script": "document.body",
+      "serialized": "\"ref: <Node>\""
+    },
+    {
+      "script": "({fn:()=>3,sym:Symbol('x')})",
+      "serialized": "{\"fn\":\"__undefined__\",\"sym\":\"__undefined__\"}"
+    },
+    {
+      "script": "({a:1,toJSON(){return 'custom'}})",
+      "serialized": "{\"a\":1,\"toJSON\":{}}"
+    },
+    {
+      "script": "({get broken(){throw Error('getter')},ok:1})",
+      "serialized": "{\"ok\":1}"
+    },
+    {
+      "script": "new Map([['x',1]])",
+      "serialized": "{}"
+    },
+    {
+      "script": "[undefined,Symbol('x'),()=>3]",
+      "serialized": "[\"__undefined__\",\"__undefined__\",null]"
+    }
+  ]
+}

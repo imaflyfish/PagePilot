@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.24)
+project(PagePilotConsumer LANGUAGES CXX)
+find_package(PagePilot 1 CONFIG REQUIRED)
+add_executable(pilot-consumer main.cpp)
+target_link_libraries(pilot-consumer PRIVATE PagePilot::pagepilot)

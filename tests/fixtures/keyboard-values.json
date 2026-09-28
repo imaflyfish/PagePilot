@@ -1,0 +1,1145 @@
+{
+  "baseline": "133797d29cedf19b40f5cdcdcf4aac80a9b4941d",
+  "playwright": "1.50.0",
+  "vectors": [
+    {
+      "key": "a",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "a",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "a",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "A",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift+a",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "a",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "a",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift+KeyA",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift+Digit1",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "!",
+          "code": "Digit1",
+          "location": 0,
+          "keyCode": 49,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "!",
+          "code": "Digit1",
+          "location": 0,
+          "keyCode": 49,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift+1",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "1",
+          "code": "Digit1",
+          "location": 0,
+          "keyCode": 49,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "1",
+          "code": "Digit1",
+          "location": 0,
+          "keyCode": 49,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "!",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "!",
+          "code": "Digit1",
+          "location": 0,
+          "keyCode": 49,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "!",
+          "code": "Digit1",
+          "location": 0,
+          "keyCode": 49,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "+",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "+",
+          "code": "Equal",
+          "location": 0,
+          "keyCode": 187,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "+",
+          "code": "Equal",
+          "location": 0,
+          "keyCode": 187,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Control++",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Control",
+          "code": "ControlLeft",
+          "location": 1,
+          "keyCode": 17,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "+",
+          "code": "Equal",
+          "location": 0,
+          "keyCode": 187,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "+",
+          "code": "Equal",
+          "location": 0,
+          "keyCode": 187,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Control",
+          "code": "ControlLeft",
+          "location": 1,
+          "keyCode": 17,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "ShiftRight",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftRight",
+          "location": 2,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftRight",
+          "location": 2,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "ControlLeft",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Control",
+          "code": "ControlLeft",
+          "location": 1,
+          "keyCode": 17,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Control",
+          "code": "ControlLeft",
+          "location": 1,
+          "keyCode": 17,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "AltRight",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Alt",
+          "code": "AltRight",
+          "location": 2,
+          "keyCode": 18,
+          "shift": false,
+          "ctrl": false,
+          "alt": true,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Alt",
+          "code": "AltRight",
+          "location": 2,
+          "keyCode": 18,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "MetaRight",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Meta",
+          "code": "MetaRight",
+          "location": 2,
+          "keyCode": 92,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": true,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Meta",
+          "code": "MetaRight",
+          "location": 2,
+          "keyCode": 92,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "ControlOrMeta+A",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Meta",
+          "code": "MetaLeft",
+          "location": 1,
+          "keyCode": 91,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": true,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": true,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": true,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Meta",
+          "code": "MetaLeft",
+          "location": 1,
+          "keyCode": 91,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "CapsLock",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "CapsLock",
+          "code": "CapsLock",
+          "location": 0,
+          "keyCode": 20,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "CapsLock",
+          "code": "CapsLock",
+          "location": 0,
+          "keyCode": 20,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "NumLock",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "NumLock",
+          "code": "NumLock",
+          "location": 0,
+          "keyCode": 144,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "NumLock",
+          "code": "NumLock",
+          "location": 0,
+          "keyCode": 144,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Numpad1",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "End",
+          "code": "Numpad1",
+          "location": 3,
+          "keyCode": 35,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "End",
+          "code": "Numpad1",
+          "location": 1,
+          "keyCode": 35,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift+Numpad1",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "1",
+          "code": "Numpad1",
+          "location": 3,
+          "keyCode": 35,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "1",
+          "code": "Numpad1",
+          "location": 1,
+          "keyCode": 35,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "NumpadDecimal",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "\u0000",
+          "code": "NumpadDecimal",
+          "location": 3,
+          "keyCode": 46,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "\u0000",
+          "code": "NumpadDecimal",
+          "location": 1,
+          "keyCode": 46,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift+NumpadDecimal",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": ".",
+          "code": "NumpadDecimal",
+          "location": 3,
+          "keyCode": 46,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": ".",
+          "code": "NumpadDecimal",
+          "location": 1,
+          "keyCode": 46,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "NumpadEnter",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Enter",
+          "code": "NumpadEnter",
+          "location": 3,
+          "keyCode": 13,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Enter",
+          "code": "NumpadEnter",
+          "location": 1,
+          "keyCode": 13,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "NumpadAdd",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "+",
+          "code": "NumpadAdd",
+          "location": 3,
+          "keyCode": 107,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "+",
+          "code": "NumpadAdd",
+          "location": 1,
+          "keyCode": 107,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Backquote",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "`",
+          "code": "Backquote",
+          "location": 0,
+          "keyCode": 192,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "`",
+          "code": "Backquote",
+          "location": 0,
+          "keyCode": 192,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Shift+Backquote",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "~",
+          "code": "Backquote",
+          "location": 0,
+          "keyCode": 192,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "~",
+          "code": "Backquote",
+          "location": 0,
+          "keyCode": 192,
+          "shift": true,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "F12",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "F12",
+          "code": "F12",
+          "location": 0,
+          "keyCode": 123,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "F12",
+          "code": "F12",
+          "location": 0,
+          "keyCode": 123,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "F13",
+      "error": true,
+      "events": []
+    },
+    {
+      "key": "AltGraph",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "AltGraph",
+          "code": "",
+          "location": 0,
+          "keyCode": 225,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "AltGraph",
+          "code": "",
+          "location": 0,
+          "keyCode": 225,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "ContextMenu",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "ContextMenu",
+          "code": "ContextMenu",
+          "location": 0,
+          "keyCode": 93,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "ContextMenu",
+          "code": "ContextMenu",
+          "location": 0,
+          "keyCode": 93,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    },
+    {
+      "key": "Control+Shift+KeyA",
+      "error": false,
+      "events": [
+        {
+          "type": "keydown",
+          "key": "Control",
+          "code": "ControlLeft",
+          "location": 1,
+          "keyCode": 17,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": true,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keydown",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": true,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "A",
+          "code": "KeyA",
+          "location": 0,
+          "keyCode": 65,
+          "shift": true,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Shift",
+          "code": "ShiftLeft",
+          "location": 1,
+          "keyCode": 16,
+          "shift": false,
+          "ctrl": true,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        },
+        {
+          "type": "keyup",
+          "key": "Control",
+          "code": "ControlLeft",
+          "location": 1,
+          "keyCode": 17,
+          "shift": false,
+          "ctrl": false,
+          "alt": false,
+          "meta": false,
+          "trusted": true
+        }
+      ]
+    }
+  ]
+}

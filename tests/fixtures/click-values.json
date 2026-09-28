@@ -1,0 +1,1429 @@
+{
+  "baseline": "133797d29cedf19b40f5cdcdcf4aac80a9b4941d",
+  "vectors": [
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "fast",
+        "type": "single",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "fast",
+        "type": "double",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "double",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "fast",
+        "type": "triple",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "triple",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "fast",
+        "type": "right",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "right",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "contextmenu",
+            "id": "first",
+            "detail": 0,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "fast",
+        "type": "long",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "long",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "smart",
+        "type": "single",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "smart",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "smart",
+        "type": "double",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "smart",
+        "type": "double",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "smart",
+        "type": "triple",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "smart",
+        "type": "triple",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "smart",
+        "type": "right",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "smart",
+        "type": "right",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "contextmenu",
+            "id": "first",
+            "detail": 0,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "smart",
+        "type": "long",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "smart",
+        "type": "long",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "human",
+        "type": "single",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "human",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 1
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "human",
+        "type": "double",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "human",
+        "type": "double",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 1
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "human",
+        "type": "triple",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "human",
+        "type": "triple",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "human",
+        "type": "right",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "human",
+        "type": "right",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "contextmenu",
+            "id": "first",
+            "detail": 0,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          }
+        ],
+        "hovered": 1
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#first",
+        "mode": "human",
+        "type": "long",
+        "duration": 35
+      },
+      "result": {
+        "clicked": true,
+        "mode": "human",
+        "type": "long",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 1
+      }
+    },
+    {
+      "arguments": {
+        "x": 120,
+        "y": 72,
+        "type": "single",
+        "duration": 35,
+        "selector": "#third",
+        "text": "Other item"
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "x": 120,
+        "y": 72,
+        "type": "double",
+        "duration": 35,
+        "selector": "#third",
+        "text": "Other item"
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "double",
+        "inFrame": false,
+        "title": "Owned click targets"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "x": 120,
+        "y": 72,
+        "type": "triple",
+        "duration": 35,
+        "selector": "#third",
+        "text": "Other item"
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "triple",
+        "inFrame": false,
+        "title": "Owned click targets"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "dblclick",
+            "id": "first",
+            "detail": 2,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 3,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "x": 120,
+        "y": 72,
+        "type": "right",
+        "duration": 35,
+        "selector": "#third",
+        "text": "Other item"
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "right",
+        "inFrame": false,
+        "title": "Owned click targets"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "contextmenu",
+            "id": "first",
+            "detail": 0,
+            "button": 2,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 2,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "x": 120,
+        "y": 72,
+        "type": "long",
+        "duration": 35,
+        "selector": "#third",
+        "text": "Other item"
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "long",
+        "inFrame": false,
+        "title": "Owned click targets"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "first",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "text": "Pick item",
+        "index": 1
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Pick item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "second",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "second",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "second",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "text": ""
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Other item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "third",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "third",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "third",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#third",
+        "hover_first": ""
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Other item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "third",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "third",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "third",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#missing",
+        "if_exists": true,
+        "hover_first": "#opener"
+      },
+      "result": {
+        "clicked": false,
+        "reason": "Element does not exist"
+      },
+      "observed": {
+        "events": [],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#missing",
+        "if_exists": true,
+        "hover_first": "#also-missing"
+      },
+      "result": {
+        "clicked": false,
+        "reason": "Element does not exist"
+      },
+      "observed": {
+        "events": [],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#menu",
+        "hover_first": "#opener"
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Menu item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "menu",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "menu",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "menu",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 1
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#below",
+        "scroll_first": true
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Below item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "below",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "below",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "below",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    },
+    {
+      "arguments": {
+        "selector": "#below",
+        "scroll_first": false
+      },
+      "result": {
+        "clicked": true,
+        "mode": "fast",
+        "type": "single",
+        "inFrame": false,
+        "title": "Owned click targets",
+        "elementText": "Below item"
+      },
+      "observed": {
+        "events": [
+          {
+            "kind": "mousedown",
+            "id": "below",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "mouseup",
+            "id": "below",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          },
+          {
+            "kind": "click",
+            "id": "below",
+            "detail": 1,
+            "button": 0,
+            "trusted": true
+          }
+        ],
+        "hovered": 0
+      }
+    }
+  ]
+}

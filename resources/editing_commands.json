@@ -1,0 +1,715 @@
+{
+  "reference": "Playwright 1.50.0 macOS editing command data",
+  "source_sha256": "72f65787662f6fd285b9691115517a2781fe2b842103897c72f6d4b16eb7bb36",
+  "commands": [
+    {
+      "scan": "Backspace",
+      "mask": 0,
+      "actions": [
+        "deleteBackward"
+      ]
+    },
+    {
+      "scan": "Escape",
+      "mask": 0,
+      "actions": [
+        "cancelOperation"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 0,
+      "actions": [
+        "moveUp"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 0,
+      "actions": [
+        "moveDown"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 0,
+      "actions": [
+        "moveLeft"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 0,
+      "actions": [
+        "moveRight"
+      ]
+    },
+    {
+      "scan": "F5",
+      "mask": 0,
+      "actions": [
+        "complete"
+      ]
+    },
+    {
+      "scan": "Delete",
+      "mask": 0,
+      "actions": [
+        "deleteForward"
+      ]
+    },
+    {
+      "scan": "Home",
+      "mask": 0,
+      "actions": [
+        "scrollToBeginningOfDocument"
+      ]
+    },
+    {
+      "scan": "End",
+      "mask": 0,
+      "actions": [
+        "scrollToEndOfDocument"
+      ]
+    },
+    {
+      "scan": "PageUp",
+      "mask": 0,
+      "actions": [
+        "scrollPageUp"
+      ]
+    },
+    {
+      "scan": "PageDown",
+      "mask": 0,
+      "actions": [
+        "scrollPageDown"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 8,
+      "actions": [
+        "deleteBackward"
+      ]
+    },
+    {
+      "scan": "Escape",
+      "mask": 8,
+      "actions": [
+        "cancelOperation"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 8,
+      "actions": [
+        "moveUpAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 8,
+      "actions": [
+        "moveDownAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 8,
+      "actions": [
+        "moveLeftAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 8,
+      "actions": [
+        "moveRightAndModifySelection"
+      ]
+    },
+    {
+      "scan": "F5",
+      "mask": 8,
+      "actions": [
+        "complete"
+      ]
+    },
+    {
+      "scan": "Delete",
+      "mask": 8,
+      "actions": [
+        "deleteForward"
+      ]
+    },
+    {
+      "scan": "Home",
+      "mask": 8,
+      "actions": [
+        "moveToBeginningOfDocumentAndModifySelection"
+      ]
+    },
+    {
+      "scan": "End",
+      "mask": 8,
+      "actions": [
+        "moveToEndOfDocumentAndModifySelection"
+      ]
+    },
+    {
+      "scan": "PageUp",
+      "mask": 8,
+      "actions": [
+        "pageUpAndModifySelection"
+      ]
+    },
+    {
+      "scan": "PageDown",
+      "mask": 8,
+      "actions": [
+        "pageDownAndModifySelection"
+      ]
+    },
+    {
+      "scan": "Numpad5",
+      "mask": 8,
+      "actions": [
+        "delete"
+      ]
+    },
+    {
+      "scan": "Tab",
+      "mask": 2,
+      "actions": [
+        "selectNextKeyView"
+      ]
+    },
+    {
+      "scan": "KeyA",
+      "mask": 2,
+      "actions": [
+        "moveToBeginningOfParagraph"
+      ]
+    },
+    {
+      "scan": "KeyB",
+      "mask": 2,
+      "actions": [
+        "moveBackward"
+      ]
+    },
+    {
+      "scan": "KeyD",
+      "mask": 2,
+      "actions": [
+        "deleteForward"
+      ]
+    },
+    {
+      "scan": "KeyE",
+      "mask": 2,
+      "actions": [
+        "moveToEndOfParagraph"
+      ]
+    },
+    {
+      "scan": "KeyF",
+      "mask": 2,
+      "actions": [
+        "moveForward"
+      ]
+    },
+    {
+      "scan": "KeyH",
+      "mask": 2,
+      "actions": [
+        "deleteBackward"
+      ]
+    },
+    {
+      "scan": "KeyK",
+      "mask": 2,
+      "actions": [
+        "deleteToEndOfParagraph"
+      ]
+    },
+    {
+      "scan": "KeyL",
+      "mask": 2,
+      "actions": [
+        "centerSelectionInVisibleArea"
+      ]
+    },
+    {
+      "scan": "KeyN",
+      "mask": 2,
+      "actions": [
+        "moveDown"
+      ]
+    },
+    {
+      "scan": "KeyO",
+      "mask": 2,
+      "actions": [
+        "moveBackward"
+      ]
+    },
+    {
+      "scan": "KeyP",
+      "mask": 2,
+      "actions": [
+        "moveUp"
+      ]
+    },
+    {
+      "scan": "KeyT",
+      "mask": 2,
+      "actions": [
+        "transpose"
+      ]
+    },
+    {
+      "scan": "KeyV",
+      "mask": 2,
+      "actions": [
+        "pageDown"
+      ]
+    },
+    {
+      "scan": "KeyY",
+      "mask": 2,
+      "actions": [
+        "yank"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 2,
+      "actions": [
+        "deleteBackwardByDecomposingPreviousCharacter"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 2,
+      "actions": [
+        "scrollPageUp"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 2,
+      "actions": [
+        "scrollPageDown"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 2,
+      "actions": [
+        "moveToLeftEndOfLine"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 2,
+      "actions": [
+        "moveToRightEndOfLine"
+      ]
+    },
+    {
+      "scan": "Tab",
+      "mask": 10,
+      "actions": [
+        "selectPreviousKeyView"
+      ]
+    },
+    {
+      "scan": "KeyA",
+      "mask": 10,
+      "actions": [
+        "moveToBeginningOfParagraphAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyB",
+      "mask": 10,
+      "actions": [
+        "moveBackwardAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyE",
+      "mask": 10,
+      "actions": [
+        "moveToEndOfParagraphAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyF",
+      "mask": 10,
+      "actions": [
+        "moveForwardAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyN",
+      "mask": 10,
+      "actions": [
+        "moveDownAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyP",
+      "mask": 10,
+      "actions": [
+        "moveUpAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyV",
+      "mask": 10,
+      "actions": [
+        "pageDownAndModifySelection"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 10,
+      "actions": [
+        "deleteBackwardByDecomposingPreviousCharacter"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 10,
+      "actions": [
+        "scrollPageUp"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 10,
+      "actions": [
+        "scrollPageDown"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 10,
+      "actions": [
+        "moveToLeftEndOfLineAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 10,
+      "actions": [
+        "moveToRightEndOfLineAndModifySelection"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 1,
+      "actions": [
+        "deleteWordBackward"
+      ]
+    },
+    {
+      "scan": "Escape",
+      "mask": 1,
+      "actions": [
+        "complete"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 1,
+      "actions": [
+        "moveBackward",
+        "moveToBeginningOfParagraph"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 1,
+      "actions": [
+        "moveForward",
+        "moveToEndOfParagraph"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 1,
+      "actions": [
+        "moveWordLeft"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 1,
+      "actions": [
+        "moveWordRight"
+      ]
+    },
+    {
+      "scan": "Delete",
+      "mask": 1,
+      "actions": [
+        "deleteWordForward"
+      ]
+    },
+    {
+      "scan": "PageUp",
+      "mask": 1,
+      "actions": [
+        "pageUp"
+      ]
+    },
+    {
+      "scan": "PageDown",
+      "mask": 1,
+      "actions": [
+        "pageDown"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 9,
+      "actions": [
+        "deleteWordBackward"
+      ]
+    },
+    {
+      "scan": "Escape",
+      "mask": 9,
+      "actions": [
+        "complete"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 9,
+      "actions": [
+        "moveParagraphBackwardAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 9,
+      "actions": [
+        "moveParagraphForwardAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 9,
+      "actions": [
+        "moveWordLeftAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 9,
+      "actions": [
+        "moveWordRightAndModifySelection"
+      ]
+    },
+    {
+      "scan": "Delete",
+      "mask": 9,
+      "actions": [
+        "deleteWordForward"
+      ]
+    },
+    {
+      "scan": "PageUp",
+      "mask": 9,
+      "actions": [
+        "pageUp"
+      ]
+    },
+    {
+      "scan": "PageDown",
+      "mask": 9,
+      "actions": [
+        "pageDown"
+      ]
+    },
+    {
+      "scan": "KeyB",
+      "mask": 3,
+      "actions": [
+        "moveWordBackward"
+      ]
+    },
+    {
+      "scan": "KeyF",
+      "mask": 3,
+      "actions": [
+        "moveWordForward"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 3,
+      "actions": [
+        "deleteWordBackward"
+      ]
+    },
+    {
+      "scan": "KeyB",
+      "mask": 11,
+      "actions": [
+        "moveWordBackwardAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyF",
+      "mask": 11,
+      "actions": [
+        "moveWordForwardAndModifySelection"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 11,
+      "actions": [
+        "deleteWordBackward"
+      ]
+    },
+    {
+      "scan": "NumpadSubtract",
+      "mask": 4,
+      "actions": [
+        "cancel"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 4,
+      "actions": [
+        "deleteToBeginningOfLine"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 4,
+      "actions": [
+        "moveToBeginningOfDocument"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 4,
+      "actions": [
+        "moveToEndOfDocument"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 4,
+      "actions": [
+        "moveToLeftEndOfLine"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 4,
+      "actions": [
+        "moveToRightEndOfLine"
+      ]
+    },
+    {
+      "scan": "NumpadSubtract",
+      "mask": 12,
+      "actions": [
+        "cancel"
+      ]
+    },
+    {
+      "scan": "Backspace",
+      "mask": 12,
+      "actions": [
+        "deleteToBeginningOfLine"
+      ]
+    },
+    {
+      "scan": "ArrowUp",
+      "mask": 12,
+      "actions": [
+        "moveToBeginningOfDocumentAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowDown",
+      "mask": 12,
+      "actions": [
+        "moveToEndOfDocumentAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowLeft",
+      "mask": 12,
+      "actions": [
+        "moveToLeftEndOfLineAndModifySelection"
+      ]
+    },
+    {
+      "scan": "ArrowRight",
+      "mask": 12,
+      "actions": [
+        "moveToRightEndOfLineAndModifySelection"
+      ]
+    },
+    {
+      "scan": "KeyA",
+      "mask": 4,
+      "actions": [
+        "selectAll"
+      ]
+    },
+    {
+      "scan": "KeyC",
+      "mask": 4,
+      "actions": [
+        "copy"
+      ]
+    },
+    {
+      "scan": "KeyX",
+      "mask": 4,
+      "actions": [
+        "cut"
+      ]
+    },
+    {
+      "scan": "KeyV",
+      "mask": 4,
+      "actions": [
+        "paste"
+      ]
+    },
+    {
+      "scan": "KeyZ",
+      "mask": 4,
+      "actions": [
+        "undo"
+      ]
+    },
+    {
+      "scan": "KeyZ",
+      "mask": 12,
+      "actions": [
+        "redo"
+      ]
+    }
+  ],
+  "source_file": "lib/server/macEditingCommands.js",
+  "copyright": [
+    "Copyright 2017 Google Inc. All rights reserved.",
+    "Modifications copyright (c) Microsoft Corporation."
+  ],
+  "license": "Apache-2.0",
+  "modification": "Mapping data transformed into PagePilot fields; editing commands omit insert actions and trailing colons."
+}
