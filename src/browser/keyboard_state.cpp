@@ -4,12 +4,7 @@ namespace pagepilot {
 void BrowserSession::press_keyboard(const std::string &combination,
                                     MsDuration timeout) {
   const auto strokes = plan_keyboard(combination);
-  const auto prior = exchange_deadline(bounded_deadline(timeout));
-  struct Restore {
-    BrowserSession &browser;
-    Deadline prior;
-    ~Restore() { browser.exchange_deadline(prior); }
-  } restore{*this, prior};
+  DeadlineScope restore(*this, timeout);
   const auto session = current_session();
   std::size_t held = 0;
   try {

@@ -56,6 +56,10 @@ JsonDoc ToolRuntime::invoke(const ToolInvocation &invocation) {
     unsigned &depth;
     explicit ActiveCall(unsigned &value) : depth(value) { ++depth; }
     ~ActiveCall() { --depth; }
+    // A copy would decrement the nesting depth twice for one increment and let
+    // the workflow nesting limit be walked past.
+    ActiveCall(const ActiveCall &) = delete;
+    ActiveCall &operator=(const ActiveCall &) = delete;
   } active(invocation_depth_);
   const auto begin = std::chrono::steady_clock::now();
   bool success = false;
