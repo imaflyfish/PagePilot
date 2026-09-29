@@ -130,10 +130,13 @@ JsonDoc FileTools::screenshot(const JsonDoc &arguments) {
   y = std::max(0.0, std::floor(y));
   width = right - x;
   height = bottom - y;
-  if (width <= 0 || height <= 0 || width > 32768 || height > 32768 ||
-      width * height > 32000000)
-    throw BridgeError(
-        "Screenshot bounds exceed 32768 per edge or 32 million CSS pixels");
+  if (width <= 0 || height <= 0 || width > maximum_image_edge ||
+      height > maximum_image_edge ||
+      width * height > double(maximum_image_pixels))
+    throw BridgeError("Screenshot bounds exceed " +
+                      std::to_string(maximum_image_edge) + " per edge or " +
+                      std::to_string(maximum_image_pixels / 1000000) +
+                      " million CSS pixels");
   const auto density = browser_
                            .page_call("Runtime.evaluate",
                                       {{"expression", "devicePixelRatio"},
@@ -142,10 +145,14 @@ JsonDoc FileTools::screenshot(const JsonDoc &arguments) {
                            .at("result")
                            .at("value")
                            .get<double>();
-  if (!std::isfinite(density) || density <= 0 || width * density > 32768 ||
-      height * density > 32768 || width * height * density * density > 32000000)
-    throw BridgeError("Screenshot physical dimensions exceed 32768 per edge or "
-                      "32 million pixels");
+  if (!std::isfinite(density) || density <= 0 ||
+      width * density > maximum_image_edge ||
+      height * density > maximum_image_edge ||
+      width * height * density * density > double(maximum_image_pixels))
+    throw BridgeError("Screenshot physical dimensions exceed " +
+                      std::to_string(maximum_image_edge) + " per edge or " +
+                      std::to_string(maximum_image_pixels / 1000000) +
+                      " million pixels");
   clip = {
       {"x", x}, {"y", y}, {"width", width}, {"height", height}, {"scale", 1}};
   const auto captured =

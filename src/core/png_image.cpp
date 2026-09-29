@@ -78,10 +78,13 @@ PngImage decode_png(const std::string &text) {
       width = word(data, offset + 8);
       height = word(data, offset + 12);
       header = true;
-      if (!width || !height || width > 32768 || height > 32768 ||
-          std::uint64_t(width) * height > 32000000)
-        throw BridgeError(
-            "Screenshot dimensions exceed 32768 per edge or 32 million pixels");
+      if (!width || !height || width > maximum_image_edge ||
+          height > maximum_image_edge ||
+          std::uint64_t(width) * height > maximum_image_pixels)
+        throw BridgeError("Screenshot dimensions exceed " +
+                          std::to_string(maximum_image_edge) + " per edge or " +
+                          std::to_string(maximum_image_pixels / 1000000) +
+                          " million pixels");
     } else if (kind == "IHDR")
       throw BridgeError("Repeated PNG header");
     if (kind == "IDAT")

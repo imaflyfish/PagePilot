@@ -58,6 +58,11 @@ struct PngImage {
   std::vector<std::uint8_t> bytes;
   unsigned width, height;
 };
+// The capture bounds a request may ask for and the dimensions a decoded image
+// may have are one limit checked at two ends. If they drifted apart, a capture
+// this product accepts could be one its own decoder then refuses.
+inline constexpr unsigned maximum_image_edge = 32768;
+inline constexpr std::uint64_t maximum_image_pixels = 32000000;
 PngImage decode_png(const std::string &base64);
 class FileTools {
 public:
