@@ -31,6 +31,10 @@ JsonDoc parse_message(const std::string &text, std::size_t limit) {
   }
 }
 namespace {
+// How many entries an argument container may hold. An array may raise it with
+// maxItems, because a schema that expects a long list says so; an object has no
+// such escape, so its properties are capped outright.
+constexpr std::size_t maximum_container_entries = 10000;
 JsonDoc normalize(JsonDoc value, const JsonDoc &schema, unsigned depth,
                   const std::string &path) {
   if (depth > 32)
@@ -101,7 +105,7 @@ JsonDoc normalize(JsonDoc value, const JsonDoc &schema, unsigned depth,
       value.get_ref<const std::string &>().size() > 4 * 1024 * 1024)
     throw BridgeError(path + " string is too long");
   if (value.is_array()) {
-    const auto maximum = schema.value("maxItems", std::size_t{10000});
+    const auto maximum = schema.value("maxItems", maximum_container_entries);
     if (value.size() > maximum)
       throw BridgeError(path + " has too many items");
     if (schema.contains("items"))
@@ -110,7 +114,7 @@ JsonDoc normalize(JsonDoc value, const JsonDoc &schema, unsigned depth,
                              path + "[" + std::to_string(i) + "]");
   }
   if (value.is_object()) {
-    if (value.size() > 10000)
+    if (value.size() > maximum_container_entries)
       throw BridgeError(path + " has too many properties");
     const auto properties = schema.value("properties", JsonDoc::object());
     for (const auto &key : schema.value("required", JsonDoc::array()))
