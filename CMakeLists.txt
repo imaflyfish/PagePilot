@@ -46,12 +46,20 @@ file(READ resources/legacy_value.js PILOT_LEGACY_VALUE)
 file(READ resources/key_layout.json PILOT_KEYS)
 file(READ resources/editing_commands.json PILOT_EDITING)
 configure_file(cmake/embedded_resources.hpp.in generated/embedded_resources.hpp @ONLY)
-add_library(pagepilot src/core/cancellation.cpp src/mcp/request_pump.cpp src/core/json_contract.cpp src/core/path_guard.cpp src/core/png_image.cpp src/tools/tool_catalog.cpp src/wire/cdp_channel.cpp src/mcp/stdio_transport.cpp src/browser/browser_session.cpp src/browser/frame_context.cpp src/browser/frame_geometry.cpp src/browser/input_observer.cpp src/browser/page_services.cpp src/browser/pointer_state.cpp src/tools/tool_runtime.cpp src/tools/step_sequence.cpp src/tools/dom_tools.cpp src/tools/file_tools.cpp)
+add_library(pagepilot
+  src/browser/browser_session.cpp src/browser/frame_context.cpp
+  src/browser/frame_geometry.cpp src/browser/input_observer.cpp
+  src/browser/keyboard_state.cpp src/browser/page_services.cpp
+  src/browser/pointer_state.cpp
+  src/core/cancellation.cpp src/core/json_contract.cpp src/core/path_guard.cpp
+  src/core/png_image.cpp
+  src/mcp/request_pump.cpp src/mcp/stdio_transport.cpp
+  src/tools/click_tool.cpp src/tools/dom_tools.cpp src/tools/file_tools.cpp
+  src/tools/keyboard_plan.cpp src/tools/step_sequence.cpp
+  src/tools/tool_catalog.cpp src/tools/tool_runtime.cpp
+  src/wire/cdp_channel.cpp src/wire/cdp_message.cpp)
 target_include_directories(pagepilot PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include> PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/generated)
 target_compile_features(pagepilot PUBLIC cxx_std_20)
-target_sources(pagepilot PRIVATE src/wire/cdp_message.cpp)
-target_sources(pagepilot PRIVATE src/tools/keyboard_plan.cpp src/browser/keyboard_state.cpp)
-target_sources(pagepilot PRIVATE src/tools/click_tool.cpp)
 target_link_libraries(pagepilot PUBLIC nlohmann_json::nlohmann_json PRIVATE Boost::headers Threads::Threads)
 target_compile_options(pagepilot PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wshadow)
 if(PAGEPILOT_SANITIZE)
