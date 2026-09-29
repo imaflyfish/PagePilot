@@ -46,8 +46,11 @@ int main(int argc, char **argv) {
       else if (option == "--help") {
         std::cout
             << "page-pilot [--port PORT] [--compat-tools] [--allow-root DIR "
-               "...]\nMCP stdio server; "
+               "...]\n"
+               "page-pilot --catalog | --compat-catalog | --version | --help\n"
+               "MCP stdio server; "
                "connects to existing loopback Chrome.\n"
+               "The catalog, version and help forms need no browser.\n"
                "See the installed README and compatibility guide for setup.\n";
         return 0;
       } else
