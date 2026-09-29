@@ -1,27 +1,12 @@
+#include "../support/checks.hpp"
 #include <fstream>
 #include <iostream>
 #include <pagepilot/file_tools.hpp>
 #include <sys/stat.h>
 #include <unistd.h>
 using namespace pagepilot;
+using namespace pagepilot_tests;
 namespace fs = std::filesystem;
-unsigned passed = 0, failed = 0;
-void check(bool condition, const char *name) {
-  if (condition)
-    ++passed;
-  else {
-    ++failed;
-    std::cerr << "FAIL: " << name << '\n';
-  }
-}
-template <class F> void rejects(F action, const char *name) {
-  try {
-    action();
-    check(false, name);
-  } catch (const std::exception &) {
-    check(true, name);
-  }
-}
 void write(const fs::path &path, const std::string &value) {
   std::ofstream output(path, std::ios::binary);
   output << value;

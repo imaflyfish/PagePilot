@@ -1,24 +1,9 @@
+#include "../support/checks.hpp"
 #include <iostream>
 #include <pagepilot/step_sequence.hpp>
 #include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
-unsigned passed = 0, failed = 0;
-void check(bool condition, const char *label) {
-  if (condition)
-    ++passed;
-  else {
-    ++failed;
-    std::cerr << "FAIL: " << label << '\n';
-  }
-}
-template <class F> void rejects(F action, const char *label) {
-  try {
-    action();
-    check(false, label);
-  } catch (const std::exception &) {
-    check(true, label);
-  }
-}
+using namespace pagepilot_tests;
 JsonDoc action(const std::string &tool, JsonDoc arguments = JsonDoc::object()) {
   return {{"tool", tool}, {"args", std::move(arguments)}};
 }

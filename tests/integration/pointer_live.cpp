@@ -1,25 +1,10 @@
+#include "../support/checks.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
-unsigned passed = 0, failed = 0;
+using namespace pagepilot_tests;
 std::string step;
-void check(bool value, const char *name) {
-  if (value)
-    ++passed;
-  else {
-    ++failed;
-    std::cerr << "FAIL: " << name << '\n';
-  }
-}
-template <class F> void rejects(F action, const char *name) {
-  try {
-    action();
-    check(false, name);
-  } catch (const std::exception &) {
-    check(true, name);
-  }
-}
 int main(int argc, char **argv) {
   if (argc != 2)
     return 2;

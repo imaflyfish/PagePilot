@@ -1,3 +1,4 @@
+#include "../support/checks.hpp"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -5,17 +6,9 @@
 #include <thread>
 #include <unistd.h>
 using namespace pagepilot;
+using namespace pagepilot_tests;
 namespace fs = std::filesystem;
-unsigned passed = 0, failed = 0;
 std::string step;
-void check(bool condition, const std::string &name) {
-  if (condition)
-    ++passed;
-  else {
-    ++failed;
-    std::cerr << "FAIL: " << name << '\n';
-  }
-}
 template <class F> std::string rejects(F action, const char *name) {
   try {
     action();

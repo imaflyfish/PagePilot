@@ -1,15 +1,8 @@
+#include "../support/checks.hpp"
 #include <iostream>
 #include <pagepilot/mcp_transport.hpp>
 using namespace pagepilot;
-unsigned passed = 0, failed = 0;
-void check(bool condition, const char *label) {
-  if (condition)
-    ++passed;
-  else {
-    ++failed;
-    std::cerr << "FAIL: " << label << '\n';
-  }
-}
+using namespace pagepilot_tests;
 int main() {
   try {
     unsigned calls = 0;

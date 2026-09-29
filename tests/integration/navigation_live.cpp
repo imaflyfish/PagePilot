@@ -1,25 +1,10 @@
+#include "../support/checks.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <pagepilot/session.hpp>
 using namespace pagepilot;
-unsigned passed = 0, failed = 0;
+using namespace pagepilot_tests;
 std::string step;
-void check(bool value, const char *label) {
-  if (value)
-    ++passed;
-  else {
-    ++failed;
-    std::cerr << "FAIL: " << label << '\n';
-  }
-}
-template <class F> void rejects(F operation, const char *label) {
-  try {
-    operation();
-    check(false, label);
-  } catch (const BridgeError &) {
-    check(true, label);
-  }
-}
 int main(int argc, char **argv) {
   if (argc != 2)
     return 2;
@@ -169,7 +154,7 @@ int main(int argc, char **argv) {
           "reverse process change reports the intended page");
     step = "timeout and recovery";
     begin = std::chrono::steady_clock::now();
-    rejects(
+    rejects<BridgeError>(
         [&] {
           browser.navigate(site + "/nav-slow.html?delay=800&label=Late", "load",
                            MsDuration(90));
@@ -182,19 +167,19 @@ int main(int argc, char **argv) {
                             MsDuration(4000));
     check(page.at("title") == "Recovered" && state().at("label") == "Recovered",
           "next request recovers after aborted delayed navigation");
-    rejects(
+    rejects<BridgeError>(
         [&] { browser.navigate(site + "/nav-drop", "load", MsDuration(1500)); },
         "network failure is not a success on old document");
     browser.navigate(site + "/nav-slow.html?label=Kept", "load",
                      MsDuration(4000));
-    rejects(
+    rejects<BridgeError>(
         [&] {
           browser.navigate(site + "/nav-empty", "load", MsDuration(1500));
         },
         "204 response without page commit is not a false navigation success");
     check(state().at("label") == "Kept",
           "no-content navigation retains the previous actual document");
-    rejects(
+    rejects<BridgeError>(
         [&] {
           browser.navigate(site + "/nav-slow.html?label=Wrong", "invalid",
                            MsDuration(1000));

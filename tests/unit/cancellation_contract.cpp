@@ -1,3 +1,4 @@
+#include "../support/checks.hpp"
 #include <atomic>
 #include <condition_variable>
 #include <future>
@@ -7,15 +8,7 @@
 #include <pagepilot/tool_runtime.hpp>
 #include <thread>
 using namespace pagepilot;
-unsigned passed = 0, failed = 0;
-void check(bool value, const char *label) {
-  if (value)
-    ++passed;
-  else {
-    ++failed;
-    std::cerr << "FAIL: " << label << '\n';
-  }
-}
+using namespace pagepilot_tests;
 struct Inbox {
   std::mutex mutex;
   std::condition_variable changed;
