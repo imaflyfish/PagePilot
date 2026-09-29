@@ -1,9 +1,26 @@
 #include <algorithm>
+#include <optional>
 #include <pagepilot/step_sequence.hpp>
 #include <thread>
 namespace pagepilot {
 namespace {
 constexpr std::size_t maximum_output = 64 * 1024 * 1024;
+// Cancellation and an exhausted action budget end the whole request, so they
+// must reach the caller instead of being recorded as one step's error. Every
+// other exception is this step's error. All three step loops share this rule,
+// and a new signal has to be added here to reach all of them.
+template <class Action> std::optional<std::string> step_failure(Action action) {
+  try {
+    action();
+    return std::nullopt;
+  } catch (const ActionLimitReached &) {
+    throw;
+  } catch (const RequestAborted &) {
+    throw;
+  } catch (const std::exception &error) {
+    return error.what();
+  }
+}
 class StepDeadlineGuard {
 public:
   StepDeadlineGuard(BrowserSession &browser, MsDuration allowance)
@@ -204,18 +221,14 @@ JsonDoc StepSequence::batch(const JsonDoc &arguments) {
       break;
     }
     JsonDoc record = {{"tool", label(input)}, {"success", false}};
-    try {
-      const auto metadata = row(input, "batch");
-      record["result"] =
-          child(metadata.at("tool"), metadata.value("args", JsonDoc::object()));
+    if (auto failure = step_failure([&] {
+          const auto metadata = row(input, "batch");
+          record["result"] = child(metadata.at("tool"),
+                                   metadata.value("args", JsonDoc::object()));
+        }))
+      record["error"] = *failure;
+    else
       record["success"] = true;
-    } catch (const ActionLimitReached &) {
-      throw;
-    } catch (const RequestAborted &) {
-      throw;
-    } catch (const std::exception &error) {
-      record["error"] = error.what();
-    }
     const bool success = record.at("success");
     append(rows, std::move(record));
     if (expired()) {
@@ -244,20 +257,17 @@ JsonDoc StepSequence::retry(const JsonDoc &arguments) {
       break;
     }
     response["attempts"] = attempt + 1;
-    try {
-      auto result = child(name, args);
+    std::optional<JsonDoc> produced;
+    if (auto failure = step_failure([&] { produced = child(name, args); }))
+      response["error"] = *failure;
+    else {
       response.erase("error");
+      auto &result = *produced;
       if (key.empty() || (result.is_object() && result.contains(key) &&
                           truthy(result.at(key))))
         return {{"success", true},
                 {"attempts", attempt + 1},
                 {"result", std::move(result)}};
-    } catch (const ActionLimitReached &) {
-      throw;
-    } catch (const RequestAborted &) {
-      throw;
-    } catch (const std::exception &error) {
-      response["error"] = error.what();
     }
     if (expired()) {
       response["timed_out"] = true;
@@ -329,19 +339,16 @@ JsonDoc StepSequence::steps(const JsonDoc &arguments) {
     JsonDoc value;
     for (int attempt = 0; attempt < attempts; ++attempt) {
       record["attempts"] = attempt + 1;
-      try {
+      auto failure = step_failure([&] {
         value = child(metadata.at("tool"),
                       metadata.value("args", JsonDoc::object()), per_attempt);
+      });
+      if (!failure) {
         record["success"] = true;
         record.erase("error");
         break;
-      } catch (const ActionLimitReached &) {
-        throw;
-      } catch (const RequestAborted &) {
-        throw;
-      } catch (const std::exception &error) {
-        record["error"] = error.what();
       }
+      record["error"] = *failure;
       if (expired()) {
         timed_out = true;
         break;
