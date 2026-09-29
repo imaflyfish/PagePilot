@@ -56,7 +56,7 @@ JsonDoc BrowserSession::send(const std::string &method,
                               observe();
                           });
   } catch (const WireFailure &failure) {
-    if (failure.code == -32001 && !owner.empty()) {
+    if (failure.code == wire_session_gone && !owner.empty()) {
       documents_.erase(owner);
       session_roots_.erase(owner);
       session_pages_.erase(owner);
@@ -377,7 +377,7 @@ JsonDoc BrowserSession::run_script(const std::string &expression,
       const bool missing_context =
           !attempted_context.empty() && failure.code == -32602 &&
           failure.description == "uniqueContextId not found";
-      if (failure.code != -32001 && !missing_context)
+      if (failure.code != wire_session_gone && !missing_context)
         throw;
       if (missing_context) {
         auto &contexts = documents_[attempted_session];

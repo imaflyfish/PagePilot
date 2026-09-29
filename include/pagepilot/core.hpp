@@ -53,6 +53,11 @@ public:
   int code;
   std::string description;
 };
+// DevTools reports a detached or unknown session with this code, and several
+// recovery paths key off it. It is named here, beside the field that carries
+// it, because the same number is an unrelated JSON-RPC server error in the
+// replies this product sends its own client.
+inline constexpr int wire_session_gone = -32001;
 JsonDoc parse_message(const std::string &text,
                       std::size_t limit = 16 * 1024 * 1024);
 JsonDoc normalize_arguments(const JsonDoc &arguments, const JsonDoc &schema);

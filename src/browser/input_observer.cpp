@@ -93,7 +93,7 @@ void BrowserSession::await_input(const std::string &ticket,
             (message.find("Cannot find") != std::string::npos ||
              message.find("not found") != std::string::npos ||
              message.find("destroyed") != std::string::npos);
-        if (failure.code == -32001 || missing_context)
+        if (failure.code == wire_session_gone || missing_context)
           return;
         throw;
       } catch (const BridgeError &) {
