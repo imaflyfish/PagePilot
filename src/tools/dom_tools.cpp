@@ -35,15 +35,32 @@ JsonDoc target(const JsonDoc &arguments) {
     result["targetText"] = true;
   return result;
 }
+// Splits text into scalars so each can be typed on its own. The library exposes
+// this path directly, so the bytes are not always ones a JSON parser has
+// already validated; a malformed sequence must be refused rather than split at
+// the wrong boundaries and typed as whatever the pieces happen to be.
 std::vector<std::string> characters(const std::string &text) {
   std::vector<std::string> result;
   for (std::size_t i = 0; i < text.size();) {
-    const auto first = static_cast<unsigned char>(text[i]);
-    const std::size_t width = first < 0x80   ? 1
-                              : first < 0xe0 ? 2
-                              : first < 0xf0 ? 3
-                                             : 4;
-    if (i + width > text.size())
+    const auto lead = static_cast<unsigned char>(text[i]);
+    // 0x80..0xc1 are continuation bytes and the two overlong two-byte leads;
+    // 0xf5 and above encode beyond the last scalar. Neither starts a sequence.
+    const std::size_t width = lead < 0x80   ? 1
+                              : lead < 0xc2 ? 0
+                              : lead < 0xe0 ? 2
+                              : lead < 0xf0 ? 3
+                              : lead < 0xf5 ? 4
+                                            : 0;
+    if (!width || i + width > text.size())
+      throw BridgeError("Invalid UTF-8 input");
+    for (std::size_t offset = 1; offset < width; ++offset)
+      if ((static_cast<unsigned char>(text[i + offset]) & 0xc0) != 0x80)
+        throw BridgeError("Invalid UTF-8 input");
+    // The continuation test alone still admits an overlong three- or four-byte
+    // form, a surrogate, and anything past U+10FFFF.
+    const auto second = width > 1 ? static_cast<unsigned char>(text[i + 1]) : 0;
+    if ((lead == 0xe0 && second < 0xa0) || (lead == 0xed && second > 0x9f) ||
+        (lead == 0xf0 && second < 0x90) || (lead == 0xf4 && second > 0x8f))
       throw BridgeError("Invalid UTF-8 input");
     result.push_back(text.substr(i, width));
     i += width;
