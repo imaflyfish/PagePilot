@@ -66,6 +66,10 @@ inline constexpr std::uint64_t maximum_image_pixels = 32000000;
 // The decoder bounds the screenshot it reads back from the browser and the sink
 // bounds what it writes; those are the same bytes, so they share one ceiling.
 inline constexpr std::size_t maximum_image_bytes = 20 * 1024 * 1024;
+// One upload is bounded the same way wherever it is counted: a batch of paths,
+// a single file, and the files inside a chosen directory all answer to these.
+inline constexpr std::size_t maximum_upload_files = 128;
+inline constexpr std::uint64_t maximum_upload_bytes = 1024ULL * 1024 * 1024;
 PngImage decode_png(const std::string &base64);
 class FileTools {
 public:

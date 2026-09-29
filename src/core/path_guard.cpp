@@ -167,8 +167,10 @@ UploadEntry PathGuard::upload(const std::string &input,
   if (!S_ISREG(state.st_mode) && !(allow_directory && directory_input))
     throw BridgeError("Upload path must be a regular file");
   if (state.st_size < 0 ||
-      static_cast<std::uint64_t>(state.st_size) > 1024ULL * 1024 * 1024)
-    throw BridgeError("Upload file exceeds 1 GiB");
+      static_cast<std::uint64_t>(state.st_size) > maximum_upload_bytes)
+    throw BridgeError(
+        "Upload file exceeds " +
+        std::to_string(maximum_upload_bytes / (1024 * 1024 * 1024)) + " GiB");
   return {path,
           static_cast<std::uint64_t>(state.st_dev),
           static_cast<std::uint64_t>(state.st_ino),
@@ -203,8 +205,11 @@ PathGuard::directory_files(const UploadEntry &folder) const {
       continue;
     files.push_back(upload(iterator->path().string()));
     total += files.back().size;
-    if (files.size() > 128 || total > 1024ULL * 1024 * 1024)
-      throw BridgeError("Upload directory exceeds 128 files or 1 GiB");
+    if (files.size() > maximum_upload_files || total > maximum_upload_bytes)
+      throw BridgeError(
+          "Upload directory exceeds " + std::to_string(maximum_upload_files) +
+          " files or " +
+          std::to_string(maximum_upload_bytes / (1024 * 1024 * 1024)) + " GiB");
   }
   return files;
 }

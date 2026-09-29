@@ -38,8 +38,9 @@ JsonDoc FileTools::upload(const JsonDoc &arguments) {
   const auto names = arguments.at("files").is_array()
                          ? arguments.at("files")
                          : JsonDoc::array({arguments.at("files")});
-  if (names.size() > 128)
-    throw BridgeError("Upload batch exceeds 128 files");
+  if (names.size() > maximum_upload_files)
+    throw BridgeError("Upload batch exceeds " +
+                      std::to_string(maximum_upload_files) + " files");
   std::vector<UploadEntry> files, members;
   JsonDoc paths = JsonDoc::array();
   std::uint64_t total = 0;
@@ -53,8 +54,10 @@ JsonDoc FileTools::upload(const JsonDoc &arguments) {
       members = paths_.directory_files(files.back());
     }
     total += files.back().size;
-    if (total > 1024ULL * 1024 * 1024)
-      throw BridgeError("Upload batch exceeds 1 GiB");
+    if (total > maximum_upload_bytes)
+      throw BridgeError(
+          "Upload batch exceeds " +
+          std::to_string(maximum_upload_bytes / (1024 * 1024 * 1024)) + " GiB");
     paths.push_back(files.back().path.string());
   }
   DomTools dom(browser_, clock_.remaining());
