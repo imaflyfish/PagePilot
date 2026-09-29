@@ -28,7 +28,7 @@ def main():
         native = ['input-target', 'condition', 'click', 'recovery', 'target-affinity']
         scripts = ['mcp_cancellation.py']
     # PNG verification consumes the images emitted by pilot-files-tests.
-    programs = [str(build / ('relay-' + name + '-tests')) for name in native]
+    programs = [str(build / ('pilot-' + name + '-tests')) for name in native]
     programs += [str(root / 'tests/integration' / name) for name in scripts]
     browser_options = ['--chrome', args.chrome] if args.chrome else []
     commands = [('browser-final', ['with_chrome.py', *browser_options, '--binary', binary, *programs]),
