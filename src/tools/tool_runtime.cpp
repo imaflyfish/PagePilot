@@ -6,21 +6,6 @@
 #include <pagepilot/tool_runtime.hpp>
 #include <thread>
 namespace pagepilot {
-namespace {
-class RuntimeDeadlineGuard {
-public:
-  RuntimeDeadlineGuard(BrowserSession &browser, MsDuration limit)
-      : browser_(browser) {
-    const auto until = browser.bounded_deadline(limit);
-    prior_ = browser_.exchange_deadline(until);
-  }
-  ~RuntimeDeadlineGuard() { browser_.exchange_deadline(prior_); }
-
-private:
-  BrowserSession &browser_;
-  BrowserSession::Deadline prior_;
-};
-} // namespace
 MsDuration ToolRuntime::deadline(const JsonDoc &arguments, int fallback) const {
   const auto value = arguments.value("timeout", double(fallback));
   if (!std::isfinite(value) || value < 1 || value > 60000)
@@ -95,8 +80,8 @@ JsonDoc ToolRuntime::invoke(const ToolInvocation &invocation) {
                 << '\n';
   };
   try {
-    RuntimeDeadlineGuard window(
-        browser_, allowance(invocation.operation, invocation.arguments));
+    DeadlineScope window(browser_,
+                         allowance(invocation.operation, invocation.arguments));
     auto result = execute(invocation);
     cancellation_point();
     success = true;

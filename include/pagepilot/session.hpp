@@ -163,4 +163,22 @@ private:
   std::map<std::string, std::map<std::string, RequestScope>> requests_;
   std::map<std::string, std::chrono::steady_clock::time_point> changed_;
 };
+
+// Narrows the session's deadline for a scope and restores the previous one,
+// including on an early return or an exception. Take it by duration to bound a
+// step against the enclosing deadline, or by deadline when one is already
+// computed. Copying would restore the same prior deadline twice, so it is
+// deleted, as on CancelScope.
+class DeadlineScope {
+public:
+  DeadlineScope(BrowserSession &browser, MsDuration allowance);
+  DeadlineScope(BrowserSession &browser, BrowserSession::Deadline deadline);
+  ~DeadlineScope();
+  DeadlineScope(const DeadlineScope &) = delete;
+  DeadlineScope &operator=(const DeadlineScope &) = delete;
+
+private:
+  BrowserSession &browser_;
+  BrowserSession::Deadline prior_;
+};
 } // namespace pagepilot

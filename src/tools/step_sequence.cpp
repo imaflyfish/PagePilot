@@ -21,19 +21,6 @@ template <class Action> std::optional<std::string> step_failure(Action action) {
     return error.what();
   }
 }
-class StepDeadlineGuard {
-public:
-  StepDeadlineGuard(BrowserSession &browser, MsDuration allowance)
-      : browser_(browser) {
-    const auto until = browser.bounded_deadline(allowance);
-    prior_ = browser_.exchange_deadline(until);
-  }
-  ~StepDeadlineGuard() { browser_.exchange_deadline(prior_); }
-
-private:
-  BrowserSession &browser_;
-  BrowserSession::Deadline prior_;
-};
 bool truthy(const JsonDoc &value) {
   if (value.is_null())
     return false;
@@ -193,7 +180,7 @@ JsonDoc StepSequence::child(const std::string &name, const JsonDoc &arguments,
                             std::optional<MsDuration> timeout) {
   const auto invocation = catalog_.resolve(name, arguments, allow_legacy_);
   if (timeout) {
-    StepDeadlineGuard window(browser_, *timeout);
+    DeadlineScope window(browser_, *timeout);
     return dispatch_(invocation);
   }
   return dispatch_(invocation);

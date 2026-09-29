@@ -19,17 +19,6 @@ MsDuration remaining(std::chrono::steady_clock::time_point deadline) {
     throw DeadlineReached("browser operation timed out");
   return value;
 }
-class NavigationDeadlineGuard {
-public:
-  NavigationDeadlineGuard(BrowserSession &browser,
-                          BrowserSession::Deadline deadline)
-      : browser_(browser), prior_(browser.exchange_deadline(deadline)) {}
-  ~NavigationDeadlineGuard() { browser_.exchange_deadline(prior_); }
-
-private:
-  BrowserSession &browser_;
-  BrowserSession::Deadline prior_;
-};
 } // namespace
 BrowserSession::PageScope::PageScope(BrowserSession &browser)
     : browser_(browser), previous_(browser.bound_target_) {
@@ -218,6 +207,13 @@ void BrowserSession::attach() {
   session_pages_[session] = current_;
   enable_or_discard(session);
 }
+DeadlineScope::DeadlineScope(BrowserSession &browser, MsDuration allowance)
+    : browser_(browser),
+      prior_(browser.exchange_deadline(browser.bounded_deadline(allowance))) {}
+DeadlineScope::DeadlineScope(BrowserSession &browser,
+                             BrowserSession::Deadline deadline)
+    : browser_(browser), prior_(browser.exchange_deadline(deadline)) {}
+DeadlineScope::~DeadlineScope() { browser_.exchange_deadline(prior_); }
 void BrowserSession::enable_or_discard(const std::string &session) {
   try {
     enable_session(session);
@@ -719,7 +715,7 @@ JsonDoc BrowserSession::close_tab(std::optional<std::size_t> index) {
   if (target.empty())
     throw BridgeError("no tab to close");
   const auto end = bounded_deadline(MsDuration(10000));
-  NavigationDeadlineGuard window(*this, end);
+  DeadlineScope window(*this, end);
   auto response = send("Target.closeTarget", {{"targetId", target}});
   // Chrome may acknowledge the request before removing the target. Report the
   // completed inventory, not the transient list immediately after the reply.
@@ -742,7 +738,7 @@ void BrowserSession::wait_ready(const std::string &readiness,
       readiness != "networkidle")
     throw BridgeError("unknown page readiness state");
   const auto deadline = bounded_deadline(timeout);
-  NavigationDeadlineGuard window(*this, deadline);
+  DeadlineScope window(*this, deadline);
   const auto session = current_session();
   const auto target = current_;
   while (true) {
@@ -779,7 +775,7 @@ JsonDoc BrowserSession::navigate(const std::string &url,
     throw BridgeError("unknown page readiness state");
   frames_.clear();
   const auto deadline = bounded_deadline(timeout);
-  NavigationDeadlineGuard window(*this, deadline);
+  DeadlineScope window(*this, deadline);
   const auto session = current_session();
   const auto previous =
       send("Page.getFrameTree", JsonDoc::object(), session, remaining(deadline))
@@ -808,7 +804,7 @@ JsonDoc BrowserSession::navigate(const std::string &url,
 JsonDoc BrowserSession::reload(MsDuration timeout) {
   frames_.clear();
   const auto deadline = bounded_deadline(timeout);
-  NavigationDeadlineGuard window(*this, deadline);
+  DeadlineScope window(*this, deadline);
   const auto session = current_session();
   const auto previous =
       send("Page.getFrameTree", JsonDoc::object(), session, remaining(deadline))
@@ -824,7 +820,7 @@ JsonDoc BrowserSession::reload(MsDuration timeout) {
 JsonDoc BrowserSession::history(int direction, MsDuration timeout) {
   frames_.clear();
   const auto deadline = bounded_deadline(timeout);
-  NavigationDeadlineGuard window(*this, deadline);
+  DeadlineScope window(*this, deadline);
   const auto session = current_session();
   const auto record = send("Page.getNavigationHistory", JsonDoc::object(),
                            session, remaining(deadline));
