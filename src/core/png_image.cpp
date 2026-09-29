@@ -12,10 +12,11 @@ std::uint32_t word(const std::vector<std::uint8_t> &data, std::size_t offset) {
 }
 } // namespace
 PngImage decode_png(const std::string &text) {
-  constexpr std::size_t maximum = 20 * 1024 * 1024;
-  if (text.empty() || text.size() % 4 || text.size() > 4 * ((maximum + 2) / 3))
-    throw BridgeError(
-        "Screenshot Base64 size is invalid or exceeds 20 MiB decoded");
+  if (text.empty() || text.size() % 4 ||
+      text.size() > 4 * ((maximum_image_bytes + 2) / 3))
+    throw BridgeError("Screenshot Base64 size is invalid or exceeds " +
+                      std::to_string(maximum_image_bytes / (1024 * 1024)) +
+                      " MiB decoded");
   std::array<int, 256> alphabet;
   alphabet.fill(-1);
   const std::string digits =
@@ -54,7 +55,7 @@ PngImage decode_png(const std::string &text) {
       data.push_back(static_cast<std::uint8_t>((values[2] << 6) | values[3]));
   }
   const std::array<std::uint8_t, 8> signature{137, 80, 78, 71, 13, 10, 26, 10};
-  if (data.size() > maximum || data.size() < 33 ||
+  if (data.size() > maximum_image_bytes || data.size() < 33 ||
       !std::equal(signature.begin(), signature.end(), data.begin()))
     throw BridgeError("Screenshot is not a bounded PNG");
   bool header = false, pixels = false, ended = false;

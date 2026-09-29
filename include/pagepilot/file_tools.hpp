@@ -63,6 +63,9 @@ struct PngImage {
 // this product accepts could be one its own decoder then refuses.
 inline constexpr unsigned maximum_image_edge = 32768;
 inline constexpr std::uint64_t maximum_image_pixels = 32000000;
+// The decoder bounds the screenshot it reads back from the browser and the sink
+// bounds what it writes; those are the same bytes, so they share one ceiling.
+inline constexpr std::size_t maximum_image_bytes = 20 * 1024 * 1024;
 PngImage decode_png(const std::string &base64);
 class FileTools {
 public:

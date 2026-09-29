@@ -221,7 +221,7 @@ CaptureSink PathGuard::output(const std::string &input) const {
   return CaptureSink(path, std::move(directory));
 }
 std::string CaptureSink::commit(std::span<const std::uint8_t> bytes) {
-  if (bytes.empty() || bytes.size() > 20 * 1024 * 1024)
+  if (bytes.empty() || bytes.size() > maximum_image_bytes)
     throw BridgeError("Screenshot byte size is outside supported limits");
   FileStream visible(::open(path_.parent_path().c_str(),
                             O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC));
