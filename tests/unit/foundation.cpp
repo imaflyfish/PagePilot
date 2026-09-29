@@ -1,5 +1,5 @@
-#include <pagepilot/tool_catalog.hpp>
 #include <iostream>
+#include <pagepilot/tool_catalog.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 void check(bool value, const char *name) {
@@ -28,7 +28,8 @@ int main() {
                                            {"field", "#b"},
                                            {"targetText", true},
                                            {"inputIndex", true}})
-                  .arguments == JsonDoc({{"selector", "#a"}, {"text", "value"}}),
+                  .arguments ==
+              JsonDoc({{"selector", "#a"}, {"text", "value"}}),
           "public arguments cannot inject private DOM adapter fields");
     check(catalog.resolve("form_fill",
                           {{"fields",
@@ -73,8 +74,8 @@ int main() {
           "oneOf array accepted");
     rejects(
         [&] {
-          catalog.resolve("form_upload",
-                          {{"selector", "input"}, {"files", JsonDoc::array({1})}});
+          catalog.resolve("form_upload", {{"selector", "input"},
+                                          {"files", JsonDoc::array({1})}});
         },
         "oneOf nested item checked");
     rejects(
@@ -100,14 +101,14 @@ int main() {
     rejects([&] { parse_message("{}", 1); }, "JSON size bounded");
     check(parse_message("{\"value\":\"中文😀\"}").at("value") == "中文😀",
           "UTF-8 roundtrip");
-    check(catalog.resolve("workflow_steps",
-                          {{"steps", JsonDoc::array()}, {"max_step_retries", 0}})
+    check(catalog.resolve("workflow_steps", {{"steps", JsonDoc::array()},
+                                             {"max_step_retries", 0}})
                   .arguments.at("max_step_retries") == 0,
           "zero retries remains zero");
     rejects(
         [&] {
-          catalog.resolve("workflow_steps",
-                          {{"steps", JsonDoc::array()}, {"max_step_retries", 11}});
+          catalog.resolve("workflow_steps", {{"steps", JsonDoc::array()},
+                                             {"max_step_retries", 11}});
         },
         "step retry maximum");
     std::cout << passed << " foundation checks passed; " << failed

@@ -1,5 +1,5 @@
-#include <pagepilot/session.hpp>
 #include <functional>
+#include <pagepilot/session.hpp>
 #include <set>
 
 namespace pagepilot {
@@ -27,9 +27,9 @@ JsonDoc BrowserSession::manage_cookies(const JsonDoc &arguments) {
           (std::string(key) != "value" && arguments.at(key) == ""))
         throw BridgeError("Cookie set requires name, value and domain");
     JsonDoc cookie = {{"name", arguments.at("name")},
-                   {"value", arguments.at("value")},
-                   {"domain", arguments.at("domain")},
-                   {"path", arguments.value("path", std::string("/"))}};
+                      {"value", arguments.at("value")},
+                      {"domain", arguments.at("domain")},
+                      {"path", arguments.value("path", std::string("/"))}};
     for (const auto *key : {"expires", "httpOnly", "secure"})
       if (arguments.contains(key))
         cookie[key] = arguments.at(key);
@@ -52,8 +52,8 @@ JsonDoc BrowserSession::manage_cookies(const JsonDoc &arguments) {
            cookie.at("path") != arguments.at("path")))
         continue;
       JsonDoc identity = {{"name", cookie.at("name")},
-                       {"domain", cookie.at("domain")},
-                       {"path", cookie.at("path")}};
+                          {"domain", cookie.at("domain")},
+                          {"path", cookie.at("path")}};
       if (cookie.contains("partitionKey"))
         identity["partitionKey"] = cookie.at("partitionKey");
       page_call("Network.deleteCookies", identity);

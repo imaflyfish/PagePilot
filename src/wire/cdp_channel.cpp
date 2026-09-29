@@ -2,11 +2,11 @@
 #include <atomic>
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
-#include <pagepilot/cdp_channel.hpp>
 #include <deque>
 #include <future>
 #include <map>
 #include <mutex>
+#include <pagepilot/cdp_channel.hpp>
 #include <thread>
 namespace pagepilot {
 namespace asio = boost::asio;
@@ -128,10 +128,11 @@ struct CdpChannel::Engine {
             // however, must belong to this request and cannot redirect a reply.
             if (message.contains("sessionId") &&
                 message.at("sessionId") != found->second.session)
-              throw BridgeError("DevTools response session does not match its request");
+              throw BridgeError(
+                  "DevTools response session does not match its request");
             if (message.contains("error"))
-              found->second.result->set_exception(std::make_exception_ptr(
-                  WireFailure(message.at("error"))));
+              found->second.result->set_exception(
+                  std::make_exception_ptr(WireFailure(message.at("error"))));
             else
               found->second.result->set_value(message.at("result"));
             pending.erase(found);
@@ -256,16 +257,14 @@ CdpChannel::CdpChannel(unsigned port, MsDuration timeout)
                  descriptor.at("webSocketDebuggerUrl").get<std::string>());
 }
 CdpChannel::~CdpChannel() = default;
-bool CdpChannel::connected() const {
-  return engine_ && engine_->live.load();
-}
+bool CdpChannel::connected() const { return engine_ && engine_->live.load(); }
 void CdpChannel::disconnect() {
   if (engine_)
     engine_->stop();
 }
 JsonDoc CdpChannel::call(const std::string &method, const JsonDoc &parameters,
-                           const std::string &session, MsDuration timeout,
-                           std::function<void()> progress) {
+                         const std::string &session, MsDuration timeout,
+                         std::function<void()> progress) {
   cancellation_point();
   if (!connected())
     throw BridgeError("DevTools connection is closed");
@@ -283,24 +282,25 @@ JsonDoc CdpChannel::call(const std::string &method, const JsonDoc &parameters,
   auto encoded = std::make_shared<std::string>(message.dump());
   if (encoded->size() > 16 * 1024 * 1024)
     throw BridgeError("DevTools request exceeds size limit");
-  asio::post(engine_->loop, [engine = engine_.get(), id, response, encoded, session] {
-    if (engine->stopped) {
-      response->set_exception(std::make_exception_ptr(
-          BridgeError("DevTools disconnected before send")));
-      return;
-    }
-    if (engine->pending.size() >= 1024 || engine->outbound.size() >= 1024 ||
-        engine->outbound_bytes > 64 * 1024 * 1024 - encoded->size()) {
-      response->set_exception(std::make_exception_ptr(
-          BridgeError("too many pending DevTools requests")));
-      return;
-    }
-    engine->pending.emplace(id, Engine::PendingCall{response, session});
-    engine->outbound_bytes += encoded->size();
-    engine->outbound.push_back(encoded);
-    if (engine->outbound.size() == 1)
-      engine->write_next();
-  });
+  asio::post(
+      engine_->loop, [engine = engine_.get(), id, response, encoded, session] {
+        if (engine->stopped) {
+          response->set_exception(std::make_exception_ptr(
+              BridgeError("DevTools disconnected before send")));
+          return;
+        }
+        if (engine->pending.size() >= 1024 || engine->outbound.size() >= 1024 ||
+            engine->outbound_bytes > 64 * 1024 * 1024 - encoded->size()) {
+          response->set_exception(std::make_exception_ptr(
+              BridgeError("too many pending DevTools requests")));
+          return;
+        }
+        engine->pending.emplace(id, Engine::PendingCall{response, session});
+        engine->outbound_bytes += encoded->size();
+        engine->outbound.push_back(encoded);
+        if (engine->outbound.size() == 1)
+          engine->write_next();
+      });
   const auto deadline = std::chrono::steady_clock::now() + timeout;
   try {
     while (true) {

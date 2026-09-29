@@ -3,8 +3,8 @@
 #include <thread>
 namespace pagepilot {
 std::string BrowserSession::observe_input(const std::string &element,
-                                            const std::string &event, int count,
-                                            MsDuration timeout) {
+                                          const std::string &event, int count,
+                                          MsDuration timeout) {
   current_session();
   prepare_frames();
   if (input_watches_.size() >= 1024)
@@ -49,9 +49,9 @@ std::string BrowserSession::observe_input(const std::string &element,
              {{"objectId", element},
               {"functionDeclaration", observer},
               {"arguments", JsonDoc::array({{{"value", ticket}},
-                                         {{"value", event}},
-                                         {{"value", count}},
-                                         {{"value", timeout.count()}}})},
+                                            {{"value", event}},
+                                            {{"value", count}},
+                                            {{"value", timeout.count()}}})},
               {"returnByValue", false}},
              watch.session, timeout);
     if (result.contains("exceptionDetails"))
@@ -64,7 +64,7 @@ std::string BrowserSession::observe_input(const std::string &element,
   }
 }
 void BrowserSession::await_input(const std::string &ticket,
-                                   MsDuration timeout) {
+                                 MsDuration timeout) {
   const auto end = std::chrono::steady_clock::now() + time_left(timeout);
   while (std::chrono::steady_clock::now() < end) {
     pump();
@@ -108,8 +108,7 @@ void BrowserSession::await_input(const std::string &ticket,
   throw BridgeError(
       "Target did not acknowledge the input event before the action deadline");
 }
-void BrowserSession::release_input_signal(
-    const std::string &ticket) noexcept {
+void BrowserSession::release_input_signal(const std::string &ticket) noexcept {
   CancelScope cleanup;
   const auto found = input_watches_.find(ticket);
   if (found == input_watches_.end())

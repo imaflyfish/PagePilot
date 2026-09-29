@@ -1,5 +1,5 @@
-#include <pagepilot/cdp_channel.hpp>
 #include <limits>
+#include <pagepilot/cdp_channel.hpp>
 namespace pagepilot {
 JsonDoc decode_cdp_message(const std::string &text) {
   auto message = parse_message(text, 32 * 1024 * 1024);
@@ -15,10 +15,12 @@ JsonDoc decode_cdp_message(const std::string &text) {
       reject();
     constexpr std::uint64_t maximum = 9007199254740991ULL;
     if (identity.is_number_unsigned()) {
-      if (!identity.get<std::uint64_t>() || identity.get<std::uint64_t>() > maximum)
+      if (!identity.get<std::uint64_t>() ||
+          identity.get<std::uint64_t>() > maximum)
         reject();
     } else if (identity.get<std::int64_t>() < 1 ||
-               identity.get<std::int64_t>() > static_cast<std::int64_t>(maximum)) {
+               identity.get<std::int64_t>() >
+                   static_cast<std::int64_t>(maximum)) {
       reject();
     }
     if (message.contains("method") || message.contains("params") ||
@@ -35,7 +37,8 @@ JsonDoc decode_cdp_message(const std::string &text) {
         reject();
       const auto &code = error.at("code");
       if (code.is_number_unsigned()) {
-        if (code.get<std::uint64_t>() > static_cast<std::uint64_t>(std::numeric_limits<int>::max()))
+        if (code.get<std::uint64_t>() >
+            static_cast<std::uint64_t>(std::numeric_limits<int>::max()))
           reject();
       } else if (code.get<std::int64_t>() < std::numeric_limits<int>::min() ||
                  code.get<std::int64_t>() > std::numeric_limits<int>::max()) {

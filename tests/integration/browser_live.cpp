@@ -1,6 +1,6 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 void check(bool value, const char *name) {
@@ -28,7 +28,8 @@ int main(int argc, char **argv) {
       throw BridgeError("missing owned fixture URL");
     ToolRuntime runtime(static_cast<unsigned>(std::stoul(argv[1])));
     ToolCatalog catalog;
-    auto call = [&](const std::string &name, JsonDoc arguments = JsonDoc::object()) {
+    auto call = [&](const std::string &name,
+                    JsonDoc arguments = JsonDoc::object()) {
       return runtime.invoke(catalog.resolve(name, arguments));
     };
     const auto baseline = call("tab_list").at("count").get<std::size_t>();

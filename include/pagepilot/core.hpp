@@ -42,13 +42,14 @@ public:
 class WireFailure : public BridgeError {
 public:
   explicit WireFailure(const JsonDoc &detail)
-      : BridgeError("DevTools: " + detail.dump()), code(detail.value("code", 0)),
+      : BridgeError("DevTools: " + detail.dump()),
+        code(detail.value("code", 0)),
         description(detail.value("message", std::string())) {}
   int code;
   std::string description;
 };
 JsonDoc parse_message(const std::string &text,
-                   std::size_t limit = 16 * 1024 * 1024);
+                      std::size_t limit = 16 * 1024 * 1024);
 JsonDoc normalize_arguments(const JsonDoc &arguments, const JsonDoc &schema);
 std::string read_text(const std::filesystem::path &path,
                       std::size_t maximum = 16 * 1024 * 1024);

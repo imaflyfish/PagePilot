@@ -1,6 +1,6 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 std::string step;
@@ -29,7 +29,8 @@ int main(int argc, char **argv) {
       throw BridgeError("Missing fixture URL");
     ToolRuntime runtime(static_cast<unsigned>(std::stoul(argv[1])));
     ToolCatalog catalog;
-    auto call = [&](const std::string &name, JsonDoc arguments = JsonDoc::object()) {
+    auto call = [&](const std::string &name,
+                    JsonDoc arguments = JsonDoc::object()) {
       step = name + " " + arguments.dump();
       return runtime.invoke(catalog.resolve(name, arguments, true));
     };

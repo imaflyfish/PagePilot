@@ -38,7 +38,7 @@ public:
   JsonDoc execute(const std::string &operation, const JsonDoc &arguments);
   JsonDoc query(JsonDoc arguments, bool by_value = true);
   NodeLease locate(JsonDoc arguments, bool visible = false,
-                      bool enabled = false, bool editable = false);
+                   bool enabled = false, bool editable = false);
   JsonDoc capture_bounds(const std::string &selector);
 
 private:

@@ -1,8 +1,8 @@
 #pragma once
-#include <pagepilot/tool_catalog.hpp>
 #include <functional>
 #include <memory>
 #include <optional>
+#include <pagepilot/tool_catalog.hpp>
 #include <string_view>
 namespace pagepilot {
 class StdioTransport {
@@ -34,8 +34,8 @@ class RequestPump {
 public:
   using Sink = std::function<void(const JsonDoc &)>;
   RequestPump(StdioTransport::Handler handler, Sink sink,
-               bool compatibility = false, std::size_t maximum_requests = 128,
-               std::size_t maximum_bytes = 64 * 1024 * 1024);
+              bool compatibility = false, std::size_t maximum_requests = 128,
+              std::size_t maximum_bytes = 64 * 1024 * 1024);
   ~RequestPump();
   RequestPump(const RequestPump &) = delete;
   RequestPump &operator=(const RequestPump &) = delete;

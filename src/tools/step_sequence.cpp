@@ -122,7 +122,7 @@ bool flag(const JsonDoc &row, const std::string &key) {
          row.at(key).get<bool>();
 }
 MsDuration duration(const JsonDoc &row, const std::string &key,
-                      double fallback = 0) {
+                    double fallback = 0) {
   return MsDuration(static_cast<std::int64_t>(row.value(key, fallback)));
 }
 } // namespace
@@ -149,8 +149,8 @@ void StepSequence::pause(MsDuration amount) {
     const auto left = std::chrono::duration_cast<MsDuration>(
         until - std::chrono::steady_clock::now());
     browser_.pump();
-    interruptible_pause(std::min(
-        {left, MsDuration(10), browser_.time_left(MsDuration(10))}));
+    interruptible_pause(
+        std::min({left, MsDuration(10), browser_.time_left(MsDuration(10))}));
   }
 }
 void StepSequence::append(JsonDoc &rows, JsonDoc value) {
@@ -161,7 +161,7 @@ void StepSequence::append(JsonDoc &rows, JsonDoc value) {
   rows.push_back(std::move(value));
 }
 JsonDoc StepSequence::row(const JsonDoc &input,
-                         const std::string &operation) const {
+                          const std::string &operation) const {
   if (!input.is_object())
     throw BridgeError("Each action must be an object");
   for (const auto &definition : catalog_.definitions())
@@ -173,7 +173,7 @@ JsonDoc StepSequence::row(const JsonDoc &input,
   throw BridgeError("Workflow row schema is unavailable");
 }
 JsonDoc StepSequence::child(const std::string &name, const JsonDoc &arguments,
-                           std::optional<MsDuration> timeout) {
+                            std::optional<MsDuration> timeout) {
   const auto invocation = catalog_.resolve(name, arguments, allow_legacy_);
   if (timeout) {
     StepDeadlineGuard window(browser_, *timeout);
@@ -293,7 +293,8 @@ JsonDoc StepSequence::steps(const JsonDoc &arguments) {
       break;
     }
     const auto &input = input_rows[index];
-    JsonDoc record = {{"step", index}, {"tool", label(input)}, {"success", false}};
+    JsonDoc record = {
+        {"step", index}, {"tool", label(input)}, {"success", false}};
     JsonDoc metadata;
     ToolInvocation inspected;
     try {
@@ -303,7 +304,7 @@ JsonDoc StepSequence::steps(const JsonDoc &arguments) {
                                    allow_legacy_);
       if (supports(inspected.operation))
         throw BridgeError(metadata.at("tool").get<std::string>() +
-                         " is not allowed within run_steps");
+                          " is not allowed within run_steps");
     } catch (const RequestAborted &) {
       throw;
     } catch (const std::exception &error) {
@@ -381,12 +382,13 @@ JsonDoc StepSequence::steps(const JsonDoc &arguments) {
       std::count_if(rows.begin(), rows.end(), [](const auto &record) {
         return record.at("success") == true;
       });
-  JsonDoc result = {{"total_steps", input_rows.size()},
-                 {"executed", rows.size()},
-                 {"succeeded", succeeded},
-                 {"failed", rows.size() - static_cast<std::size_t>(succeeded)},
-                 {"steps", std::move(rows)},
-                 {"last_result", std::move(last)}};
+  JsonDoc result = {
+      {"total_steps", input_rows.size()},
+      {"executed", rows.size()},
+      {"succeeded", succeeded},
+      {"failed", rows.size() - static_cast<std::size_t>(succeeded)},
+      {"steps", std::move(rows)},
+      {"last_result", std::move(last)}};
   if (timed_out)
     result["timed_out"] = true;
   if (browser_.connected() && !expired()) {

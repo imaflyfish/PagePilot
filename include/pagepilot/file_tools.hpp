@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
-#include <pagepilot/node_tools.hpp>
 #include <cstdint>
 #include <memory>
+#include <pagepilot/node_tools.hpp>
 #include <span>
 namespace pagepilot {
 class FileStream {
@@ -40,7 +40,7 @@ public:
   explicit PathGuard(std::vector<std::filesystem::path> roots = defaults());
   static std::vector<std::filesystem::path> defaults();
   UploadEntry upload(const std::string &path,
-                    bool allow_directory = false) const;
+                     bool allow_directory = false) const;
   std::vector<UploadEntry> directory_files(const UploadEntry &folder) const;
   void verify(const UploadEntry &file) const;
   CaptureSink output(const std::string &path) const;
@@ -61,8 +61,7 @@ struct PngImage {
 PngImage decode_png(const std::string &base64);
 class FileTools {
 public:
-  FileTools(BrowserSession &browser, PathGuard &paths,
-              MsDuration timeout)
+  FileTools(BrowserSession &browser, PathGuard &paths, MsDuration timeout)
       : browser_(browser), paths_(paths), clock_(timeout) {}
   JsonDoc upload(const JsonDoc &arguments);
   JsonDoc screenshot(const JsonDoc &arguments);

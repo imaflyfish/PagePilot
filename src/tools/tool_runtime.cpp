@@ -1,9 +1,9 @@
-#include <pagepilot/node_tools.hpp>
-#include <pagepilot/tool_runtime.hpp>
-#include <pagepilot/step_sequence.hpp>
 #include <array>
 #include <cmath>
 #include <iostream>
+#include <pagepilot/node_tools.hpp>
+#include <pagepilot/step_sequence.hpp>
+#include <pagepilot/tool_runtime.hpp>
 #include <thread>
 namespace pagepilot {
 namespace {
@@ -21,15 +21,14 @@ private:
   BrowserSession::Deadline prior_;
 };
 } // namespace
-MsDuration ToolRuntime::deadline(const JsonDoc &arguments,
-                                     int fallback) const {
+MsDuration ToolRuntime::deadline(const JsonDoc &arguments, int fallback) const {
   const auto value = arguments.value("timeout", double(fallback));
   if (!std::isfinite(value) || value < 1 || value > 60000)
     throw BridgeError("timeout must be between 1 and 60000 milliseconds");
   return MsDuration(static_cast<int>(value));
 }
 MsDuration ToolRuntime::allowance(const std::string &operation,
-                                      const JsonDoc &arguments) const {
+                                  const JsonDoc &arguments) const {
   if (StepSequence::supports(operation)) {
     const double duration = arguments.value("timeout", 60000.0);
     if (!std::isfinite(duration) || duration < 1 || duration > 600000)
@@ -86,18 +85,18 @@ JsonDoc ToolRuntime::invoke(const ToolInvocation &invocation) {
                                        .count());
     if (diagnostic_)
       std::cerr << JsonDoc({{"component", "PagePilot"},
-                         {"operation", invocation.operation},
-                         {"success", success},
-                         {"elapsed_ms",
-                          std::chrono::duration_cast<MsDuration>(
-                              std::chrono::steady_clock::now() - begin)
-                              .count()}})
+                            {"operation", invocation.operation},
+                            {"success", success},
+                            {"elapsed_ms",
+                             std::chrono::duration_cast<MsDuration>(
+                                 std::chrono::steady_clock::now() - begin)
+                                 .count()}})
                        .dump()
                 << '\n';
   };
   try {
-    RuntimeDeadlineGuard window(browser_,
-                         allowance(invocation.operation, invocation.arguments));
+    RuntimeDeadlineGuard window(
+        browser_, allowance(invocation.operation, invocation.arguments));
     auto result = execute(invocation);
     cancellation_point();
     success = true;
@@ -124,13 +123,13 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
   }
   if (operation == "upload_file" || operation == "screenshot") {
     FileTools files(browser_, paths_,
-                      browser_.time_left(allowance(operation, arguments)));
+                    browser_.time_left(allowance(operation, arguments)));
     return operation == "upload_file" ? files.upload(arguments)
                                       : files.screenshot(arguments);
   }
   if (DomTools::supports(operation)) {
     DomTools actions(browser_,
-                       browser_.time_left(allowance(operation, arguments)));
+                     browser_.time_left(allowance(operation, arguments)));
     return actions.execute(operation, arguments);
   }
   if (operation == "status" || operation == "health_check") {
@@ -161,9 +160,10 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
     auto quick = quick_, normal = normal_, long_value = long_;
     JsonDoc changes = JsonDoc::array();
     for (const auto &[key, target] :
-         std::array<std::pair<const char *, int *>, 3>{{
-             {"fast_timeout", &quick}, {"default_timeout", &normal},
-             {"long_timeout", &long_value}}})
+         std::array<std::pair<const char *, int *>, 3>{
+             {{"fast_timeout", &quick},
+              {"default_timeout", &normal},
+              {"long_timeout", &long_value}}})
       if (arguments.contains(key)) {
         const auto value = arguments.at(key).get<double>();
         if (value < 1 || value > 60000)
@@ -207,8 +207,9 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
     metrics_.clear();
     if (invocation.legacy_name)
       return {{"cleaned", true},
-              {"before", {{"consoleLogs", logs.at("total")},
-                          {"requestStats", prior.at("total")}}},
+              {"before",
+               {{"consoleLogs", logs.at("total")},
+                {"requestStats", prior.at("total")}}},
               {"after", {{"consoleLogs", 0}, {"requestStats", 0}}}};
     return {{"cleaned", true}, {"before", prior}};
   }
@@ -225,8 +226,10 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
           arguments.value("url", std::string("about:blank")));
     auto result = browser_.create_tab();
     if (arguments.contains("url"))
-      result["url"] = browser_.navigate(arguments.at("url"), "load",
-                                        deadline(arguments, long_)).at("finalUrl");
+      result["url"] =
+          browser_
+              .navigate(arguments.at("url"), "load", deadline(arguments, long_))
+              .at("finalUrl");
     return result;
   }
   if (operation == "switch_tab")
@@ -250,9 +253,9 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
             : std::nullopt);
   }
   if (operation == "navigate") {
-    auto result = browser_.navigate(arguments.at("url"),
-                             arguments.value("wait_until", std::string("load")),
-                             deadline(arguments, long_));
+    auto result = browser_.navigate(
+        arguments.at("url"), arguments.value("wait_until", std::string("load")),
+        deadline(arguments, long_));
     if (invocation.legacy_name)
       result["hasDialog"] = browser_.evaluate(
           R"JS((()=>{const e=document.querySelector('[role="dialog"],[class*="modal"],[class*="dialog"],[class*="popup"]');if(!e)return false;const r=e.getBoundingClientRect();return r.width>0&&r.height>0&&getComputedStyle(e).visibility!=='hidden'})())JS");
@@ -271,11 +274,12 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
     return {{"stopped", true}};
   }
   if (operation == "eval")
-    return {{"result", invocation.legacy_name
-                           ? browser_.evaluate_legacy(arguments.at("script"),
-                                                      deadline(arguments, long_))
-                           : browser_.evaluate(arguments.at("script"),
-                                                deadline(arguments, long_))}};
+    return {
+        {"result", invocation.legacy_name
+                       ? browser_.evaluate_legacy(arguments.at("script"),
+                                                  deadline(arguments, long_))
+                       : browser_.evaluate(arguments.at("script"),
+                                           deadline(arguments, long_))}};
   if (operation == "cookies")
     return browser_.manage_cookies(arguments);
   if (operation == "storage")
@@ -297,7 +301,8 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
       if (kind == "viewport")
         return {{"viewport", nullptr}};
       if (kind == "info")
-        return {{"url", state.at("url")}, {"title", state.at("title")},
+        return {{"url", state.at("url")},
+                {"title", state.at("title")},
                 {"viewport", nullptr},
                 {"inFrame", !browser_.frames().empty()}};
       throw BridgeError("unknown page read type");
@@ -307,9 +312,11 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
     if (kind == "title")
       return {{"title", browser_.evaluate("document.title")}};
     if (kind == "source")
-      return {
-          {"source", browser_.evaluate(
-                         "((document.doctype?new XMLSerializer().serializeToString(document.doctype):'')+document.documentElement.outerHTML).slice(0,50000)")}};
+      return {{"source",
+               browser_.evaluate(
+                   "((document.doctype?new "
+                   "XMLSerializer().serializeToString(document.doctype):'')+"
+                   "document.documentElement.outerHTML).slice(0,50000)")}};
     if (kind == "text")
       return {{"text", browser_.evaluate(
                            "(document.body?.innerText || '').slice(0,20000)")}};
@@ -333,7 +340,7 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
   }
   if (operation == "enter_frame") {
     DomTools elements(browser_,
-                        browser_.time_left(deadline(arguments, normal_)));
+                      browser_.time_left(deadline(arguments, normal_)));
     auto owner = elements.locate({{"selector", arguments.at("selector")}});
     auto result = browser_.enter_frame(
         owner.identity(), browser_.time_left(deadline(arguments, normal_)));

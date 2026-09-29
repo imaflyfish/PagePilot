@@ -1,7 +1,7 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <exception>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 std::string step;
@@ -30,7 +30,8 @@ int main(int argc, char **argv) {
       throw BridgeError("Fixture URL missing");
     ToolRuntime runtime(static_cast<unsigned>(std::stoul(argv[1])));
     ToolCatalog catalog;
-    auto call = [&](const std::string &name, JsonDoc arguments = JsonDoc::object()) {
+    auto call = [&](const std::string &name,
+                    JsonDoc arguments = JsonDoc::object()) {
       step = name + " " + arguments.dump();
       return runtime.invoke(catalog.resolve(name, arguments, true));
     };
@@ -204,12 +205,15 @@ int main(int argc, char **argv) {
     };
     const auto outline = eval("ownedHighlightState().outline");
     // Inspect the visible style before scheduling the short expiry. The actual
-    // expiry is observed through its lease; host sleep is not renderer progress.
+    // expiry is observed through its lease; host sleep is not renderer
+    // progress.
     call("element_highlight",
          {{"selector", "#person"}, {"duration", 5000}, {"color", "#0f0"}});
-    highlight_check([](const JsonDoc &state) {
-      return state.at("computedColor") == "rgb(0, 255, 0)";
-    }, "highlight visible in computed style");
+    highlight_check(
+        [](const JsonDoc &state) {
+          return state.at("computedColor") == "rgb(0, 255, 0)";
+        },
+        "highlight visible in computed style");
     call("element_highlight",
          {{"selector", "#person"}, {"duration", 150}, {"color", "#0f0"}});
     try {
@@ -221,15 +225,21 @@ int main(int argc, char **argv) {
       try {
         std::cerr << "Highlight expiry wait: "
                   << eval("ownedHighlightState()").dump() << '\n';
-      } catch (...) {}
+      } catch (...) {
+      }
       std::rethrow_exception(failure);
     }
-    highlight_check([&](const JsonDoc &state) {
-      return state.at("outline") == outline && state.at("hasLease") == false;
-    }, "highlight restores original outline");
-    highlight_check([](const JsonDoc &state) {
-      return state.at("priority") == "important";
-    }, "highlight restores original priority");
+    highlight_check(
+        [&](const JsonDoc &state) {
+          return state.at("outline") == outline &&
+                 state.at("hasLease") == false;
+        },
+        "highlight restores original outline");
+    highlight_check(
+        [](const JsonDoc &state) {
+          return state.at("priority") == "important";
+        },
+        "highlight restores original priority");
 
     // Record the real production callbacks with a controlled page scheduler.
     // Replaying an already-cancelled callback explicitly tests stale callback
@@ -251,39 +261,50 @@ int main(int argc, char **argv) {
     call("element_highlight",
          {{"selector", "#person"}, {"duration", 250}, {"color", "blue"}});
     eval("ownedHighlightTimers[0].fire();true");
-    highlight_check([](const JsonDoc &state) {
-      const auto &timers = state.at("timers");
-      return state.at("width") == "3px" && state.at("color") == "blue" &&
-             state.at("hasLease") == true && timers.size() == 2 &&
-             timers.at(0).at("delay") == 120 &&
-             timers.at(0).at("cancelled") == true &&
-             timers.at(0).at("fired") == true &&
-             timers.at(1).at("delay") == 250 &&
-             state.at("timer") == timers.at(1).at("id");
-    }, "earlier highlight timer cannot cancel later highlight");
+    highlight_check(
+        [](const JsonDoc &state) {
+          const auto &timers = state.at("timers");
+          return state.at("width") == "3px" && state.at("color") == "blue" &&
+                 state.at("hasLease") == true && timers.size() == 2 &&
+                 timers.at(0).at("delay") == 120 &&
+                 timers.at(0).at("cancelled") == true &&
+                 timers.at(0).at("fired") == true &&
+                 timers.at(1).at("delay") == 250 &&
+                 state.at("timer") == timers.at(1).at("id");
+        },
+        "earlier highlight timer cannot cancel later highlight");
     eval("ownedHighlightTimers[1].fire();true");
-    highlight_check([&](const JsonDoc &state) {
-      return state.at("outline") == outline &&
-             state.at("priority") == "important" && state.at("hasLease") == false;
-    }, "overlapping highlights restore pre-highlight style");
+    highlight_check(
+        [&](const JsonDoc &state) {
+          return state.at("outline") == outline &&
+                 state.at("priority") == "important" &&
+                 state.at("hasLease") == false;
+        },
+        "overlapping highlights restore pre-highlight style");
     call("element_highlight", {{"selector", "#person"}, {"duration", 120}});
     eval("document.querySelector('#person').style.outline='5px dashed "
          "orange';ownedHighlightTimers.at(-1).fire();true");
-    highlight_check([](const JsonDoc &state) {
-      return state.at("width") == "5px" && state.at("style") == "dashed" &&
-             state.at("color") == "orange";
-    }, "highlight cleanup respects later page edits");
-    highlight_check([](const JsonDoc &state) {
-      return state.at("hasLease") == false;
-    }, "highlight lease removed after restoration");
+    highlight_check(
+        [](const JsonDoc &state) {
+          return state.at("width") == "5px" && state.at("style") == "dashed" &&
+                 state.at("color") == "orange";
+        },
+        "highlight cleanup respects later page edits");
+    highlight_check(
+        [](const JsonDoc &state) { return state.at("hasLease") == false; },
+        "highlight lease removed after restoration");
     call("element_highlight", {{"selector", "#person"}, {"duration", 120}});
     eval("document.querySelector('#person').style.outlineColor='lime';"
          "ownedHighlightTimers.at(-1).fire();true");
-    highlight_check([](const JsonDoc &state) {
-      return state.at("width") == "5px" && state.at("style") == "dashed" &&
-             state.at("color") == "lime" && state.at("hasLease") == false;
-    }, "highlight restores untouched properties while preserving one page-edited property");
-    eval("window.setTimeout=ownedSetTimeout;window.clearTimeout=ownedClearTimeout;"
+    highlight_check(
+        [](const JsonDoc &state) {
+          return state.at("width") == "5px" && state.at("style") == "dashed" &&
+                 state.at("color") == "lime" && state.at("hasLease") == false;
+        },
+        "highlight restores untouched properties while preserving one "
+        "page-edited property");
+    eval("window.setTimeout=ownedSetTimeout;window.clearTimeout="
+         "ownedClearTimeout;"
          "delete window.ownedSetTimeout;delete window.ownedClearTimeout;true");
     rejects(
         [&] {

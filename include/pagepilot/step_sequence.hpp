@@ -1,13 +1,13 @@
 #pragma once
+#include <functional>
 #include <pagepilot/session.hpp>
 #include <pagepilot/tool_catalog.hpp>
-#include <functional>
 namespace pagepilot {
 class StepSequence {
 public:
   using Dispatch = std::function<JsonDoc(const ToolInvocation &)>;
   StepSequence(BrowserSession &browser, const ToolCatalog &catalog,
-                 Dispatch dispatch, bool allow_legacy)
+               Dispatch dispatch, bool allow_legacy)
       : browser_(browser), catalog_(catalog), dispatch_(std::move(dispatch)),
         allow_legacy_(allow_legacy) {}
   static bool supports(const std::string &operation);
@@ -19,7 +19,7 @@ private:
   JsonDoc steps(const JsonDoc &arguments);
   JsonDoc row(const JsonDoc &input, const std::string &operation) const;
   JsonDoc child(const std::string &name, const JsonDoc &arguments,
-             std::optional<MsDuration> timeout = {});
+                std::optional<MsDuration> timeout = {});
   void pause(MsDuration duration);
   bool expired() const;
   void append(JsonDoc &rows, JsonDoc value);

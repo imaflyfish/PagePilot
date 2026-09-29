@@ -1,6 +1,6 @@
-#include <pagepilot/session.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <pagepilot/session.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 std::string step;
@@ -183,9 +183,7 @@ int main(int argc, char **argv) {
     check(page.at("title") == "Recovered" && state().at("label") == "Recovered",
           "next request recovers after aborted delayed navigation");
     rejects(
-        [&] {
-          browser.navigate(site + "/nav-drop", "load", MsDuration(1500));
-        },
+        [&] { browser.navigate(site + "/nav-drop", "load", MsDuration(1500)); },
         "network failure is not a success on old document");
     browser.navigate(site + "/nav-slow.html?label=Kept", "load",
                      MsDuration(4000));

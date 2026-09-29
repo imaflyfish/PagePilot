@@ -1,8 +1,8 @@
 #pragma once
-#include <pagepilot/cdp_channel.hpp>
 #include <deque>
 #include <map>
 #include <optional>
+#include <pagepilot/cdp_channel.hpp>
 #include <set>
 namespace pagepilot {
 struct FrameSelection {
@@ -40,25 +40,26 @@ public:
   JsonDoc activate_tab(std::size_t index);
   JsonDoc close_tab(std::optional<std::size_t> index = {});
   JsonDoc evaluate(const std::string &expression,
-                MsDuration timeout = MsDuration(10000),
-                bool by_value = true);
+                   MsDuration timeout = MsDuration(10000),
+                   bool by_value = true);
   bool test_condition(const std::string &expression, MsDuration timeout);
   JsonDoc evaluate_legacy(std::string expression, MsDuration timeout);
   JsonDoc page_call(const std::string &method,
-                 const JsonDoc &parameters = JsonDoc::object(),
-                 MsDuration timeout = MsDuration(10000));
-  JsonDoc context_call(const std::string &method,
                     const JsonDoc &parameters = JsonDoc::object(),
                     MsDuration timeout = MsDuration(10000));
+  JsonDoc context_call(const std::string &method,
+                       const JsonDoc &parameters = JsonDoc::object(),
+                       MsDuration timeout = MsDuration(10000));
   // Remote object IDs belong to their creating session, independently of the
   // current tab/frame selection. Never reroute or replay these calls.
   JsonDoc session_call(const std::string &session, const std::string &method,
-                    const JsonDoc &parameters, MsDuration timeout);
+                       const JsonDoc &parameters, MsDuration timeout);
   JsonDoc browser_call(const std::string &method,
-                    const JsonDoc &parameters = JsonDoc::object(),
-                    MsDuration timeout = MsDuration(10000));
-  JsonDoc navigate(const std::string &url, const std::string &readiness = "load",
-                MsDuration timeout = MsDuration(30000));
+                       const JsonDoc &parameters = JsonDoc::object(),
+                       MsDuration timeout = MsDuration(10000));
+  JsonDoc navigate(const std::string &url,
+                   const std::string &readiness = "load",
+                   MsDuration timeout = MsDuration(30000));
   JsonDoc reload(MsDuration timeout = MsDuration(30000));
   JsonDoc history(int direction, MsDuration timeout = MsDuration(30000));
   void wait_ready(const std::string &readiness, MsDuration timeout);
@@ -84,7 +85,8 @@ public:
   void release_input_signal(const std::string &ticket) noexcept;
   JsonDoc enter_frame(const std::string &object, MsDuration timeout);
   JsonDoc list_frames();
-  JsonDoc project_point(JsonDoc point, MsDuration timeout, bool hit_test = true);
+  JsonDoc project_point(JsonDoc point, MsDuration timeout,
+                        bool hit_test = true);
   void reveal_frames(MsDuration timeout);
   void settle_layout(MsDuration timeout);
   JsonDoc manage_cookies(const JsonDoc &arguments);
@@ -95,20 +97,21 @@ public:
   void press_keyboard(const std::string &combination, MsDuration timeout);
   void dispatch_pointer(const std::string &type, double x, double y,
                         const std::string &button, int count,
-                        MsDuration timeout, const std::string &expected_target = {});
+                        MsDuration timeout,
+                        const std::string &expected_target = {});
   void cancel_pointer() noexcept;
 
 private:
   std::string *bound_target_ = nullptr;
   JsonDoc context_parameters();
   JsonDoc run_script(const std::string &expression, MsDuration timeout,
-                  bool by_value, bool retry_replaced);
+                     bool by_value, bool retry_replaced);
   JsonDoc await_navigation(const std::string &session,
-                        const std::string &expected_loader,
-                        const std::string &replaced_loader,
-                        std::optional<int> history_entry,
-                        const std::string &readiness,
-                        std::chrono::steady_clock::time_point deadline);
+                           const std::string &expected_loader,
+                           const std::string &replaced_loader,
+                           std::optional<int> history_entry,
+                           const std::string &readiness,
+                           std::chrono::steady_clock::time_point deadline);
   void refresh();
   void attach();
   void enable_session(const std::string &session);
@@ -119,10 +122,11 @@ private:
   JsonDoc frame_viewport(std::size_t index, MsDuration timeout);
   JsonDoc owner_geometry(std::size_t index, MsDuration timeout);
   bool owner_hit(std::size_t index, double x, double y, MsDuration timeout);
-  JsonDoc send(const std::string &method, const JsonDoc &parameters = JsonDoc::object(),
-            const std::string &session = {},
-            MsDuration timeout = MsDuration(10000),
-            std::function<void()> observe = {});
+  JsonDoc send(const std::string &method,
+               const JsonDoc &parameters = JsonDoc::object(),
+               const std::string &session = {},
+               MsDuration timeout = MsDuration(10000),
+               std::function<void()> observe = {});
   unsigned port_;
   std::unique_ptr<CdpChannel> channel_;
   std::vector<JsonDoc> targets_;

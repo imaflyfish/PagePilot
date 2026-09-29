@@ -34,8 +34,8 @@ bool ToolCatalog::contains(const std::string &name, bool compatibility) const {
   return canonical_.contains(name) || (compatibility && legacy_.contains(name));
 }
 ToolInvocation ToolCatalog::resolve(const std::string &name,
-                                        const JsonDoc &arguments,
-                                        bool compatibility) const {
+                                    const JsonDoc &arguments,
+                                    bool compatibility) const {
   auto found = canonical_.find(name);
   const bool legacy_name = found == canonical_.end();
   std::size_t index = 0;
@@ -60,7 +60,8 @@ ToolInvocation ToolCatalog::resolve(const std::string &name,
   // Legacy handlers destructured their public parameters. Keep the same
   // boundary so unknown input cannot become a private DOM-adapter control
   // field.
-  const auto properties = definition.schema.value("properties", JsonDoc::object());
+  const auto properties =
+      definition.schema.value("properties", JsonDoc::object());
   for (auto iterator = values.begin(); iterator != values.end();)
     if (!properties.contains(iterator.key()))
       iterator = values.erase(iterator);

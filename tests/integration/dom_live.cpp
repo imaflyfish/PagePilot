@@ -1,6 +1,6 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 void check(bool value, const char *name) {

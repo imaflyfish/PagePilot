@@ -1,7 +1,7 @@
 #include "input_ack.hpp"
 #include <algorithm>
-#include <pagepilot/node_tools.hpp>
 #include <cmath>
+#include <pagepilot/node_tools.hpp>
 namespace pagepilot {
 namespace {
 bool same_position(const JsonDoc &before, const JsonDoc &after) {
@@ -115,8 +115,9 @@ JsonDoc DomTools::click(const JsonDoc &arguments) {
   // After any press is attempted, never reacquire or replay the click.
   for (int i = 1; i <= count; ++i) {
     if (i > 1 && element && !same_position(at, sample()))
-      throw BridgeError("Click target changed after an earlier press; input was "
-                       "not replayed");
+      throw BridgeError(
+          "Click target changed after an earlier press; input was "
+          "not replayed");
     pointer("mousePressed", x, y, button, i);
     try {
       if (kind == "long")
@@ -133,9 +134,9 @@ JsonDoc DomTools::click(const JsonDoc &arguments) {
   if (arguments.contains("wait_after"))
     browser_.wait_ready(arguments.at("wait_after"), clock_.remaining());
   JsonDoc result = {{"clicked", true},
-                 {"mode", mode},
-                 {"type", kind},
-                 {"inFrame", !browser_.frames().empty()}};
+                    {"mode", mode},
+                    {"type", kind},
+                    {"inFrame", !browser_.frames().empty()}};
   if (at.contains("text"))
     result["elementText"] = at.at("text");
   try {

@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <charconv>
-#include <pagepilot/session.hpp>
 #include <embedded_resources.hpp>
+#include <pagepilot/session.hpp>
 #include <regex>
 #include <thread>
 namespace pagepilot {
@@ -9,11 +9,12 @@ namespace {
 class PageContextLost : public BridgeError {
 public:
   PageContextLost()
-      : BridgeError("Page execution context changed while awaiting script; prior side effects may have occurred") {}
+      : BridgeError("Page execution context changed while awaiting script; "
+                    "prior side effects may have occurred") {}
 };
 MsDuration remaining(std::chrono::steady_clock::time_point deadline) {
-  auto value = std::chrono::ceil<MsDuration>(
-      deadline - std::chrono::steady_clock::now());
+  auto value = std::chrono::ceil<MsDuration>(deadline -
+                                             std::chrono::steady_clock::now());
   if (value.count() < 1)
     throw DeadlineReached("browser operation timed out");
   return value;
@@ -21,7 +22,7 @@ MsDuration remaining(std::chrono::steady_clock::time_point deadline) {
 class NavigationDeadlineGuard {
 public:
   NavigationDeadlineGuard(BrowserSession &browser,
-                   BrowserSession::Deadline deadline)
+                          BrowserSession::Deadline deadline)
       : browser_(browser), prior_(browser.exchange_deadline(deadline)) {}
   ~NavigationDeadlineGuard() { browser_.exchange_deadline(prior_); }
 
@@ -35,9 +36,7 @@ BrowserSession::PageScope::PageScope(BrowserSession &browser)
   if (!previous_)
     browser_.bound_target_ = &target_;
 }
-BrowserSession::PageScope::~PageScope() {
-  browser_.bound_target_ = previous_;
-}
+BrowserSession::PageScope::~PageScope() { browser_.bound_target_ = previous_; }
 BrowserSession::Deadline BrowserSession::exchange_deadline(Deadline limit) {
   const auto prior = deadline_;
   deadline_ = limit;
@@ -55,15 +54,17 @@ MsDuration BrowserSession::time_left(MsDuration requested) const {
   cancellation_point();
   return deadline_ ? std::min(requested, remaining(*deadline_)) : requested;
 }
-JsonDoc BrowserSession::send(const std::string &method, const JsonDoc &parameters,
-                            const std::string &session, MsDuration timeout,
-                            std::function<void()> observe) {
+JsonDoc BrowserSession::send(const std::string &method,
+                             const JsonDoc &parameters,
+                             const std::string &session, MsDuration timeout,
+                             std::function<void()> observe) {
   const auto owner = session;
   try {
     return channel_->call(method, parameters, owner, time_left(timeout),
                           [this, &observe] {
                             pump();
-                            if (observe) observe();
+                            if (observe)
+                              observe();
                           });
   } catch (const WireFailure &failure) {
     if (failure.code == -32001 && !owner.empty()) {
@@ -87,7 +88,7 @@ std::string BrowserSession::context_session() const {
   return current->second;
 }
 void BrowserSession::release_object(const std::string &session,
-                                      const std::string &identity) noexcept {
+                                    const std::string &identity) noexcept {
   CancelScope cleanup;
   try {
     if (connected())
@@ -97,7 +98,7 @@ void BrowserSession::release_object(const std::string &session,
   }
 }
 void BrowserSession::release_input(const std::string &method,
-                                     const JsonDoc &parameters) noexcept {
+                                   const JsonDoc &parameters) noexcept {
   CancelScope cleanup;
   try {
     const auto active = sessions_.find(current_);
@@ -133,8 +134,7 @@ void BrowserSession::connect() {
     return;
   disconnect();
   try {
-    channel_ =
-        std::make_unique<CdpChannel>(port_, time_left(MsDuration(5000)));
+    channel_ = std::make_unique<CdpChannel>(port_, time_left(MsDuration(5000)));
     send("Target.setDiscoverTargets", {{"discover", true}});
     refresh();
     if (targets_.empty()) {
@@ -242,14 +242,15 @@ void BrowserSession::discard_session(const std::string &session) noexcept {
   changed_.erase(session);
 }
 void BrowserSession::enable_session(const std::string &session) {
-  for (const auto *method :
-       {"Page.enable", "Runtime.enable", "Network.enable", "DOM.enable", "Log.enable"})
+  for (const auto *method : {"Page.enable", "Runtime.enable", "Network.enable",
+                             "DOM.enable", "Log.enable"})
     send(method, JsonDoc::object(), session);
   send("Page.setLifecycleEventsEnabled", {{"enabled", true}}, session);
-  session_roots_[session] = send("Page.getFrameTree", JsonDoc::object(), session)
-                                .at("frameTree")
-                                .at("frame")
-                                .at("id");
+  session_roots_[session] =
+      send("Page.getFrameTree", JsonDoc::object(), session)
+          .at("frameTree")
+          .at("frame")
+          .at("id");
   changed_[session] = std::chrono::steady_clock::now();
   pump();
 }
@@ -260,40 +261,42 @@ std::string BrowserSession::current_session() {
     if (bound_target_->empty())
       *bound_target_ = current_;
     else if (*bound_target_ != current_)
-      throw BridgeError("Selected page closed during action; remaining commands "
-                       "cannot move to another tab");
+      throw BridgeError(
+          "Selected page closed during action; remaining commands "
+          "cannot move to another tab");
   }
   attach();
   return sessions_.at(current_);
 }
 JsonDoc BrowserSession::browser_call(const std::string &method,
-                                    const JsonDoc &parameters,
-                                    MsDuration timeout) {
+                                     const JsonDoc &parameters,
+                                     MsDuration timeout) {
   connect();
   auto result = send(method, parameters, {}, timeout);
   pump();
   return result;
 }
 JsonDoc BrowserSession::page_call(const std::string &method,
-                                 const JsonDoc &parameters, MsDuration timeout) {
+                                  const JsonDoc &parameters,
+                                  MsDuration timeout) {
   const auto session = current_session();
   auto result = send(method, parameters, session, timeout);
   pump();
   return result;
 }
 JsonDoc BrowserSession::evaluate(const std::string &expression,
-                                MsDuration timeout, bool by_value) {
+                                 MsDuration timeout, bool by_value) {
   return run_script(expression, timeout, by_value, false);
 }
 bool BrowserSession::test_condition(const std::string &expression,
-                                      MsDuration timeout) {
+                                    MsDuration timeout) {
   const auto script = "Promise.resolve((" + expression +
                       ")).then(v=>typeof v==='function'?v():v).then(Boolean)";
   return run_script(script, timeout, true, true).get<bool>();
 }
 JsonDoc BrowserSession::run_script(const std::string &expression,
-                                  MsDuration timeout, bool by_value,
-                                  bool retry_replaced) {
+                                   MsDuration timeout, bool by_value,
+                                   bool retry_replaced) {
   const auto end = bounded_deadline(timeout);
   std::string pinned_target;
   while (true) {
@@ -301,15 +304,17 @@ JsonDoc BrowserSession::run_script(const std::string &expression,
     try {
       timeout = std::min(MsDuration(60000), remaining(end));
       auto session = current_session();
-      if (pinned_target.empty()) pinned_target = current_;
+      if (pinned_target.empty())
+        pinned_target = current_;
       else if (pinned_target != current_)
-        throw BridgeError("Selected page closed while awaiting script; execution cannot move to another tab");
+        throw BridgeError("Selected page closed while awaiting script; "
+                          "execution cannot move to another tab");
       prepare_frames();
       JsonDoc parameters = {{"expression", expression},
-                         {"returnByValue", by_value},
-                         {"awaitPromise", true},
-                         {"userGesture", true},
-                         {"timeout", timeout.count()}};
+                            {"returnByValue", by_value},
+                            {"awaitPromise", true},
+                            {"userGesture", true},
+                            {"timeout", timeout.count()}};
       if (!frames_.empty()) {
         session = frames_.back().session;
         attempted_context = frames_.back().unique_context;
@@ -317,19 +322,25 @@ JsonDoc BrowserSession::run_script(const std::string &expression,
       } else if (session_roots_.contains(session)) {
         attempted_frame = session_roots_.at(session);
         const auto known = documents_.find(session);
-        if (known != documents_.end() && known->second.contains(attempted_frame))
-          attempted_context = known->second.at(attempted_frame).value("uniqueId", std::string());
+        if (known != documents_.end() &&
+            known->second.contains(attempted_frame))
+          attempted_context = known->second.at(attempted_frame)
+                                  .value("uniqueId", std::string());
       }
       if (!attempted_context.empty())
         parameters["uniqueContextId"] = attempted_context;
       attempted_session = session;
-      auto response = send("Runtime.evaluate", parameters, session, timeout, [&] {
-        if (attempted_context.empty()) return;
-        const auto known = documents_.find(attempted_session);
-        if (known == documents_.end() || !known->second.contains(attempted_frame) ||
-            known->second.at(attempted_frame).value("uniqueId", std::string()) != attempted_context)
-          throw PageContextLost();
-      });
+      auto response =
+          send("Runtime.evaluate", parameters, session, timeout, [&] {
+            if (attempted_context.empty())
+              return;
+            const auto known = documents_.find(attempted_session);
+            if (known == documents_.end() ||
+                !known->second.contains(attempted_frame) ||
+                known->second.at(attempted_frame)
+                        .value("uniqueId", std::string()) != attempted_context)
+              throw PageContextLost();
+          });
       pump();
       if (response.contains("exceptionDetails")) {
         const auto &failure = response.at("exceptionDetails");
@@ -349,7 +360,8 @@ JsonDoc BrowserSession::run_script(const std::string &expression,
     } catch (const PageContextLost &) {
       // A condition is already a polling operation. Arbitrary evaluation must
       // report lost context without replaying a script that may have executed.
-      if (!retry_replaced) throw;
+      if (!retry_replaced)
+        throw;
       pump();
       interruptible_pause(std::min(remaining(end), MsDuration(2)));
     } catch (const WireFailure &failure) {
@@ -381,7 +393,7 @@ JsonDoc BrowserSession::run_script(const std::string &expression,
   }
 }
 JsonDoc BrowserSession::evaluate_legacy(std::string expression,
-                                      MsDuration timeout) {
+                                        MsDuration timeout) {
   const auto first = expression.find_first_not_of(" \t\r\n\f\v");
   expression = first == std::string::npos ? "" : expression.substr(first);
   // Anonymous function expressions need parentheses, but are never invoked.
@@ -393,8 +405,8 @@ JsonDoc BrowserSession::evaluate_legacy(std::string expression,
                   timeout);
 }
 JsonDoc BrowserSession::context_call(const std::string &method,
-                                    const JsonDoc &parameters,
-                                    MsDuration timeout) {
+                                     const JsonDoc &parameters,
+                                     MsDuration timeout) {
   auto session = current_session();
   prepare_frames();
   if (!frames_.empty())
@@ -404,9 +416,9 @@ JsonDoc BrowserSession::context_call(const std::string &method,
   return result;
 }
 JsonDoc BrowserSession::session_call(const std::string &session,
-                                    const std::string &method,
-                                    const JsonDoc &parameters,
-                                    MsDuration timeout) {
+                                     const std::string &method,
+                                     const JsonDoc &parameters,
+                                     MsDuration timeout) {
   if (!connected() || session.empty())
     throw BridgeError("Remote object session is no longer available");
   auto result = send(method, parameters, session, timeout);
@@ -431,8 +443,9 @@ void BrowserSession::pump() {
       if (!session_pages_.contains(session))
         continue;
       const auto page = session_pages_.at(session);
-      const auto rule = dialog_rules_.contains(page) ? dialog_rules_.at(page)
-                                                     : JsonDoc{{"accept", false}};
+      const auto rule = dialog_rules_.contains(page)
+                            ? dialog_rules_.at(page)
+                            : JsonDoc{{"accept", false}};
       dialog_rules_.erase(page);
       const auto route =
           sessions_.contains(page) ? sessions_.at(page) : session;
@@ -492,8 +505,10 @@ void BrowserSession::pump() {
                argument.at("preview").value("properties", JsonDoc::array())) {
             const auto key = field.value("name", std::string());
             std::uint64_t index = 0;
-            const auto parsed = std::from_chars(key.data(), key.data() + key.size(), index);
-            if (parsed.ec == std::errc() && parsed.ptr == key.data() + key.size())
+            const auto parsed =
+                std::from_chars(key.data(), key.data() + key.size(), index);
+            if (parsed.ec == std::errc() &&
+                parsed.ptr == key.data() + key.size())
               entries[index] = field.value("value", std::string("undefined"));
           }
           part = "[";
@@ -503,7 +518,8 @@ void BrowserSession::pump() {
               part += ", ";
             if (index > next) {
               const auto gap = index - next;
-              part += gap == 1 ? "empty, " : "empty x " + std::to_string(gap) + ", ";
+              part += gap == 1 ? "empty, "
+                               : "empty x " + std::to_string(gap) + ", ";
             }
             part += value;
             next = index + 1;
@@ -624,21 +640,17 @@ JsonDoc BrowserSession::tabs() {
 }
 JsonDoc BrowserSession::status() {
   if (!connected())
-    return {{"connected", false},
-            {"hasPage", false},
-            {"url", nullptr},
-            {"title", nullptr},
-            {"inFrame", false},
-            {"tabCount", 0},
+    return {{"connected", false}, {"hasPage", false}, {"url", nullptr},
+            {"title", nullptr},   {"inFrame", false}, {"tabCount", 0},
             {"frameDepth", 0}};
   const auto listing = tabs();
   JsonDoc result = {{"connected", true},
-                 {"hasPage", !current_.empty()},
-                 {"url", nullptr},
-                 {"title", nullptr},
-                 {"tabCount", listing.at("count")},
-                 {"inFrame", !frames_.empty()},
-                 {"frameDepth", frames_.size()}};
+                    {"hasPage", !current_.empty()},
+                    {"url", nullptr},
+                    {"title", nullptr},
+                    {"tabCount", listing.at("count")},
+                    {"inFrame", !frames_.empty()},
+                    {"frameDepth", frames_.size()}};
   for (const auto &target : targets_)
     if (target.at("targetId") == current_) {
       result["url"] = target.at("url");
@@ -655,10 +667,10 @@ JsonDoc BrowserSession::create_tab(const std::string &url) {
   frames_.clear();
   refresh();
   attach();
-  const auto position = std::find_if(targets_.begin(), targets_.end(),
-                                    [&](const auto &target) {
-                                      return target.at("targetId") == current_;
-                                    });
+  const auto position =
+      std::find_if(targets_.begin(), targets_.end(), [&](const auto &target) {
+        return target.at("targetId") == current_;
+      });
   if (position == targets_.end())
     throw BridgeError("new browser tab disappeared before attachment");
   return {{"created", true},
@@ -673,7 +685,8 @@ JsonDoc BrowserSession::context_parameters() {
   // Some Chrome versions expose the default profile's internal ID in target
   // metadata but reject that ID in Storage commands. Omit it only when Chrome
   // explicitly identifies it as the default. Missing/disposed private contexts
-  // retain their ID and fail, rather than gaining access to the default profile.
+  // retain their ID and fail, rather than gaining access to the default
+  // profile.
   if (inventory.value("defaultBrowserContextId", std::string()) == context_)
     return JsonDoc::object();
   return {{"browserContextId", context_}};
@@ -721,7 +734,7 @@ JsonDoc BrowserSession::close_tab(std::optional<std::size_t> index) {
           {"remaining", targets_.size()}};
 }
 void BrowserSession::wait_ready(const std::string &readiness,
-                                  MsDuration timeout) {
+                                MsDuration timeout) {
   if (readiness != "load" && readiness != "domcontentloaded" &&
       readiness != "networkidle")
     throw BridgeError("unknown page readiness state");
@@ -756,8 +769,8 @@ void BrowserSession::wait_ready(const std::string &readiness,
   }
 }
 JsonDoc BrowserSession::navigate(const std::string &url,
-                                const std::string &readiness,
-                                MsDuration timeout) {
+                                 const std::string &readiness,
+                                 MsDuration timeout) {
   if (readiness != "load" && readiness != "domcontentloaded" &&
       readiness != "networkidle")
     throw BridgeError("unknown page readiness state");
@@ -773,9 +786,10 @@ JsonDoc BrowserSession::navigate(const std::string &url,
       send("Page.navigate", {{"url", url}}, session, remaining(deadline));
   if (response.contains("errorText"))
     throw BridgeError("Navigation failed: " +
-                     response.at("errorText").get<std::string>());
+                      response.at("errorText").get<std::string>());
   if (response.value("isDownload", false))
-    throw BridgeError("Navigation started a download without committing a page");
+    throw BridgeError(
+        "Navigation started a download without committing a page");
   // Same-document navigation has no new loader; bind its probe to the old
   // document. A normal navigation must observe the exact returned loader.
   const auto page = await_navigation(
@@ -809,8 +823,8 @@ JsonDoc BrowserSession::history(int direction, MsDuration timeout) {
   const auto deadline = bounded_deadline(timeout);
   NavigationDeadlineGuard window(*this, deadline);
   const auto session = current_session();
-  const auto record = send("Page.getNavigationHistory", JsonDoc::object(), session,
-                           remaining(deadline));
+  const auto record = send("Page.getNavigationHistory", JsonDoc::object(),
+                           session, remaining(deadline));
   const auto index = record.at("currentIndex").get<int>() + direction;
   if (index < 0 || index >= static_cast<int>(record.at("entries").size()))
     return {{"moved", false},
@@ -830,10 +844,10 @@ JsonDoc BrowserSession::await_navigation(
     std::chrono::steady_clock::time_point deadline) {
   while (true) {
     pump();
-    const auto frame =
-        send("Page.getFrameTree", JsonDoc::object(), session, remaining(deadline))
-            .at("frameTree")
-            .at("frame");
+    const auto frame = send("Page.getFrameTree", JsonDoc::object(), session,
+                            remaining(deadline))
+                           .at("frameTree")
+                           .at("frame");
     const auto loader = frame.at("loaderId").get<std::string>();
     bool committed = (expected_loader.empty() || loader == expected_loader) &&
                      (replaced_loader.empty() || loader != replaced_loader);
@@ -870,8 +884,8 @@ JsonDoc BrowserSession::await_navigation(
                                  : value.at("state") == "complete";
           // Verify the probe still belongs to this committed document. A
           // concurrent navigation must not turn an old readyState into success.
-          const auto after = send("Page.getFrameTree", JsonDoc::object(), session,
-                                  remaining(deadline))
+          const auto after = send("Page.getFrameTree", JsonDoc::object(),
+                                  session, remaining(deadline))
                                  .at("frameTree")
                                  .at("frame");
           pump();

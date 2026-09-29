@@ -1,8 +1,8 @@
-#include <pagepilot/mcp_transport.hpp>
 #include <condition_variable>
 #include <deque>
 #include <map>
 #include <mutex>
+#include <pagepilot/mcp_transport.hpp>
 #include <thread>
 namespace pagepilot {
 namespace {
@@ -106,8 +106,8 @@ struct RequestPump::Engine {
   ~Engine() { abort(); }
 };
 RequestPump::RequestPump(StdioTransport::Handler handler, Sink sink,
-                           bool compatibility, std::size_t maximum_requests,
-                           std::size_t maximum_bytes)
+                         bool compatibility, std::size_t maximum_requests,
+                         std::size_t maximum_bytes)
     : engine_(std::make_unique<Engine>(std::move(handler), std::move(sink),
                                        compatibility, maximum_requests,
                                        maximum_bytes)) {}

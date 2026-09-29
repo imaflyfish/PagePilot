@@ -1,6 +1,6 @@
 #pragma once
-#include <pagepilot/core.hpp>
 #include <map>
+#include <pagepilot/core.hpp>
 namespace pagepilot {
 struct ToolDefinition {
   std::string name, legacy, description;
@@ -19,7 +19,7 @@ public:
   JsonDoc list(bool compatibility = false) const;
   bool contains(const std::string &name, bool compatibility = false) const;
   ToolInvocation resolve(const std::string &name, const JsonDoc &arguments,
-                           bool compatibility = false) const;
+                         bool compatibility = false) const;
   const std::vector<ToolDefinition> &definitions() const {
     return definitions_;
   }

@@ -1,5 +1,5 @@
-#include <pagepilot/cdp_channel.hpp>
 #include <iostream>
+#include <pagepilot/cdp_channel.hpp>
 int main(int argc, char **argv) {
   using namespace pagepilot;
   if (argc != 2)
@@ -38,9 +38,9 @@ int main(int argc, char **argv) {
     if (!discover_browser(port).contains("Browser"))
       throw BridgeError("browser was terminated by disconnect");
     std::cout << JsonDoc({{"passed", true},
-                       {"checks", 7},
-                       {"browser", version},
-                       {"events", events.size()}})
+                          {"checks", 7},
+                          {"browser", version},
+                          {"events", events.size()}})
                      .dump(2)
               << '\n';
     return 0;

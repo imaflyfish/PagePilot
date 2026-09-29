@@ -1,8 +1,8 @@
-#include <pagepilot/session.hpp>
 #include <pagepilot/key_input.hpp>
+#include <pagepilot/session.hpp>
 namespace pagepilot {
 void BrowserSession::press_keyboard(const std::string &combination,
-                                      MsDuration timeout) {
+                                    MsDuration timeout) {
   const auto strokes = plan_keyboard(combination);
   const auto prior = exchange_deadline(bounded_deadline(timeout));
   struct Restore {
@@ -18,7 +18,8 @@ void BrowserSession::press_keyboard(const std::string &combination,
       send("Input.dispatchKeyEvent", stroke.pressed, session, timeout);
     }
     while (held) {
-      send("Input.dispatchKeyEvent", strokes[held - 1].released, session, timeout);
+      send("Input.dispatchKeyEvent", strokes[held - 1].released, session,
+           timeout);
       --held;
     }
   } catch (...) {
@@ -28,7 +29,8 @@ void BrowserSession::press_keyboard(const std::string &combination,
         if (connected())
           channel_->call("Input.dispatchKeyEvent", strokes[held - 1].released,
                          session, MsDuration(100));
-      } catch (...) {}
+      } catch (...) {
+      }
       --held;
     }
     throw;

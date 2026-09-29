@@ -1,5 +1,5 @@
-#include <pagepilot/session.hpp>
 #include <cmath>
+#include <pagepilot/session.hpp>
 
 namespace pagepilot {
 namespace {
@@ -60,15 +60,16 @@ void BrowserSession::cancel_pointer() noexcept {
   }
 }
 void BrowserSession::dispatch_pointer(const std::string &type, double x,
-                                        double y, const std::string &button,
-                                        int count, MsDuration timeout,
-                                        const std::string &expected_target) {
+                                      double y, const std::string &button,
+                                      int count, MsDuration timeout,
+                                      const std::string &expected_target) {
   if (!std::isfinite(x) || !std::isfinite(y) || std::abs(x) > 10000000 ||
       std::abs(y) > 10000000)
     throw BridgeError("Pointer coordinates are outside supported limits");
   const auto session = current_session();
   if (!expected_target.empty() && current_ != expected_target)
-    throw BridgeError("Click target page closed; pointer input cannot move to another tab");
+    throw BridgeError(
+        "Click target page closed; pointer input cannot move to another tab");
   auto &state = pointers_[current_];
   state.session = session;
   const auto mask = button_mask(button);

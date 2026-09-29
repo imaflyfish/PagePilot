@@ -1,10 +1,10 @@
 #include <algorithm>
-#include <pagepilot/session.hpp>
 #include <functional>
+#include <pagepilot/session.hpp>
 #include <thread>
 namespace pagepilot {
 std::string BrowserSession::frame_session(const std::string &frame,
-                                            const std::string &parent) {
+                                          const std::string &parent) {
   pump();
   if (documents_[parent].contains(frame))
     return parent;
@@ -69,14 +69,14 @@ void BrowserSession::prepare_frames() {
       scope.unique_context.clear();
       if (std::chrono::steady_clock::now() + MsDuration(10) >= end)
         throw BridgeError("Selected frame is detached or has no live document; "
-                         "leave the frame or wait for its navigation");
+                          "leave the frame or wait for its navigation");
       interruptible_pause(MsDuration(10));
     }
     parent = scope.session;
   }
 }
 JsonDoc BrowserSession::enter_frame(const std::string &object,
-                                   MsDuration timeout) {
+                                    MsDuration timeout) {
   if (frames_.size() >= 32)
     throw BridgeError("Frame nesting exceeds 32 levels");
   const auto root = current_session();
@@ -108,7 +108,8 @@ JsonDoc BrowserSession::list_frames() {
   JsonDoc rows = JsonDoc::array();
   std::map<std::string, std::string> scope_sessions;
   std::function<void(const JsonDoc &, const std::string &, unsigned)> collect;
-  collect = [&](const JsonDoc &tree, const std::string &session, unsigned depth) {
+  collect = [&](const JsonDoc &tree, const std::string &session,
+                unsigned depth) {
     if (depth > 32 || rows.size() > 4096)
       throw BridgeError("Frame inventory exceeds its structural limit");
     const auto &frame = tree.at("frame");
@@ -124,8 +125,8 @@ JsonDoc BrowserSession::list_frames() {
     for (const auto &child : tree.value("childFrames", JsonDoc::array()))
       collect(child, session, depth + 1);
   };
-  collect(send("Page.getFrameTree", JsonDoc::object(), root).at("frameTree"), root,
-          0);
+  collect(send("Page.getFrameTree", JsonDoc::object(), root).at("frameTree"),
+          root, 0);
   const auto targets = send("Target.getTargets");
   bool changed = true;
   while (changed) {

@@ -1,6 +1,6 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 std::string step;
@@ -41,25 +41,27 @@ int main(int argc, char **argv) {
     };
     call("tab_create");
     call("page_navigate", {{"url", std::string(site) + "/page.html"}});
-    auto batch = call(
-        "workflow_batch",
-        {{"actions",
-          JsonDoc::array({action("element_fill", {{"selector", "#person"},
-                                               {"text", "Workflow 中文😀"}}),
-                       action("element_click", {{"selector", "#count-button"}}),
-                       action("element_read", {{"selector", "#person"},
-                                               {"type", "value"}})})}});
+    auto batch =
+        call("workflow_batch",
+             {{"actions",
+               JsonDoc::array(
+                   {action("element_fill", {{"selector", "#person"},
+                                            {"text", "Workflow 中文😀"}}),
+                    action("element_click", {{"selector", "#count-button"}}),
+                    action("element_read",
+                           {{"selector", "#person"}, {"type", "value"}})})}});
     check(batch.at("executed") == 3 && batch.at("results")[2].at("result").at(
                                            "value") == "Workflow 中文😀",
           "batch sequence produces actual fill and read effects");
     check(eval("document.querySelector('#clicks').textContent") == "1",
           "batch performs exactly one native click");
-    batch = call(
-        "batch",
-        {{"actions", JsonDoc::array({action("set_debug", {{"enabled", "false"}}),
-                                  action("fill", {{"selector", "#person"},
-                                                  {"text", "legacy sequence"}}),
-                                  nullptr})}});
+    batch =
+        call("batch",
+             {{"actions",
+               JsonDoc::array({action("set_debug", {{"enabled", "false"}}),
+                               action("fill", {{"selector", "#person"},
+                                               {"text", "legacy sequence"}}),
+                               nullptr})}});
     check(batch.at("executed") == 3 &&
               batch.at("results")[0].at("success") == false &&
               batch.at("results")[2].at("success") == false,
@@ -72,8 +74,8 @@ int main(int argc, char **argv) {
     batch = call(
         "workflow_batch",
         {{"actions", JsonDoc::array({stopping, action("element_fill",
-                                                   {{"selector", "#person"},
-                                                    {"text", "wrong"}})})}});
+                                                      {{"selector", "#person"},
+                                                       {"text", "wrong"}})})}});
     check(batch.at("executed") == 1 &&
               eval("document.querySelector('#person').value") ==
                   "legacy sequence",
@@ -177,14 +179,15 @@ int main(int argc, char **argv) {
     auto optional =
         action("element_click", {{"selector", "#missing"}, {"timeout", 40}});
     optional["optional"] = true;
-    steps = call(
-        "workflow_steps",
-        {{"steps", JsonDoc::array({optional,
-                                action("element_fill",
-                                       {{"selector", "#person"},
-                                        {"text", "After optional failure"}})})},
-         {"max_step_retries", 0},
-         {"return_intermediate", true}});
+    steps =
+        call("workflow_steps",
+             {{"steps",
+               JsonDoc::array(
+                   {optional, action("element_fill",
+                                     {{"selector", "#person"},
+                                      {"text", "After optional failure"}})})},
+              {"max_step_retries", 0},
+              {"return_intermediate", true}});
     check(steps.at("executed") == 2 && steps.at("failed") == 1 &&
               steps.at("succeeded") == 1,
           "optional failure is counted while later browser steps continue");
@@ -227,8 +230,8 @@ int main(int argc, char **argv) {
         "workflow_steps",
         {{"steps",
           JsonDoc::array({bounded, action("element_fill",
-                                       {{"selector", "#person"},
-                                        {"text", "After step deadline"}})})},
+                                          {{"selector", "#person"},
+                                           {"text", "After step deadline"}})})},
          {"max_step_retries", 1},
          {"auto_wait", false},
          {"step_timeout", 5000}});
@@ -246,21 +249,22 @@ int main(int argc, char **argv) {
     before["wait_after"] = 30;
     steps = call(
         "workflow_steps",
-        {{"steps",
-          JsonDoc::array({before, action("page_evaluate",
-                                      {{"script", "order.push('B');'B'"}})})},
+        {{"steps", JsonDoc::array(
+                       {before, action("page_evaluate",
+                                       {{"script", "order.push('B');'B'"}})})},
          {"return_intermediate", true}});
     check(eval("order") == JsonDoc::array({"A", "B"}) &&
               steps.at("total_time_ms").get<int>() >= 40,
           "before/after waits retain real execution order");
     check(steps.at("steps")[1].at("result").at("result") == "B",
           "intermediate result keeps browser script output");
-    steps = call(
-        "workflow_steps",
-        {{"steps", JsonDoc::array({action("page_assert", {{"type", "visible"},
-                                                       {"selector", "#never"},
-                                                       {"timeout", 30}})})},
-         {"return_intermediate", true}});
+    steps =
+        call("workflow_steps",
+             {{"steps",
+               JsonDoc::array({action("page_assert", {{"type", "visible"},
+                                                      {"selector", "#never"},
+                                                      {"timeout", 30}})})},
+              {"return_intermediate", true}});
     check(steps.at("steps")[0].at("success") == true &&
               steps.at("steps")[0].at("attempts") == 1 &&
               steps.at("last_result").at("passed") == false,
@@ -269,24 +273,24 @@ int main(int argc, char **argv) {
     check(steps.at("steps")[0].at("brief").get<std::string>().starts_with(
               "failed:"),
           "brief reports failed assertion rather than hiding it");
-    auto blocked =
-        action("workflow_batch",
-               {{"actions",
-                 JsonDoc::array({action("element_fill", {{"selector", "#person"},
-                                                      {"text", "wrong"}})})}});
+    auto blocked = action(
+        "workflow_batch",
+        {{"actions",
+          JsonDoc::array({action("element_fill", {{"selector", "#person"},
+                                                  {"text", "wrong"}})})}});
     blocked["optional"] = true;
-    steps =
-        call("workflow_steps",
-             {{"steps", JsonDoc::array({blocked, action("element_read",
-                                                     {{"selector", "#person"},
-                                                      {"type", "value"}})})}});
+    steps = call(
+        "workflow_steps",
+        {{"steps", JsonDoc::array({blocked, action("element_read",
+                                                   {{"selector", "#person"},
+                                                    {"type", "value"}})})}});
     check(steps.at("failed") == 1 &&
               steps.at("last_result").at("value") == "After step deadline",
           "nested workflow refusal prevents concealed child mutation");
     steps = call(
         "workflow_steps",
         {{"steps", JsonDoc::array({action("page_evaluate",
-                                       {{"script", "'😀'.repeat(200)"}})})},
+                                          {{"script", "'😀'.repeat(200)"}})})},
          {"return_intermediate", false}});
     check(!steps.at("steps")[0].contains("result") &&
               steps.at("last_result").at("result").get<std::string>().size() ==
@@ -297,9 +301,9 @@ int main(int argc, char **argv) {
     batch = call(
         "workflow_batch",
         {{"actions", JsonDoc::array({action("workflow_retry",
-                                         {{"tool", "page_evaluate"},
-                                          {"args", {{"script", "'nested'"}}},
-                                          {"max_retries", 1}})})}});
+                                            {{"tool", "page_evaluate"},
+                                             {"args", {{"script", "'nested'"}}},
+                                             {"max_retries", 1}})})}});
     check(batch.at("results")[0].at("result").at("result").at("result") ==
               "nested",
           "batch and retry nest using validated native dispatcher");
@@ -311,12 +315,13 @@ int main(int argc, char **argv) {
     steps = call(
         "workflow_steps",
         {{"steps",
-          JsonDoc::array({action("frame_enter", {{"selector", "#crossFrame"}}),
-                       action("element_fill", {{"selector", "#frame-input"},
-                                               {"text", "Workflow OOP"}}),
-                       action("element_click", {{"selector", "#frame-button"}}),
-                       action("element_read", {{"selector", "#frame-clicks"},
-                                               {"type", "text"}})})},
+          JsonDoc::array(
+              {action("frame_enter", {{"selector", "#crossFrame"}}),
+               action("element_fill",
+                      {{"selector", "#frame-input"}, {"text", "Workflow OOP"}}),
+               action("element_click", {{"selector", "#frame-button"}}),
+               action("element_read",
+                      {{"selector", "#frame-clicks"}, {"type", "text"}})})},
          {"max_step_retries", 0},
          {"return_intermediate", true}});
     check(steps.at("failed") == 0 && steps.at("last_result").at("text") == "1",

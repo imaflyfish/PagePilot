@@ -1,10 +1,10 @@
 #include <atomic>
-#include <pagepilot/mcp_transport.hpp>
-#include <pagepilot/tool_runtime.hpp>
 #include <condition_variable>
 #include <future>
 #include <iostream>
 #include <mutex>
+#include <pagepilot/mcp_transport.hpp>
+#include <pagepilot/tool_runtime.hpp>
 #include <thread>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
@@ -26,7 +26,7 @@ struct Inbox {
     changed.notify_all();
   }
   std::optional<JsonDoc> wait(const JsonDoc &id,
-                           MsDuration limit = MsDuration(1500)) {
+                              MsDuration limit = MsDuration(1500)) {
     std::unique_lock lock(mutex);
     auto found = [&] {
       return std::find_if(messages.begin(), messages.end(),
@@ -44,7 +44,8 @@ struct Inbox {
                       [&](const auto &m) { return m.at("id") == id; }));
   }
 };
-JsonDoc request(JsonDoc id, std::string method, JsonDoc params = JsonDoc::object()) {
+JsonDoc request(JsonDoc id, std::string method,
+                JsonDoc params = JsonDoc::object()) {
   return {{"jsonrpc", "2.0"},
           {"id", std::move(id)},
           {"method", std::move(method)},
@@ -307,22 +308,23 @@ int main() {
           runtime.invoke(catalog.resolve(
               "workflow_batch",
               {{"actions",
-                JsonDoc::array({compose("workflow_retry",
-                                     {{"tool", "workflow_steps"},
-                                      {"args",
-                                       {{"steps", JsonDoc::array({wait, change})},
-                                        {"max_step_retries", 10}}},
-                                      {"max_retries", 10},
-                                      {"delay_ms", 0}}),
-                             change})}}));
+                JsonDoc::array(
+                    {compose("workflow_retry",
+                             {{"tool", "workflow_steps"},
+                              {"args",
+                               {{"steps", JsonDoc::array({wait, change})},
+                                {"max_step_retries", 10}}},
+                              {"max_retries", 10},
+                              {"delay_ms", 0}}),
+                     change})}}));
         } catch (const RequestAborted &) {
           stopped = true;
         }
       }
       check(stopped, "cancellation escapes nested steps, retry and batch "
                      "rather than becoming a retryable row failure");
-      auto settings =
-          runtime.invoke(catalog.resolve("browser_settings", JsonDoc::object()));
+      auto settings = runtime.invoke(
+          catalog.resolve("browser_settings", JsonDoc::object()));
       check(settings.at("timeouts").at("fast") == 3000,
             "cancelled workflow does not execute subsequent mutations");
       auto stats =

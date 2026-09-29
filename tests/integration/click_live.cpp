@@ -1,6 +1,6 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 #include <thread>
 using namespace pagepilot;
 namespace {
@@ -177,7 +177,8 @@ int main(int argc, char **argv) {
         call("element_click", args);
       } catch (const WireFailure &error) {
         observed["error"] = {{"type", "WireFailure"},
-                             {"code", error.code}, {"message", error.what()}};
+                             {"code", error.code},
+                             {"message", error.what()}};
       } catch (const DeadlineReached &error) {
         observed["error"] = {{"type", "DeadlineReached"},
                              {"message", error.what()}};
@@ -186,7 +187,8 @@ int main(int argc, char **argv) {
                              {"message", error.what()}};
       }
       observed["elapsed_ms"] = std::chrono::duration_cast<MsDuration>(
-          std::chrono::steady_clock::now() - started).count();
+                                   std::chrono::steady_clock::now() - started)
+                                   .count();
       observed["state"] = eval(R"JS(({
         downCount:globalThis.downCount??null,events,
         presses:events.filter(e=>e.kind==='mousedown').length,
@@ -203,9 +205,10 @@ int main(int argc, char **argv) {
          "replaceWith(b.cloneNode(true))};true");
     const auto replacement = failed_click({{"selector", "#first"}});
     const auto replacement_detail = " actual=" + replacement.dump();
-    check(replacement.at("error") == JsonDoc({
-              {"type", "BridgeError"},
-              {"message", "Target did not acknowledge the input event before the action deadline"}}),
+    check(replacement.at("error") ==
+              JsonDoc({{"type", "BridgeError"},
+                       {"message", "Target did not acknowledge the input event "
+                                   "before the action deadline"}}),
           "post-press replacement cannot acknowledge original click" +
               replacement_detail);
     check(replacement.at("state").at("downCount") == 1 &&
@@ -237,13 +240,16 @@ int main(int argc, char **argv) {
     const auto long_press = failed_click(
         {{"selector", "#first"}, {"type", "long"}, {"duration", 10000}});
     const auto long_detail = " actual=" + long_press.dump();
-    check(long_press.at("error") == JsonDoc({
-              {"type", "DeadlineReached"},
-              {"message", "Requested delay exceeds the remaining action deadline"}}),
+    check(long_press.at("error") ==
+              JsonDoc(
+                  {{"type", "DeadlineReached"},
+                   {"message",
+                    "Requested delay exceeds the remaining action deadline"}}),
           "long press cannot exceed its action allowance" + long_detail);
     check(long_press.at("state").at("presses") == 1 &&
               long_press.at("state").at("releases") == 1,
-          "long-press deadline releases the single attempted press" + long_detail);
+          "long-press deadline releases the single attempted press" +
+              long_detail);
     check(long_press.at("pointer").at("buttons") == 0,
           "long-press failure leaves no held button" + long_detail);
 
@@ -334,8 +340,7 @@ int main(int argc, char **argv) {
     std::exception_ptr observer_error;
     std::jthread closing([&] {
       try {
-        const auto until =
-            std::chrono::steady_clock::now() + MsDuration(2000);
+        const auto until = std::chrono::steady_clock::now() + MsDuration(2000);
         while (!observer
                     .call("Runtime.evaluate",
                           {{"expression", "!!window.closeClickReady"},

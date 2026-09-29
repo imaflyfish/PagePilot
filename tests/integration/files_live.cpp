@@ -1,7 +1,7 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 #include <thread>
 #include <unistd.h>
 using namespace pagepilot;
@@ -64,9 +64,10 @@ int main(int argc, char **argv) {
                               4));
     write(outside / "sentinel.txt", "untouched");
     ToolRuntime runtime(static_cast<unsigned>(std::stoul(argv[1])),
-                          {allowed, evidence});
+                        {allowed, evidence});
     ToolCatalog catalog;
-    auto call = [&](const std::string &name, JsonDoc arguments = JsonDoc::object()) {
+    auto call = [&](const std::string &name,
+                    JsonDoc arguments = JsonDoc::object()) {
       step = name + " " + arguments.dump();
       return runtime.invoke(catalog.resolve(name, arguments, true));
     };
@@ -108,8 +109,9 @@ int main(int argc, char **argv) {
         [&] {
           call("form_upload",
                {{"selector", "#files"},
-                {"files", JsonDoc::array({first.string(),
-                                       (outside / "sentinel.txt").string()})}});
+                {"files",
+                 JsonDoc::array(
+                     {first.string(), (outside / "sentinel.txt").string()})}});
         },
         "mixed authorized and outside batch rejected");
     check(eval("document.querySelector('#files').files.length") == 2,
@@ -160,10 +162,10 @@ int main(int argc, char **argv) {
     call("form_upload", {{"selector", "#files"}, {"files", second.string()}});
     check(eval("document.querySelector('#files').files[0].size") == 4,
           "hidden file input receives native selection");
-    check(
-        call("form_upload", {{"selector", "#files"}, {"files", JsonDoc::array()}})
-                .at("uploaded") == 0,
-        "empty file array clears native selection");
+    check(call("form_upload",
+               {{"selector", "#files"}, {"files", JsonDoc::array()}})
+                  .at("uploaded") == 0,
+          "empty file array clears native selection");
     check(eval("document.querySelector('#files').files.length") == 0,
           "file clearing visible in browser");
     fs::create_directories(allowed / "folder/nested");
@@ -298,8 +300,7 @@ int main(int argc, char **argv) {
     std::exception_ptr stopping_error;
     std::jthread stopping([&] {
       try {
-        const auto until =
-            std::chrono::steady_clock::now() + MsDuration(3000);
+        const auto until = std::chrono::steady_clock::now() + MsDuration(3000);
         while (upload_observer
                    .call("Runtime.evaluate",
                          {{"expression", "blockedSelection.length===1"},

@@ -1,6 +1,6 @@
-#include <pagepilot/tool_runtime.hpp>
-#include <pagepilot/step_sequence.hpp>
 #include <iostream>
+#include <pagepilot/step_sequence.hpp>
+#include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 void check(bool condition, const char *label) {
@@ -26,7 +26,8 @@ int main() {
   try {
     ToolCatalog catalog;
     ToolRuntime runtime(9);
-    auto call = [&](const std::string &name, JsonDoc arguments = JsonDoc::object(),
+    auto call = [&](const std::string &name,
+                    JsonDoc arguments = JsonDoc::object(),
                     bool compatibility = false) {
       return runtime.invoke(catalog.resolve(name, arguments, compatibility));
     };
@@ -37,52 +38,56 @@ int main() {
         "workflow_batch",
         {{"actions",
           JsonDoc::array({action("browser_configure", {{"fast_timeout", 1234}}),
-                       action("browser_settings")})}});
+                          action("browser_settings")})}});
     check(batch.at("executed") == 2 &&
               batch.at("results")[1].at("result").at("timeouts").at("fast") ==
                   1234,
           "batch applies children in order through runtime");
-    batch = call("workflow_batch",
-                 {{"actions",
-                   JsonDoc::array({action("browser_debug", {{"enabled", "false"}}),
-                                action("browser_settings")})}});
+    batch =
+        call("workflow_batch",
+             {{"actions",
+               JsonDoc::array({action("browser_debug", {{"enabled", "false"}}),
+                               action("browser_settings")})}});
     check(batch.at("executed") == 2 &&
               !batch.at("results")[0].at("success").get<bool>() &&
               batch.at("results")[1].at("success") == true,
           "invalid child schema is a row failure and batch continues");
     auto invalid = action("missing");
     invalid["stopOnError"] = true;
-    batch = call(
-        "workflow_batch",
-        {{"actions", JsonDoc::array({invalid, action("browser_configure",
-                                                  {{"fast_timeout", 999}})})}});
-    check(batch.at("executed") == 1 &&
-              call("browser_settings").at("timeouts").at("fast") == 1234,
-          "stopOnError prevents later mutation");
     batch =
         call("workflow_batch",
              {{"actions",
-               JsonDoc::array({action("get_config"), action("browser_settings")})},
-              {"allow_legacy", true}});
+               JsonDoc::array({invalid, action("browser_configure",
+                                               {{"fast_timeout", 999}})})}});
+    check(batch.at("executed") == 1 &&
+              call("browser_settings").at("timeouts").at("fast") == 1234,
+          "stopOnError prevents later mutation");
+    batch = call("workflow_batch",
+                 {{"actions", JsonDoc::array({action("get_config"),
+                                              action("browser_settings")})},
+                  {"allow_legacy", true}});
     check(batch.at("results")[0].at("success") == false &&
               batch.at("results")[1].at("success") == true,
           "JSON cannot enable compatibility inside canonical workflow");
     auto legacy = call(
         "batch",
         {{"actions", JsonDoc::array({action("set_debug", {{"enabled", "yes"}}),
-                                  action("set_debug", {{"enabled", false}}),
-                                  action("toString"), nullptr})}},
+                                     action("set_debug", {{"enabled", false}}),
+                                     action("toString"), nullptr})}},
         true);
     check(legacy.at("executed") == 4,
           "legacy batch retains individual malformed-row diagnostics");
     check(legacy.at("results")[0].at("success") == false &&
-              legacy.at("results")[1].at("result") == JsonDoc({{"debug", false}}),
+              legacy.at("results")[1].at("result") ==
+                  JsonDoc({{"debug", false}}),
           "legacy child arguments still validated");
     check(legacy.at("results")[2].at("success") == false &&
               legacy.at("results")[3].at("success") == false,
           "unknown and null legacy rows never execute");
     rejects(
-        [&] { call("workflow_batch", {{"actions", JsonDoc::array({nullptr})}}); },
+        [&] {
+          call("workflow_batch", {{"actions", JsonDoc::array({nullptr})}});
+        },
         "canonical schema checks row structure up front");
     rejects(
         [&] {
@@ -113,8 +118,8 @@ int main() {
                   {"max_retries", 1}},
                  true);
     check(retry == JsonDoc({{"success", true},
-                         {"attempts", 1},
-                         {"result", {{"debug", false}}}}),
+                            {"attempts", 1},
+                            {"result", {{"debug", false}}}}),
           "retry without success check accepts a nonthrowing false-valued "
           "result");
     rejects(
@@ -145,12 +150,13 @@ int main() {
     check(call("browser_settings").at("timeouts").at("fast") == 1234,
           "deadline scope restored after workflow failure");
 
-    auto steps = call("workflow_steps",
-                      {{"steps", JsonDoc::array({action("browser_configure",
-                                                     {{"fast_timeout", 2222}}),
-                                              action("browser_settings")})},
-                       {"max_step_retries", 0},
-                       {"return_intermediate", true}});
+    auto steps = call(
+        "workflow_steps",
+        {{"steps",
+          JsonDoc::array({action("browser_configure", {{"fast_timeout", 2222}}),
+                          action("browser_settings")})},
+         {"max_step_retries", 0},
+         {"return_intermediate", true}});
     check(steps.at("executed") == 2 && steps.at("succeeded") == 2 &&
               steps.at("failed") == 0,
           "steps report exact success/failure counts");
@@ -166,24 +172,26 @@ int main() {
           "summary mode omits per-step full results but retains last result");
     auto optional = action("missing");
     optional["optional"] = true;
-    steps = call(
-        "workflow_steps",
-        {{"steps", JsonDoc::array({optional, action("browser_configure",
-                                                 {{"fast_timeout", 3333}})})}});
+    steps =
+        call("workflow_steps",
+             {{"steps",
+               JsonDoc::array({optional, action("browser_configure",
+                                                {{"fast_timeout", 3333}})})}});
     check(steps.at("executed") == 2 && steps.at("failed") == 1 &&
               call("browser_settings").at("timeouts").at("fast") == 3333,
           "optional failure continues while remaining visible");
-    steps = call("workflow_steps",
-                 {{"steps", JsonDoc::array({action("missing"),
-                                         action("browser_configure",
-                                                {{"fast_timeout", 4444}})})}});
+    steps =
+        call("workflow_steps",
+             {{"steps", JsonDoc::array({action("missing"),
+                                        action("browser_configure",
+                                               {{"fast_timeout", 4444}})})}});
     check(steps.at("executed") == 1 &&
               call("browser_settings").at("timeouts").at("fast") == 3333,
           "required failure stops default step sequence");
     steps = call("workflow_steps",
                  {{"steps", JsonDoc::array({action("missing"),
-                                         action("browser_configure",
-                                                {{"fast_timeout", 4444}})})},
+                                            action("browser_configure",
+                                                   {{"fast_timeout", 4444}})})},
                   {"stop_on_error", false}});
     check(steps.at("executed") == 2 && steps.at("succeeded") == 1,
           "stop_on_error false permits later steps");
@@ -195,7 +203,7 @@ int main() {
               : (std::string(name).find("retry") != std::string::npos
                      ? JsonDoc{{"tool", "browser_settings"}}
                      : JsonDoc{{"steps",
-                             JsonDoc::array({action("browser_settings")})}});
+                                JsonDoc::array({action("browser_settings")})}});
       steps = call("workflow_steps",
                    {{"steps", JsonDoc::array({action(name, args)})}}, true);
       check(steps.at("failed") == 1 &&
@@ -220,7 +228,7 @@ int main() {
           "wait-before deadline stops before side effects");
     steps = call("workflow_steps",
                  {{"steps", JsonDoc::array({action("browser_configure",
-                                                {{"fast_timeout", 5555}})})},
+                                                   {{"fast_timeout", 5555}})})},
                   {"step_timeout", 0},
                   {"max_step_retries", 0}});
     check(steps.at("failed") == 1 && steps.at("steps")[0].at("attempts") == 1 &&
@@ -268,8 +276,8 @@ int main() {
           bounded.run(catalog.resolve(
               "workflow_batch",
               {{"actions", JsonDoc::array({action("browser_settings"),
-                                        action("browser_settings"),
-                                        action("browser_settings")})}}));
+                                           action("browser_settings"),
+                                           action("browser_settings")})}}));
         },
         "aggregate output is bounded before accumulation continues");
     check(invoked == 2, "output ceiling prevents a later child from executing");

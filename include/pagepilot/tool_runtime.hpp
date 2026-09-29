@@ -1,13 +1,12 @@
 #pragma once
+#include <pagepilot/file_tools.hpp>
 #include <pagepilot/session.hpp>
 #include <pagepilot/tool_catalog.hpp>
-#include <pagepilot/file_tools.hpp>
 namespace pagepilot {
 class ToolRuntime {
 public:
-  explicit ToolRuntime(
-      unsigned port,
-      std::vector<std::filesystem::path> roots = PathGuard::defaults())
+  explicit ToolRuntime(unsigned port, std::vector<std::filesystem::path> roots =
+                                          PathGuard::defaults())
       : browser_(port), paths_(std::move(roots)), port_(port) {}
   JsonDoc invoke(const ToolInvocation &invocation);
   BrowserSession &browser() { return browser_; }
@@ -16,7 +15,7 @@ private:
   JsonDoc execute(const ToolInvocation &invocation);
   MsDuration deadline(const JsonDoc &arguments, int fallback) const;
   MsDuration allowance(const std::string &operation,
-                         const JsonDoc &arguments) const;
+                       const JsonDoc &arguments) const;
   BrowserSession browser_;
   PathGuard paths_;
   ToolCatalog catalog_;

@@ -2,9 +2,9 @@
 #include "input_ack.hpp"
 #include <algorithm>
 #include <array>
-#include <pagepilot/node_tools.hpp>
 #include <cmath>
 #include <limits>
+#include <pagepilot/node_tools.hpp>
 #include <regex>
 #include <set>
 #include <thread>
@@ -122,10 +122,9 @@ JsonDoc DomTools::query(JsonDoc arguments, bool by_value) {
           node.value("role", JsonDoc::object()).value("value", std::string()) !=
               matched[1].str())
         continue;
-      candidates.push_back(
-          {{"id", node.at("backendDOMNodeId")},
-           {"name",
-            node.value("name", JsonDoc::object()).value("value", std::string())}});
+      candidates.push_back({{"id", node.at("backendDOMNodeId")},
+                            {"name", node.value("name", JsonDoc::object())
+                                         .value("value", std::string())}});
     }
     // Chrome supplies computed roles/names, including aria-labelledby, hidden
     // descendants, image alternatives and shadow trees. JS only normalizes
@@ -191,7 +190,7 @@ JsonDoc DomTools::query(JsonDoc arguments, bool by_value) {
   return browser_.evaluate(script(arguments), clock_.remaining(), by_value);
 }
 NodeLease DomTools::locate(JsonDoc arguments, bool visible, bool enabled,
-                                bool editable) {
+                           bool editable) {
   BrowserSession::PageScope page(browser_);
   arguments["operation"] = "locate";
   while (true) {
@@ -223,9 +222,10 @@ JsonDoc DomTools::point(NodeLease &element, bool scroll) {
   }
 }
 void DomTools::pointer(const std::string &type, double x, double y,
-                         const std::string &button, int count) {
+                       const std::string &button, int count) {
   try {
-    browser_.dispatch_pointer(type, x, y, button, count, clock_.remaining(), pointer_target_);
+    browser_.dispatch_pointer(type, x, y, button, count, clock_.remaining(),
+                              pointer_target_);
   } catch (...) {
     browser_.cancel_pointer();
     throw;
@@ -436,7 +436,8 @@ JsonDoc DomTools::wait(const JsonDoc &arguments) {
       return {{"gone", true}, {"selector", arguments.at("selector")}};
     return kind == "text"
                ? JsonDoc{{"found", true}, {"text", arguments.at("text")}}
-               : JsonDoc{{"found", true}, {"selector", arguments.at("selector")}};
+               : JsonDoc{{"found", true},
+                         {"selector", arguments.at("selector")}};
   }
   if (kind == "function") {
     require(arguments, "expression");
@@ -589,8 +590,8 @@ JsonDoc DomTools::scroll(const JsonDoc &arguments) {
   browser_.evaluate(std::string(arguments.contains("position")
                                     ? "window.scrollTo"
                                     : "window.scrollBy") +
-                        "({left:" + JsonDoc(x).dump() + ",top:" + JsonDoc(y).dump() +
-                        ",behavior:'instant'})",
+                        "({left:" + JsonDoc(x).dump() +
+                        ",top:" + JsonDoc(y).dump() + ",behavior:'instant'})",
                     clock_.remaining());
   return {{"scrolled", coordinates}};
 }
@@ -623,9 +624,9 @@ JsonDoc DomTools::fill_form(const JsonDoc &arguments) {
     }
   }
   JsonDoc result = {{"filled", successes},
-                 {"total", fields.size()},
-                 {"results", results},
-                 {"inFrame", !browser_.frames().empty()}};
+                    {"total", fields.size()},
+                    {"results", results},
+                    {"inFrame", !browser_.frames().empty()}};
   if (arguments.value("submit", false)) {
     // Report submit failures instead of claiming a form was submitted.
     try {
@@ -669,7 +670,7 @@ JsonDoc DomTools::mouse(const JsonDoc &arguments) {
 JsonDoc DomTools::drag(const JsonDoc &arguments) {
   std::optional<NodeLease> source, destination;
   JsonDoc from = {{"x", arguments.value("from_x", 0.0)},
-               {"y", arguments.value("from_y", 0.0)}};
+                  {"y", arguments.value("from_y", 0.0)}};
   if (arguments.contains("from_selector")) {
     source.emplace(
         locate({{"selector", arguments.at("from_selector")}}, true, true));
@@ -715,7 +716,8 @@ JsonDoc DomTools::drag(const JsonDoc &arguments) {
           {"from", {{"x", sx}, {"y", sy}}},
           {"to", {{"x", ex}, {"y", ey}}}};
 }
-JsonDoc DomTools::execute(const std::string &operation, const JsonDoc &arguments) {
+JsonDoc DomTools::execute(const std::string &operation,
+                          const JsonDoc &arguments) {
   BrowserSession::PageScope page(browser_);
   if (operation == "mouse")
     return mouse(arguments);
@@ -778,7 +780,7 @@ JsonDoc DomTools::execute(const std::string &operation, const JsonDoc &arguments
     auto element = locate(arguments, true);
     const auto at = point(element);
     InputAck acknowledgement(browser_, element.identity(), "mousemove", 0,
-                                clock_.remaining());
+                             clock_.remaining());
     pointer("mouseMoved", at.at("x"), at.at("y"));
     acknowledgement.finish(clock_.remaining());
     return {{"hovered", arguments.at("selector")}};
@@ -804,7 +806,7 @@ JsonDoc DomTools::execute(const std::string &operation, const JsonDoc &arguments
       const auto at = point(element);
       const auto x = at.at("x").get<double>(), y = at.at("y").get<double>();
       InputAck acknowledgement(browser_, element.identity(), "click", 1,
-                                  clock_.remaining());
+                               clock_.remaining());
       pointer("mouseMoved", x, y);
       pointer("mousePressed", x, y, "left", 1);
       pointer("mouseReleased", x, y, "left", 1);

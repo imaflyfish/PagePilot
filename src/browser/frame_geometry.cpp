@@ -1,6 +1,6 @@
 #include <array>
-#include <pagepilot/session.hpp>
 #include <cmath>
+#include <pagepilot/session.hpp>
 namespace pagepilot {
 namespace {
 struct ViewPoint {
@@ -14,7 +14,7 @@ struct ViewProjection {
     if (!std::isfinite(divisor) || std::abs(divisor) < 1e-12)
       throw BridgeError("Frame projection is singular");
     ViewPoint result{(m[0] * point.x + m[1] * point.y + m[2]) / divisor,
-                      (m[3] * point.x + m[4] * point.y + m[5]) / divisor};
+                     (m[3] * point.x + m[4] * point.y + m[5]) / divisor};
     if (!std::isfinite(result.x) || !std::isfinite(result.y))
       throw BridgeError("Frame projection is nonfinite");
     return result;
@@ -85,7 +85,7 @@ JsonDoc BrowserSession::owner_geometry(std::size_t index, MsDuration timeout) {
       .at("content");
 }
 bool BrowserSession::owner_hit(std::size_t index, double x, double y,
-                                 MsDuration timeout) {
+                               MsDuration timeout) {
   const auto &scope = frames_.at(index);
   JsonDoc request = {{"backendNodeId", scope.owner_node}};
   if (index > 0)
@@ -105,7 +105,8 @@ bool BrowserSession::owner_hit(std::size_t index, double x, double y,
                    "hit=this.getRootNode().elementFromPoint(x,y);return "
                    "this.isConnected && !!hit && (hit===this || "
                    "this.contains(hit))}"},
-                  {"arguments", JsonDoc::array({{{"value", x}}, {{"value", y}}})},
+                  {"arguments",
+                   JsonDoc::array({{{"value", x}}, {{"value", y}}})},
                   {"returnByValue", true}},
                  scope.owner_session, timeout))
             .get<bool>();
@@ -144,7 +145,7 @@ void BrowserSession::settle_layout(MsDuration timeout) {
     evaluate(tick, timeout);
 }
 JsonDoc BrowserSession::project_point(JsonDoc point, MsDuration timeout,
-                                     bool hit_test) {
+                                      bool hit_test) {
   if (frames_.empty())
     return point;
   const auto root = current_session();

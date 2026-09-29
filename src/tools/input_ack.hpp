@@ -4,7 +4,7 @@ namespace pagepilot {
 class InputAck {
 public:
   InputAck(BrowserSession &browser, const std::string &element,
-               const std::string &event, int count, MsDuration timeout)
+           const std::string &event, int count, MsDuration timeout)
       : browser_(browser),
         ticket_(browser.observe_input(element, event, count, timeout)) {}
   ~InputAck() { browser_.release_input_signal(ticket_); }

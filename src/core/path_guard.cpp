@@ -2,10 +2,10 @@
 #include <array>
 #include <atomic>
 #include <cerrno>
-#include <pagepilot/file_tools.hpp>
 #include <cstdlib>
 #include <cstring>
 #include <fcntl.h>
+#include <pagepilot/file_tools.hpp>
 #include <pwd.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -23,7 +23,7 @@ bool beneath(const fs::path &path, const fs::path &root) {
   return true;
 }
 struct stat facts(int descriptor) {
-  struct stat result{};
+  struct stat result {};
   if (::fstat(descriptor, &result))
     failure("Cannot inspect open file");
   return result;
@@ -73,8 +73,8 @@ PathGuard::PathGuard(std::vector<fs::path> roots) {
     if (std::any_of(roots_.begin(), roots_.end(),
                     [&](const auto &entry) { return entry.path == canonical; }))
       continue;
-    FileStream descriptor(::open(canonical.c_str(), O_RDONLY | O_DIRECTORY |
-                                                      O_NOFOLLOW | O_CLOEXEC));
+    FileStream descriptor(::open(
+        canonical.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC));
     if (descriptor.get() < 0)
       failure("Cannot open file-access root");
     roots_.push_back({canonical, std::move(descriptor)});
@@ -145,7 +145,7 @@ FileStream PathGuard::parent(const fs::path &path, bool create) const {
   // Detect a root/ancestor replacement or rename since the descriptors were
   // opened.
   FileStream visible(::open(path.parent_path().c_str(),
-                          O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC));
+                            O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC));
   if (visible.get() < 0)
     failure("Cannot verify path parent");
   const auto anchored = facts(directory.get()), actual = facts(visible.get());
@@ -159,7 +159,7 @@ UploadEntry PathGuard::upload(const std::string &input,
   const auto path = resolve(input);
   auto directory = parent(path, false);
   FileStream file(::openat(directory.get(), path.filename().c_str(),
-                         O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK));
+                           O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK));
   if (file.get() < 0)
     failure("Cannot open upload file");
   const auto state = facts(file.get());
@@ -211,7 +211,7 @@ PathGuard::directory_files(const UploadEntry &folder) const {
 CaptureSink PathGuard::output(const std::string &input) const {
   const auto path = resolve(input);
   auto directory = parent(path, true);
-  struct stat existing{};
+  struct stat existing {};
   if (::fstatat(directory.get(), path.filename().c_str(), &existing,
                 AT_SYMLINK_NOFOLLOW) == 0) {
     if (!S_ISREG(existing.st_mode))
@@ -224,14 +224,14 @@ std::string CaptureSink::commit(std::span<const std::uint8_t> bytes) {
   if (bytes.empty() || bytes.size() > 20 * 1024 * 1024)
     throw BridgeError("Screenshot byte size is outside supported limits");
   FileStream visible(::open(path_.parent_path().c_str(),
-                          O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC));
+                            O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC));
   if (visible.get() < 0)
     failure("Screenshot parent is no longer accessible");
   const auto pinned = facts(parent_.get()), current = facts(visible.get());
   if (pinned.st_dev != current.st_dev || pinned.st_ino != current.st_ino ||
       fs::canonical(path_.parent_path()) != path_.parent_path())
     throw BridgeError("Screenshot parent changed before output");
-  struct stat existing{};
+  struct stat existing {};
   if (::fstatat(parent_.get(), path_.filename().c_str(), &existing,
                 AT_SYMLINK_NOFOLLOW) == 0) {
     if (!S_ISREG(existing.st_mode))

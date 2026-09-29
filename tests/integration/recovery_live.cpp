@@ -1,6 +1,6 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 #include <thread>
 using namespace pagepilot;
 namespace {
@@ -151,8 +151,7 @@ int main(int argc, char **argv) {
     step = "target closure during explicit navigation";
     std::jthread closing([&] {
       try {
-        const auto until =
-            std::chrono::steady_clock::now() + MsDuration(3500);
+        const auto until = std::chrono::steady_clock::now() + MsDuration(3500);
         while (observer
                    .call("Runtime.evaluate",
                          {{"expression", "document.title"},

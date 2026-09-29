@@ -1,7 +1,7 @@
-#include <pagepilot/tool_runtime.hpp>
 #include <cstdlib>
 #include <exception>
 #include <iostream>
+#include <pagepilot/tool_runtime.hpp>
 using namespace pagepilot;
 unsigned passed = 0, failed = 0;
 std::string active_step;
@@ -122,10 +122,11 @@ int main(int argc, char **argv) {
     root_eval(hover_trace);
     auto hover_snapshot = [&]() {
       const auto pointer = runtime.browser().pointer_position();
-      JsonDoc result={{"pointer",pointer}, {"frames",JsonDoc::array()}};
-      for(const auto &frame:runtime.browser().frames())
-        result["frames"].push_back({{"frame",frame.frame},{"session",frame.session},
-                                    {"unique_context",frame.unique_context}});
+      JsonDoc result = {{"pointer", pointer}, {"frames", JsonDoc::array()}};
+      for (const auto &frame : runtime.browser().frames())
+        result["frames"].push_back({{"frame", frame.frame},
+                                    {"session", frame.session},
+                                    {"unique_context", frame.unique_context}});
       result["selected"] = runtime.browser().evaluate(R"JS((()=>{
         const button=document.querySelector('#frame-button');
         return {marker:frameMarker,now:performance.now(),visibility:document.visibilityState,
@@ -134,7 +135,8 @@ int main(int argc, char **argv) {
           lastPointer:globalThis.lastPointer??null,proof:frameProof,
           trace:ownedHoverTrace,innerWidth,innerHeight,
           clientWidth:document.documentElement.clientWidth,scrollX,scrollY};
-      })())JS", MsDuration(1000));
+      })())JS",
+                                                      MsDuration(1000));
       const auto root = "(()=>{const point=" + pointer.dump() + R"JS(;
         const owner=document.querySelector('#crossFrame'),hit=document.elementFromPoint(point.x,point.y);
         return {now:performance.now(),visibility:document.visibilityState,
@@ -143,11 +145,15 @@ int main(int argc, char **argv) {
           trace:ownedHoverTrace,innerWidth,innerHeight,
           clientWidth:document.documentElement.clientWidth,scrollX,scrollY};
       })())JS";
-      result["root"] = runtime.browser().page_call("Runtime.evaluate",
-          {{"expression",root},{"returnByValue",true}},MsDuration(1000))
-          .at("result").value("value",JsonDoc(nullptr));
-      result["layout"] = runtime.browser().page_call("Page.getLayoutMetrics",
-          JsonDoc::object(),MsDuration(1000));
+      result["root"] =
+          runtime.browser()
+              .page_call("Runtime.evaluate",
+                         {{"expression", root}, {"returnByValue", true}},
+                         MsDuration(1000))
+              .at("result")
+              .value("value", JsonDoc(nullptr));
+      result["layout"] = runtime.browser().page_call(
+          "Page.getLayoutMetrics", JsonDoc::object(), MsDuration(1000));
       return result;
     };
     const auto hover_before = hover_snapshot();
@@ -155,9 +161,12 @@ int main(int argc, char **argv) {
       call("element_hover", {{"selector", "#frame-button"}});
     } catch (...) {
       const auto failure = std::current_exception();
-      JsonDoc diagnostic={{"before",hover_before}};
-      try { diagnostic["after"]=hover_snapshot(); }
-      catch(const std::exception &error) { diagnostic["snapshot_error"]=error.what(); }
+      JsonDoc diagnostic = {{"before", hover_before}};
+      try {
+        diagnostic["after"] = hover_snapshot();
+      } catch (const std::exception &error) {
+        diagnostic["snapshot_error"] = error.what();
+      }
       std::cerr << "Hover routing state: " << diagnostic.dump() << '\n';
       std::rethrow_exception(failure);
     }
@@ -232,8 +241,8 @@ int main(int argc, char **argv) {
     call("frame_enter", {{"selector", "#crossFrame"}});
     const auto same =
         std::string(site) + "/frame-branch.html?remaining=0&level=9&mode=same";
-    root_eval("document.querySelector('#crossFrame').src=" + JsonDoc(same).dump() +
-              ";true");
+    root_eval("document.querySelector('#crossFrame').src=" +
+              JsonDoc(same).dump() + ";true");
     call("page_wait", {{"type", "function"},
                        {"expression", "frameMarker==='127.0.0.1|9'"},
                        {"timeout", 5000}});

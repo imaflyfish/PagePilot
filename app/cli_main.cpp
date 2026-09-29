@@ -1,11 +1,11 @@
 #include <array>
 #include <charconv>
-#include <pagepilot/mcp_transport.hpp>
-#include <pagepilot/tool_runtime.hpp>
 #include <csignal>
 #include <cstdlib>
 #include <iostream>
 #include <optional>
+#include <pagepilot/mcp_transport.hpp>
+#include <pagepilot/tool_runtime.hpp>
 #include <poll.h>
 #include <unistd.h>
 int main(int argc, char **argv) {
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
     if (requested_port)
       parse_port(*requested_port);
     ToolRuntime runtime(port, file_roots.empty() ? PathGuard::defaults()
-                                                   : file_roots);
+                                                 : file_roots);
     RequestPump requests(
         [&](const ToolInvocation &invocation) {
           return runtime.invoke(invocation);

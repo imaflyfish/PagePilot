@@ -1,9 +1,9 @@
 #include "input_ack.hpp"
 #include <algorithm>
 #include <array>
-#include <pagepilot/file_tools.hpp>
 #include <cmath>
 #include <limits>
+#include <pagepilot/file_tools.hpp>
 namespace pagepilot {
 JsonDoc DomTools::capture_bounds(const std::string &selector) {
   BrowserSession::PageScope page(browser_);
@@ -65,7 +65,7 @@ JsonDoc FileTools::upload(const JsonDoc &arguments) {
     throw BridgeError("File input does not accept multiple files");
   if (!names.empty() && kind.at("directory").get<bool>() != directory)
     throw BridgeError("Directory paths require a directory file input; regular "
-                     "files require a normal file input");
+                      "files require a normal file input");
   for (const auto &file : files)
     paths_.verify(file);
   for (const auto &file : members)
@@ -81,7 +81,7 @@ JsonDoc FileTools::upload(const JsonDoc &arguments) {
     // directory enumeration has finished. Bind completion to this selection's
     // trusted event, not a count which a prior selection may already satisfy.
     InputAck receipt(browser_, input.identity(), "file-selection", 0,
-                         clock_.remaining());
+                     clock_.remaining());
     browser_.session_call(input.session(), "DOM.setFileInputFiles",
                           {{"objectId", input.identity()}, {"files", paths}},
                           clock_.remaining());
@@ -145,7 +145,7 @@ JsonDoc FileTools::screenshot(const JsonDoc &arguments) {
   if (!std::isfinite(density) || density <= 0 || width * density > 32768 ||
       height * density > 32768 || width * height * density * density > 32000000)
     throw BridgeError("Screenshot physical dimensions exceed 32768 per edge or "
-                     "32 million pixels");
+                      "32 million pixels");
   clip = {
       {"x", x}, {"y", y}, {"width", width}, {"height", height}, {"scale", 1}};
   const auto captured =
@@ -159,9 +159,9 @@ JsonDoc FileTools::screenshot(const JsonDoc &arguments) {
   const auto &encoded = captured.at("data").get_ref<const std::string &>();
   const auto image = decode_png(encoded);
   JsonDoc result = {{"size", image.bytes.size()},
-                 {"width", image.width},
-                 {"height", image.height},
-                 {"mimeType", "image/png"}};
+                    {"width", image.width},
+                    {"height", image.height},
+                    {"mimeType", "image/png"}};
   if (destination)
     result["saved"] = destination->commit(image.bytes);
   else

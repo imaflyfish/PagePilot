@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <cctype>
 #include <cerrno>
-#include <pagepilot/core.hpp>
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
+#include <pagepilot/core.hpp>
 #include <set>
 namespace pagepilot {
 JsonDoc parse_message(const std::string &text, std::size_t limit) {
@@ -32,7 +32,7 @@ JsonDoc parse_message(const std::string &text, std::size_t limit) {
 }
 namespace {
 JsonDoc normalize(JsonDoc value, const JsonDoc &schema, unsigned depth,
-               const std::string &path) {
+                  const std::string &path) {
   if (depth > 32)
     throw BridgeError("argument nesting limit exceeded");
   if (!schema.is_object())
@@ -115,7 +115,8 @@ JsonDoc normalize(JsonDoc value, const JsonDoc &schema, unsigned depth,
     const auto properties = schema.value("properties", JsonDoc::object());
     for (const auto &key : schema.value("required", JsonDoc::array()))
       if (!value.contains(key.get<std::string>()))
-        throw BridgeError(path + " requires property " + key.get<std::string>());
+        throw BridgeError(path + " requires property " +
+                          key.get<std::string>());
     for (auto &[key, child] : value.items()) {
       if (properties.contains(key))
         child =
@@ -133,8 +134,8 @@ JsonDoc normalize(JsonDoc value, const JsonDoc &schema, unsigned depth,
 }
 } // namespace
 JsonDoc normalize_arguments(const JsonDoc &arguments, const JsonDoc &schema) {
-  return normalize(arguments.is_null() ? JsonDoc::object() : arguments, schema, 0,
-                   "arguments");
+  return normalize(arguments.is_null() ? JsonDoc::object() : arguments, schema,
+                   0, "arguments");
 }
 std::string read_text(const std::filesystem::path &path, std::size_t maximum) {
   const auto size = std::filesystem::file_size(path);

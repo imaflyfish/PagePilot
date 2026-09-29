@@ -31,7 +31,8 @@ std::optional<JsonDoc> StdioTransport::receive(const JsonDoc &message) {
     return {};
   }
   auto response = [&](JsonDoc result) {
-    return JsonDoc{{"jsonrpc", "2.0"}, {"id", id}, {"result", std::move(result)}};
+    return JsonDoc{
+        {"jsonrpc", "2.0"}, {"id", id}, {"result", std::move(result)}};
   };
   try {
     if (!parameters.is_object())
@@ -57,10 +58,10 @@ std::optional<JsonDoc> StdioTransport::receive(const JsonDoc &message) {
           parameters.at("protocolVersion").get<std::string>();
       version_ = requested == "2024-11-05" ? requested : "2025-11-25";
       initialized_ = true;
-      return response({{"protocolVersion", version_},
-                       {"capabilities", {{"tools", JsonDoc::object()}}},
-                       {"serverInfo",
-                        {{"name", "page-pilot"}, {"version", "1.0.0"}}}});
+      return response(
+          {{"protocolVersion", version_},
+           {"capabilities", {{"tools", JsonDoc::object()}}},
+           {"serverInfo", {{"name", "page-pilot"}, {"version", "1.0.0"}}}});
     }
     if (method == "ping")
       return response(JsonDoc::object());
@@ -82,11 +83,13 @@ std::optional<JsonDoc> StdioTransport::receive(const JsonDoc &message) {
         return error(id, -32602, "Unknown tool: " + name);
       try {
         auto invocation = catalog_.resolve(
-            name, parameters.value("arguments", JsonDoc::object()), compatibility_);
+            name, parameters.value("arguments", JsonDoc::object()),
+            compatibility_);
         auto value = handler_(invocation);
-        JsonDoc result = {{"content", JsonDoc::array({{{"type", "text"},
-                                                 {"text", value.dump()}}})},
-                       {"isError", false}};
+        JsonDoc result = {
+            {"content",
+             JsonDoc::array({{{"type", "text"}, {"text", value.dump()}}})},
+            {"isError", false}};
         if (version_ != "2024-11-05" && value.is_object())
           result["structuredContent"] = std::move(value);
         return response(std::move(result));
@@ -95,8 +98,8 @@ std::optional<JsonDoc> StdioTransport::receive(const JsonDoc &message) {
       } catch (const std::exception &failure) {
         return response(
             {{"content", JsonDoc::array({{{"type", "text"},
-                                       {"text", std::string("Error: ") +
-                                                    failure.what()}}})},
+                                          {"text", std::string("Error: ") +
+                                                       failure.what()}}})},
              {"isError", true}});
       }
     }
