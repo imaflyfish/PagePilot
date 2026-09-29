@@ -16,7 +16,8 @@ namespace websocket = beast::websocket;
 using Tcp = asio::ip::tcp;
 namespace {
 void validate_port(unsigned port, MsDuration timeout) {
-  if (!port || port > 65535 || timeout.count() < 1 || timeout.count() > 60000)
+  if (!port || port > 65535 || timeout.count() < 1 ||
+      timeout.count() > maximum_timeout_ms)
     throw BridgeError("invalid loopback port or connection deadline");
 }
 } // namespace
@@ -268,8 +269,8 @@ JsonDoc CdpChannel::call(const std::string &method, const JsonDoc &parameters,
   cancellation_point();
   if (!connected())
     throw BridgeError("DevTools connection is closed");
-  if (timeout.count() < 1 || timeout.count() > 60000 || method.empty() ||
-      !parameters.is_object())
+  if (timeout.count() < 1 || timeout.count() > maximum_timeout_ms ||
+      method.empty() || !parameters.is_object())
     throw BridgeError("invalid DevTools call");
   auto response = std::make_shared<std::promise<JsonDoc>>();
   auto future = response->get_future();

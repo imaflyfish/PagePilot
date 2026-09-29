@@ -27,6 +27,11 @@ private:
 };
 void cancellation_point();
 void interruptible_pause(MsDuration duration);
+// The longest a single browser operation may be asked to take. It bounds the
+// timeout arguments callers pass and clamps each individual wait, so a caller
+// cannot hold the browser past it by any route. Workflows compose many
+// operations and carry their own, larger bound.
+inline constexpr int maximum_timeout_ms = 60000;
 class BridgeError : public std::runtime_error {
 public:
   using std::runtime_error::runtime_error;

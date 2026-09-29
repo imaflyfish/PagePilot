@@ -301,7 +301,7 @@ JsonDoc BrowserSession::run_script(const std::string &expression,
   while (true) {
     std::string attempted_session, attempted_context, attempted_frame;
     try {
-      timeout = std::min(MsDuration(60000), remaining(end));
+      timeout = std::min(MsDuration(maximum_timeout_ms), remaining(end));
       auto session = current_session();
       if (pinned_target.empty())
         pinned_target = current_;

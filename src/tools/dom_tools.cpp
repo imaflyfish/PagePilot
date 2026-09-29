@@ -59,7 +59,7 @@ MsDuration StepClock::remaining() const {
       end_ - std::chrono::steady_clock::now());
   if (left.count() < 1)
     throw DeadlineReached("Action deadline exceeded");
-  return std::min(left, MsDuration(60000));
+  return std::min(left, MsDuration(maximum_timeout_ms));
 }
 void StepClock::pause(MsDuration duration) const {
   if (duration.count() < 0 ||
@@ -405,9 +405,9 @@ JsonDoc DomTools::wait(const JsonDoc &arguments) {
   if (arguments.contains("ms") || kind == "time") {
     const auto amount =
         arguments.value("ms", arguments.value("timeout", 1000.0));
-    if (!std::isfinite(amount) || amount < 0 || amount > 60000)
-      throw BridgeError(
-          "Wait duration must be between 0 and 60000 milliseconds");
+    if (!std::isfinite(amount) || amount < 0 || amount > maximum_timeout_ms)
+      throw BridgeError("Wait duration must be between 0 and " +
+                        std::to_string(maximum_timeout_ms) + " milliseconds");
     clock_.pause(MsDuration(static_cast<int>(amount)));
     return {{"waited", amount}};
   }

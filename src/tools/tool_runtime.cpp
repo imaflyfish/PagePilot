@@ -8,8 +8,9 @@
 namespace pagepilot {
 MsDuration ToolRuntime::deadline(const JsonDoc &arguments, int fallback) const {
   const auto value = arguments.value("timeout", double(fallback));
-  if (!std::isfinite(value) || value < 1 || value > 60000)
-    throw BridgeError("timeout must be between 1 and 60000 milliseconds");
+  if (!std::isfinite(value) || value < 1 || value > maximum_timeout_ms)
+    throw BridgeError("timeout must be between 1 and " +
+                      std::to_string(maximum_timeout_ms) + " milliseconds");
   return MsDuration(static_cast<int>(value));
 }
 MsDuration ToolRuntime::allowance(const std::string &operation,
@@ -28,9 +29,10 @@ MsDuration ToolRuntime::allowance(const std::string &operation,
         !arguments.contains("text")))) {
     const auto duration =
         arguments.value("ms", arguments.value("timeout", 1000.0));
-    if (!std::isfinite(duration) || duration < 0 || duration > 60000)
-      throw BridgeError(
-          "Wait duration must be between 0 and 60000 milliseconds");
+    if (!std::isfinite(duration) || duration < 0 ||
+        duration > maximum_timeout_ms)
+      throw BridgeError("Wait duration must be between 0 and " +
+                        std::to_string(maximum_timeout_ms) + " milliseconds");
     return MsDuration(static_cast<int>(duration) + 100);
   }
   int fallback =
@@ -155,8 +157,9 @@ JsonDoc ToolRuntime::execute(const ToolInvocation &invocation) {
               {"long_timeout", &long_value}}})
       if (arguments.contains(key)) {
         const auto value = arguments.at(key).get<double>();
-        if (value < 1 || value > 60000)
-          throw BridgeError("configured timeouts must be between 1 and 60000");
+        if (value < 1 || value > maximum_timeout_ms)
+          throw BridgeError("configured timeouts must be between 1 and " +
+                            std::to_string(maximum_timeout_ms));
         *target = static_cast<int>(value);
         changes.push_back(key);
       }
