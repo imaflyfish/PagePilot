@@ -116,6 +116,9 @@ private:
   void attach();
   void enable_session(const std::string &session);
   void discard_session(const std::string &session) noexcept;
+  // Enabling happens after the session is already recorded, so a failure has to
+  // discard it: an attached but unenabled session must never be reused.
+  void enable_or_discard(const std::string &session);
   std::string frame_session(const std::string &frame,
                             const std::string &parent);
   void prepare_frames();

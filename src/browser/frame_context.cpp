@@ -37,12 +37,7 @@ std::string BrowserSession::frame_session(const std::string &frame,
     }
     frame_sessions_[frame] = session;
     session_pages_[session] = session_pages_.at(parent);
-    try {
-      enable_session(session);
-    } catch (...) {
-      discard_session(session);
-      throw;
-    }
+    enable_or_discard(session);
     return session;
   }
   return parent;

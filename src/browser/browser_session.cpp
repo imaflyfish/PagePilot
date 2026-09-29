@@ -216,6 +216,9 @@ void BrowserSession::attach() {
   const auto session = attached.at("sessionId").get<std::string>();
   sessions_[current_] = session;
   session_pages_[session] = current_;
+  enable_or_discard(session);
+}
+void BrowserSession::enable_or_discard(const std::string &session) {
   try {
     enable_session(session);
   } catch (...) {
