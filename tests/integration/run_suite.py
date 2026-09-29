@@ -31,9 +31,17 @@ def main():
     programs = [str(build / ('pilot-' + name + '-tests')) for name in native]
     programs += [str(root / 'tests/integration' / name) for name in scripts]
     browser_options = ['--chrome', args.chrome] if args.chrome else []
+    wire_fault = str(build / 'pilot-wire-fault-tests')
+    keyboard_fault = str(build / 'pilot-keyboard-fault-tests')
     commands = [('browser-final', ['with_chrome.py', *browser_options, '--binary', binary, *programs]),
-                ('wire-final', ['wire_fixture.py', '--binary', str(build / 'pilot-wire-fault-tests')]),
-                ('fault-final', ['keyboard_fixture.py', '--binary', str(build / 'pilot-keyboard-fault-tests')])]
+                ('wire-final', ['wire_fixture.py', '--binary', wire_fault]),
+                ('fault-final', ['keyboard_fixture.py', '--binary', keyboard_fault])]
+    # Say which file is absent now, rather than starting a browser and reporting
+    # one failure per program a minute later.
+    missing = [p for p in [binary, *programs, wire_fault, keyboard_fault]
+               if not Path(p).exists()]
+    if missing:
+        raise SystemExit('not built: ' + ', '.join(missing))
     failed = []
     for suffix, command in commands:
         receipt = str(prefix) + '-' + suffix
@@ -44,6 +52,13 @@ def main():
         if completed.returncode:
             failed.append(suffix)
             print(suffix + ' failed (exit ' + str(completed.returncode) + ')', flush=True)
+            # The group's output went to its receipt. A caller that only reads
+            # the console, which is how this runs in CI, would otherwise be told
+            # that something failed and nothing about what.
+            tail = Path(receipt + '-run.txt').read_text(errors='replace').splitlines()
+            for line in tail[-40:]:
+                print('  | ' + line, flush=True)
+            print('  | full output: ' + receipt + '-run.txt', flush=True)
         else:
             print(suffix + ' passed', flush=True)
     return 1 if failed else 0
