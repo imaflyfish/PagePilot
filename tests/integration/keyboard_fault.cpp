@@ -1,15 +1,9 @@
+#include "../support/aborting_checks.hpp"
 #include <iostream>
 #include <pagepilot/session.hpp>
 #include <thread>
 using namespace pagepilot;
-namespace {
-unsigned checks = 0;
-void check(bool value, const std::string &label) {
-  if (!value)
-    throw BridgeError(label);
-  ++checks;
-}
-} // namespace
+using namespace pagepilot_aborting_tests;
 int main(int argc, char **argv) {
   if (argc != 3)
     return 2;

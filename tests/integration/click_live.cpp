@@ -1,26 +1,10 @@
+#include "../support/aborting_checks.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <pagepilot/tool_runtime.hpp>
 #include <thread>
 using namespace pagepilot;
-namespace {
-unsigned checks = 0;
-void check(bool value, const std::string &label) {
-  if (!value)
-    throw BridgeError(label);
-  ++checks;
-}
-template <class Function>
-void rejects(Function action, const std::string &label) {
-  try {
-    action();
-  } catch (const BridgeError &) {
-    ++checks;
-    return;
-  }
-  throw BridgeError(label);
-}
-} // namespace
+using namespace pagepilot_aborting_tests;
 int main(int argc, char **argv) {
   if (argc != 2)
     return 2;

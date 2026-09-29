@@ -1,15 +1,11 @@
+#include "../support/aborting_checks.hpp"
 #include <future>
 #include <iostream>
 #include <pagepilot/cdp_channel.hpp>
 #include <thread>
 using namespace pagepilot;
+using namespace pagepilot_aborting_tests;
 namespace {
-unsigned checks = 0;
-void check(bool value, const std::string &label) {
-  if (!value)
-    throw BridgeError(label);
-  ++checks;
-}
 template <class Function> std::string failure(Function action) {
   try {
     action();
