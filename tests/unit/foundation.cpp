@@ -1,10 +1,25 @@
 #include "../support/checks.hpp"
 #include <iostream>
+#include <pagepilot/key_input.hpp>
 #include <pagepilot/tool_catalog.hpp>
 using namespace pagepilot;
 using namespace pagepilot_tests;
 int main() {
   try {
+    // The keyboard layout and the editing commands are embedded at build time
+    // and parsed the first time a chord is planned, which until now happened
+    // only with a browser attached. Planning one here means a malformed table
+    // fails the contract suite instead of the live suite.
+    const auto chord = plan_keyboard("Control+Shift+KeyA");
+    check(chord.size() == 3, "chord expands to one stroke per key");
+    check(chord.back().pressed.at("code") == "KeyA" &&
+              chord.back().pressed.at("modifiers") == 10,
+          "the last key is pressed with both modifiers held");
+    check(chord.front().released.at("type") == "keyUp" &&
+              chord.front().released.at("modifiers") == 0,
+          "the first key is released last, after the others");
+    rejects([] { (void)plan_keyboard("NoSuchKey"); },
+            "an unknown key name is refused");
     ToolCatalog catalog;
     check(catalog.list().size() == 54, "canonical catalog size");
     check(catalog.list(true).size() == 75, "legacy catalog size");
